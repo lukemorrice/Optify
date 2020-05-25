@@ -6,15 +6,14 @@ import {
   TouchableOpacity,
   LayoutAnimation,
 } from 'react-native';
-import {Actions} from 'react-native-router-flux';
 
 export default class LandingPage extends Component {
   onPressSignUp = () => {
-    Actions.signup();
+    this.props.navigation.navigate('Signup');
   };
 
   onPressLogin = () => {
-    Actions.login();
+    this.props.navigation.navigate('Login');
   };
 
   render() {

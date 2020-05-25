@@ -6,6 +6,7 @@ import {
   LayoutAnimation,
   ActivityIndicator,
 } from 'react-native';
+import {withNavigation} from 'react-navigation';
 import Utils from './Utils';
 import {connect} from 'react-redux';
 import {fetchProfile} from '../../actions/ProfileActions';
@@ -45,7 +46,11 @@ class Home extends Component {
     LayoutAnimation.easeInEaseOut();
 
     if (this.state.firstName === '' || this.state.lastName === '') {
-      return <ActivityIndicator />;
+      return (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <ActivityIndicator size="large" color="#" />
+        </View>
+      );
     }
 
     return (
@@ -72,7 +77,8 @@ const mapStateToProps = (state) => ({
   profile: state.profile.profile,
 });
 
-export default connect(mapStateToProps, {fetchProfile})(Home);
+const HomeComp = connect(mapStateToProps, {fetchProfile})(Home);
+export default withNavigation(HomeComp);
 
 const styles = StyleSheet.create({
   container: {

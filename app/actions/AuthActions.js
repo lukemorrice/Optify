@@ -1,4 +1,3 @@
-import {Actions} from 'react-native-router-flux';
 import firebase from 'firebase';
 import {fetchProfile} from './ProfileActions';
 
@@ -47,14 +46,13 @@ const createUserFail = (dispatch, error) => {
   dispatch({type: AUTH_CREATE_USER_FAIL, payload: error});
 };
 
-const createUserSuccess = (dispatch, user) => {
+const createUserSuccess = async (dispatch, user) => {
   console.log('User created');
   dispatch({
     type: AUTH_CREATE_USER_SUCCESS,
     payload: user,
   });
-
-  Actions.replace('app');
+  console.log('Navigating to app...');
 };
 
 export const loginUser = (email, password) => {
@@ -74,19 +72,18 @@ const loginUserFail = (dispatch, error) => {
   dispatch({type: AUTH_LOGIN_USER_FAIL, payload: error});
 };
 
-const loginUserSuccess = (dispatch, user) => {
+const loginUserSuccess = async (dispatch, user) => {
   dispatch({
     type: AUTH_LOGIN_USER_SUCCESS,
     payload: user,
   });
-
-  Actions.replace('app');
+  console.log('Navigating to app...');
+  this.props.navigation.navigate('App');
 };
 
 export const logoutUser = (dispatch) => {
   return (dispatch) => {
     dispatch({type: AUTH_LOGOUT_USER});
     firebase.auth().signOut();
-    Actions.replace('auth');
   };
 };

@@ -5,8 +5,10 @@ import {
   Text,
   TouchableOpacity,
   ActivityIndicator,
+  LayoutAnimation,
 } from 'react-native';
 import {connect} from 'react-redux';
+import {withNavigation} from 'react-navigation';
 import {fetchProfile} from '../../actions/ProfileActions';
 import {logoutUser} from '../../actions/AuthActions';
 
@@ -38,6 +40,8 @@ class Profile extends Component {
   };
 
   render() {
+    LayoutAnimation.easeInEaseOut();
+
     if (this.state.firstName === '' || this.state.lastName === '') {
       return <ActivityIndicator />;
     }
@@ -62,7 +66,10 @@ const mapStateToProps = (state) => ({
   profile: state.profile.profile,
 });
 
-export default connect(mapStateToProps, {fetchProfile, logoutUser})(Profile);
+const ProfileComp = connect(mapStateToProps, {fetchProfile, logoutUser})(
+  Profile,
+);
+export default withNavigation(ProfileComp);
 
 const styles = StyleSheet.create({
   container: {

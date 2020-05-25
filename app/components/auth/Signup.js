@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {withNavigation} from 'react-navigation';
 import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 import {createUser} from '../../actions/AuthActions';
@@ -72,7 +73,9 @@ class Signup extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <TouchableOpacity style={styles.back} onPress={() => Actions.pop()}>
+        <TouchableOpacity
+          style={styles.back}
+          onPress={() => this.props.navigation.goBack()}>
           <Icon name={'ios-arrow-round-back'} size={32} color="#dbf7ff" />
         </TouchableOpacity>
 
@@ -132,7 +135,8 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, {createUser})(Signup);
+const SignupComp = connect(mapStateToProps, {createUser})(Signup);
+export default withNavigation(SignupComp);
 
 const styles = StyleSheet.create({
   container: {

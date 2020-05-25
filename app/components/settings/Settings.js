@@ -6,9 +6,11 @@ import {
   Image,
   TouchableOpacity,
   ActivityIndicator,
+  LayoutAnimation,
 } from 'react-native';
 import {Divider} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {withNavigation} from 'react-navigation';
 import ModalSelector from 'react-native-modal-selector';
 import {connect} from 'react-redux';
 import {fetchProfile, updateGoals} from '../../actions/ProfileActions';
@@ -41,6 +43,8 @@ class Settings extends Component {
   };
 
   render() {
+    LayoutAnimation.easeInEaseOut();
+
     if (this.state.firstName === '' || this.state.lastName === '') {
       return <ActivityIndicator />;
     }
@@ -111,7 +115,10 @@ const mapStateToProps = (state) => ({
   profile: state.profile.profile,
 });
 
-export default connect(mapStateToProps, {fetchProfile, updateGoals})(Settings);
+const SettingsComp = connect(mapStateToProps, {fetchProfile, updateGoals})(
+  Settings,
+);
+export default withNavigation(SettingsComp);
 
 const styles = StyleSheet.create({
   container: {
@@ -180,39 +187,3 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
 });
-
-// componentDidMount() {
-//   this.mounted = true;
-//   this.onLoad();
-// }
-
-// componentWillUnmount() {
-//   this.mounted = false;
-// }
-
-// onLoad = async () => {
-//   try {
-//     const firstName = await AsyncStorage.getItem('firstName');
-//     const lastName = await AsyncStorage.getItem('lastName');
-//     const email = await AsyncStorage.getItem('email');
-//     const goals = await AsyncStorage.getItem('goals');
-//     if (this.mounted) {
-//       this.setState({firstName, lastName, email, goals});
-//     }
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-// };
-
-// updateGoals = (goal) => {
-//   const uid = firebase.auth().currentUser.uid;
-//   const dbRef = firebase.database().ref('users/' + uid);
-
-//   dbRef.update({
-//     goals: goal,
-//   });
-
-//   this.setState({
-//     goals: goal,
-//   });
-// };

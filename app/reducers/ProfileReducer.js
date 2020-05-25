@@ -5,6 +5,7 @@ const INITIAL_STATE = {};
 const profile = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case PROFILE_FETCH:
+      console.log(action.payload);
       return {...state, profile: action.payload};
     case PROFILE_UPDATE_GOALS:
       return {...state};
