@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {createAppContainer} from 'react-navigation';
 import firebase from 'firebase';
 import Main from './app/Main';
 import {firebaseConfig} from './config/';

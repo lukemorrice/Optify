@@ -13,7 +13,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {withNavigation} from 'react-navigation';
 import ModalSelector from 'react-native-modal-selector';
 import {connect} from 'react-redux';
-import {fetchProfile, updateGoals} from '../../actions/ProfileActions';
+import {updateGoals} from '../../actions/ProfileActions';
 
 class Settings extends Component {
   state = {
@@ -24,7 +24,12 @@ class Settings extends Component {
   };
 
   componentDidMount() {
-    this.props.fetchProfile();
+    this.setState({
+      firstName: this.props.profile.firstName,
+      lastName: this.props.profile.lastName,
+      email: this.props.profile.email,
+      goals: this.props.profile.goals,
+    });
   }
 
   componentDidUpdate(prevProps) {
@@ -55,7 +60,8 @@ class Settings extends Component {
         </View>
 
         <View style={styles.settings}>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.push('AccountSettings')}>
             <View
               style={{
                 backgroundColor: 'white',
@@ -115,9 +121,7 @@ const mapStateToProps = (state) => ({
   profile: state.profile.profile,
 });
 
-const SettingsComp = connect(mapStateToProps, {fetchProfile, updateGoals})(
-  Settings,
-);
+const SettingsComp = connect(mapStateToProps, {updateGoals})(Settings);
 export default withNavigation(SettingsComp);
 
 const styles = StyleSheet.create({

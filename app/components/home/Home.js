@@ -3,13 +3,17 @@ import {
   StyleSheet,
   Text,
   View,
+  TouchableOpacity,
   LayoutAnimation,
   ActivityIndicator,
 } from 'react-native';
-import {withNavigation} from 'react-navigation';
 import Utils from './Utils';
 import {connect} from 'react-redux';
+import Icon from 'react-native-vector-icons/Ionicons';
+import {withNavigation} from 'react-navigation';
 import {fetchProfile} from '../../actions/ProfileActions';
+import GoalItems from './GoalItem';
+import GoalSection from './GoalsSection';
 
 class Home extends Component {
   state = {
@@ -62,11 +66,19 @@ class Home extends Component {
             <Text style={styles.dateText}>{this.state.date}</Text>
           </View>
         </View>
+
         <View style={styles.greeting}>
           <Text style={styles.greetingText}>
-            {this.state.greeting} {this.state.firstName}!
+            {this.state.greeting} {this.props.profile.firstName}!
           </Text>
-          <Text style={styles.greetingText}>Here are your goals for today</Text>
+          <Text style={styles.greetingText}>
+            Here {this.state.goals > 1 ? 'are' : 'is'} your {this.state.goals}{' '}
+            {this.state.goals > 1 ? 'goals' : 'goal'} for today
+          </Text>
+        </View>
+
+        <View style={styles.goalsContainer}>
+          <GoalItems goals={this.state.goals} />
         </View>
       </View>
     );
@@ -118,7 +130,12 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   greetingText: {
-    fontSize: 21,
+    fontSize: 20,
     fontWeight: '500',
+  },
+  goalsContainer: {
+    marginTop: 50,
+    marginLeft: 20,
+    marginRight: 20,
   },
 });

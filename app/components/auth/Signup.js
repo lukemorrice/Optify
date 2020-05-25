@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {withNavigation} from 'react-navigation';
-import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 import {createUser} from '../../actions/AuthActions';
 
@@ -121,9 +120,19 @@ class Signup extends Component {
               value={this.state.password}></TextInput>
           </View>
 
-          {this.renderButtons()}
           <View style={styles.errorContainer}>
-            <Text style={styles.error}>{this.props.auth.errorLogging}</Text>
+            <Text style={styles.error}>{this.props.auth.errorCreating}</Text>
+          </View>
+          {this.renderButtons()}
+
+          <View style={[{flexDirection: 'row'}, {justifyContent: 'center'}]}>
+            <Text style={styles.login}>Already have an account? </Text>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate('Login')}>
+              <Text style={[styles.login, {color: '#ff4d4d'}]}>
+                Log in here
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -169,9 +178,8 @@ const styles = StyleSheet.create({
   errorContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: 70,
     marginHorizontal: 40,
-    marginTop: 10,
+    marginTop: 25,
   },
   error: {
     fontSize: 16,
@@ -208,7 +216,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   button: {
-    paddingTop: 50,
+    paddingTop: 40,
   },
   login: {
     textAlign: 'center',

@@ -23,22 +23,24 @@ const auth = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         errorCreating: action.payload,
+        errorLogging: '',
         loading: false,
       };
     case AUTH_CREATE_USER_SUCCESS:
-      return {...state, loading: false, error: ''};
+      return {...state, loading: false, errorLogging: '', errorCreating: ''};
     case AUTH_LOGIN_USER:
       return {...state, ...INITIAL_STATE, loading: true, user: action.payload};
     case AUTH_LOGIN_USER_FAIL:
       return {
         ...state,
         errorLogging: action.payload,
+        errorCreating: '',
         loading: false,
       };
     case AUTH_LOGIN_USER_SUCCESS:
-      return {...state, loading: false, error: ''};
+      return {...state, loading: false, errorLogging: '', errorCreating: ''};
     case AUTH_LOGOUT_USER:
-      return {...state, loading: false, error: ''};
+      return {...state, loading: false, errorLogging: '', errorCreating: ''};
     default:
       return state;
   }

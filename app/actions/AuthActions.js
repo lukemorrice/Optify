@@ -1,5 +1,4 @@
 import firebase from 'firebase';
-import {fetchProfile} from './ProfileActions';
 
 import {
   AUTH_LOGIN_USER,
@@ -46,13 +45,12 @@ const createUserFail = (dispatch, error) => {
   dispatch({type: AUTH_CREATE_USER_FAIL, payload: error});
 };
 
-const createUserSuccess = async (dispatch, user) => {
+const createUserSuccess = (dispatch, user) => {
   console.log('User created');
   dispatch({
     type: AUTH_CREATE_USER_SUCCESS,
     payload: user,
   });
-  console.log('Navigating to app...');
 };
 
 export const loginUser = (email, password) => {
@@ -72,13 +70,11 @@ const loginUserFail = (dispatch, error) => {
   dispatch({type: AUTH_LOGIN_USER_FAIL, payload: error});
 };
 
-const loginUserSuccess = async (dispatch, user) => {
+const loginUserSuccess = (dispatch, user) => {
   dispatch({
     type: AUTH_LOGIN_USER_SUCCESS,
     payload: user,
   });
-  console.log('Navigating to app...');
-  this.props.navigation.navigate('App');
 };
 
 export const logoutUser = (dispatch) => {

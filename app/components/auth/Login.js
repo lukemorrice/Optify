@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {withNavigation} from 'react-navigation';
-import {Actions} from 'react-native-router-flux';
 import {connect} from 'react-redux';
 import {loginUser} from '../../actions/AuthActions';
 
@@ -85,9 +84,20 @@ class Login extends Component {
               onChangeText={this.onChangePassword.bind(this)}
               value={this.state.password}></TextInput>
           </View>
-          {this.renderButtons()}
+
           <View style={styles.errorContainer}>
             <Text style={styles.error}>{this.props.auth.errorLogging}</Text>
+          </View>
+          {this.renderButtons()}
+
+          <View style={[{flexDirection: 'row'}, {justifyContent: 'center'}]}>
+            <Text style={styles.signup}>New to Optify? </Text>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate('Signup')}>
+              <Text style={[styles.signup, {color: '#ff4d4d'}]}>
+                Sign up here
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -133,9 +143,8 @@ const styles = StyleSheet.create({
   errorContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: 70,
     marginHorizontal: 40,
-    marginTop: 10,
+    marginTop: 25,
   },
   error: {
     fontSize: 16,
@@ -170,10 +179,9 @@ const styles = StyleSheet.create({
     padding: 12,
     width: 350,
     borderRadius: 15,
-    marginTop: 15,
   },
   button: {
-    paddingTop: 50,
+    paddingTop: 40,
   },
   signup: {
     textAlign: 'center',
