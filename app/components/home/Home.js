@@ -3,17 +3,16 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
   LayoutAnimation,
   ActivityIndicator,
 } from 'react-native';
 import Utils from './Utils';
 import {connect} from 'react-redux';
-import Icon from 'react-native-vector-icons/Ionicons';
 import {withNavigation} from 'react-navigation';
 import {fetchProfile} from '../../actions/ProfileActions';
-import GoalItems from './GoalItem';
-import GoalSection from './GoalsSection';
+import Goal from './GoalItem';
+import {FlatList} from 'react-native-gesture-handler';
+import data from './goals';
 
 class Home extends Component {
   state = {
@@ -24,6 +23,7 @@ class Home extends Component {
     day: '',
     date: '',
     greeting: '',
+    goalsList: [],
   };
 
   componentDidMount() {
@@ -32,7 +32,7 @@ class Home extends Component {
     var greeting = utils.getGreeting();
     var day = utils.getDay();
     var date = utils.getDate();
-    this.setState({day, date, greeting});
+    this.setState({day, date, greeting, goalsList: data});
   }
 
   componentDidUpdate(prevProps) {
@@ -45,6 +45,21 @@ class Home extends Component {
       });
     }
   }
+
+  renderGoals = (goal, index) => {
+    return (
+      <Goal
+        goals={data}
+        goal={goal}
+        index={index}
+        updateGoals={this.updateGoals}
+      />
+    );
+  };
+
+  updateGoals = (newGoalsList) => {
+    this.setState({goalsList: newGoalsList});
+  };
 
   render() {
     LayoutAnimation.easeInEaseOut();
@@ -78,7 +93,11 @@ class Home extends Component {
         </View>
 
         <View style={styles.goalsContainer}>
-          <GoalItems goals={this.state.goals} />
+          <FlatList
+            data={data.slice(0, this.state.goals)}
+            renderItem={({item, index}) => this.renderGoals(item, index)}
+            keyExtractor={(item) => item.title}
+          />
         </View>
       </View>
     );
@@ -134,8 +153,26 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   goalsContainer: {
-    marginTop: 50,
+    marginTop: 30,
     marginLeft: 20,
     marginRight: 20,
+  },
+  listContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 16,
+  },
+  goal: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 15,
+    width: 300,
+    height: 60,
+  },
+  goalText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: '600',
   },
 });
