@@ -32,7 +32,7 @@ class Home extends Component {
     var greeting = utils.getGreeting();
     var day = utils.getDay();
     var date = utils.getDate();
-    this.setState({day, date, greeting, goalsList: data});
+    this.setState({day, date, greeting});
   }
 
   componentDidUpdate(prevProps) {
@@ -42,6 +42,7 @@ class Home extends Component {
         lastName: this.props.profile.lastName,
         email: this.props.profile.email,
         goals: this.props.profile.goals,
+        goalsList: data.splice(0, this.state.goals),
       });
     }
   }
@@ -49,7 +50,7 @@ class Home extends Component {
   renderGoals = (goal, index) => {
     return (
       <Goal
-        goals={data}
+        goals={this.state.goalsList}
         goal={goal}
         index={index}
         updateGoals={this.updateGoals}
@@ -94,7 +95,7 @@ class Home extends Component {
 
         <View style={styles.goalsContainer}>
           <FlatList
-            data={data.slice(0, this.state.goals)}
+            data={this.state.goalsList}
             renderItem={({item, index}) => this.renderGoals(item, index)}
             keyExtractor={(item) => item.title}
           />

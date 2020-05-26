@@ -1,13 +1,17 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-export default Goal = ({goals, goal, index, updateGoals}) => {
-  toggleGoalCompleted = (index) => {
-    goals[index].completed = !goals[index].completed;
+export default Goal = ({data, goal, index, updateGoals}) => {
+  sortByCompleted = (list) => {
+    return list.sort((x, y) => x.completed - y.completed);
+  };
 
-    updateGoals(goals);
+  toggleGoalCompleted = (idx) => {
+    data[idx].completed = !data[idx].completed;
+    newData = this.sortByCompleted(data);
+    updateGoals(newData);
   };
 
   return (
