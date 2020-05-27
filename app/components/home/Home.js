@@ -42,10 +42,16 @@ class Home extends Component {
         lastName: this.props.profile.lastName,
         email: this.props.profile.email,
         goals: this.props.profile.goals,
-        goalsList: data.splice(0, this.state.goals),
+        goalsList: this.sortByCompleted(
+          data.slice(0, parseInt(this.props.profile.goals)),
+        ),
       });
     }
   }
+
+  sortByCompleted = (list) => {
+    return list.sort((x, y) => x.completed - y.completed);
+  };
 
   renderGoals = (goal, index) => {
     return (
@@ -59,7 +65,7 @@ class Home extends Component {
   };
 
   updateGoals = (newGoalsList) => {
-    this.setState({goalsList: newGoalsList});
+    this.setState({goalsList: this.sortByCompleted(newGoalsList)});
   };
 
   render() {
