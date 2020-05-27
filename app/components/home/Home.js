@@ -9,9 +9,10 @@ import {
 import Utils from './Utils';
 import {connect} from 'react-redux';
 import {withNavigation} from 'react-navigation';
+import Icon from 'react-native-vector-icons/Ionicons';
 import {fetchProfile} from '../../actions/ProfileActions';
 import Goal from './GoalItem';
-import {FlatList} from 'react-native-gesture-handler';
+import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
 import data from './goals';
 
 class Home extends Component {
@@ -81,30 +82,38 @@ class Home extends Component {
 
     return (
       <View style={styles.container}>
-        <View style={styles.headerContainer}>
-          <Text style={styles.header}>Home</Text>
-          <View style={styles.date}>
-            <Text style={styles.day}>{this.state.day}</Text>
-            <Text style={styles.dateText}>{this.state.date}</Text>
+        <View style={{marginLeft: 20, marginRight: 20}}>
+          <View style={styles.headerContainer}>
+            <Text style={styles.header}>Home</Text>
+            <View style={styles.date}>
+              <Text style={styles.day}>{this.state.day}</Text>
+              <Text style={styles.dateText}>{this.state.date}</Text>
+            </View>
           </View>
-        </View>
 
-        <View style={styles.greeting}>
-          <Text style={styles.greetingText}>
-            {this.state.greeting} {this.props.profile.firstName}!
-          </Text>
-          <Text style={styles.greetingText}>
-            Here {this.state.goals > 1 ? 'are' : 'is'} your {this.state.goals}{' '}
-            {this.state.goals > 1 ? 'goals' : 'goal'} for today
-          </Text>
-        </View>
+          <View style={styles.subHeader}>
+            <View style={styles.greeting}>
+              <Text style={styles.greetingText}>
+                {this.state.greeting} {this.props.profile.firstName}!
+              </Text>
+              <Text style={styles.greetingText}>
+                Here {this.state.goals > 1 ? 'are' : 'is'} your{' '}
+                {this.state.goals} {this.state.goals > 1 ? 'goals' : 'goal'} for
+                today
+              </Text>
+            </View>
+            <TouchableOpacity style={{marginRight: 10}}>
+              <Icon name="ios-menu" size={40}></Icon>
+            </TouchableOpacity>
+          </View>
 
-        <View style={styles.goalsContainer}>
-          <FlatList
-            data={this.state.goalsList}
-            renderItem={({item, index}) => this.renderGoals(item, index)}
-            keyExtractor={(item) => item.title}
-          />
+          <View style={styles.goalsContainer}>
+            <FlatList
+              data={this.state.goalsList}
+              renderItem={({item, index}) => this.renderGoals(item, index)}
+              keyExtractor={(item) => item.title}
+            />
+          </View>
         </View>
       </View>
     );
@@ -125,7 +134,6 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     marginTop: 75,
-    marginLeft: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
@@ -134,10 +142,15 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#000000',
   },
+  subHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 40,
+  },
   date: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 20,
   },
   day: {
     fontSize: 21,
@@ -152,8 +165,6 @@ const styles = StyleSheet.create({
   },
   greeting: {
     justifyContent: 'center',
-    marginLeft: 20,
-    marginTop: 15,
   },
   greetingText: {
     fontSize: 20,
@@ -161,8 +172,6 @@ const styles = StyleSheet.create({
   },
   goalsContainer: {
     marginTop: 30,
-    marginLeft: 20,
-    marginRight: 20,
   },
   listContainer: {
     flexDirection: 'row',

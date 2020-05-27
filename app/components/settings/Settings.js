@@ -14,6 +14,7 @@ import {withNavigation} from 'react-navigation';
 import ModalSelector from 'react-native-modal-selector';
 import {connect} from 'react-redux';
 import {updateGoals} from '../../actions/ProfileActions';
+import {logoutUser} from '../../actions/AuthActions';
 
 class Settings extends Component {
   state = {
@@ -45,6 +46,10 @@ class Settings extends Component {
 
   onChangeGoals = (goal) => {
     this.props.updateGoals(goal);
+  };
+
+  onPressLogout = () => {
+    this.props.logoutUser();
   };
 
   render() {
@@ -112,6 +117,14 @@ class Settings extends Component {
             </ModalSelector>
           </TouchableOpacity>
         </View>
+
+        <View style={styles.textContainer}>
+          <TouchableOpacity
+            style={styles.buttonContainer}
+            onPress={this.onPressLogout.bind(this)}>
+            <Text style={styles.buttonText}>Logout</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -121,7 +134,9 @@ const mapStateToProps = (state) => ({
   profile: state.profile.profile,
 });
 
-const SettingsComp = connect(mapStateToProps, {updateGoals})(Settings);
+const SettingsComp = connect(mapStateToProps, {updateGoals, logoutUser})(
+  Settings,
+);
 export default withNavigation(SettingsComp);
 
 const styles = StyleSheet.create({
@@ -189,5 +204,23 @@ const styles = StyleSheet.create({
   },
   settingValue: {
     fontWeight: '700',
+  },
+  textContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginBottom: 30,
+  },
+  buttonContainer: {
+    backgroundColor: '#34495E',
+    alignItems: 'center',
+    padding: 12,
+    width: 350,
+    borderRadius: 15,
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 19,
   },
 });

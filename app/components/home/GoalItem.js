@@ -45,8 +45,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 15,
-    width: 300,
-    height: 60,
+    width: 275,
+    height: 52,
   },
   goalText: {
     color: 'white',

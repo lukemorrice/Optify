@@ -2,20 +2,10 @@ import React from 'react';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Home from '../components/home/Home';
-import Profile from '../components/profile/Profile';
 import SettingsNav from '../components/settings/SettingsNav';
 
 export default AppStack = createBottomTabNavigator(
   {
-    Profile: {
-      screen: Profile,
-      navigationOptions: {
-        headerShown: false,
-        tabBarIcon: ({tintColor}) => (
-          <Icon name="ios-person" size={26} color={tintColor} />
-        ),
-      },
-    },
     Home: {
       screen: Home,
       navigationOptions: {
