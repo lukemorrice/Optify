@@ -1,8 +1,16 @@
 import React, {Component} from 'react';
-import {createAppContainer} from 'react-navigation';
 import firebase from 'firebase';
 import Main from './app/Main';
 import {firebaseConfig} from './config/';
+import {decode, encode} from 'base-64';
+
+if (!global.btoa) {
+  global.btoa = encode;
+}
+
+if (!global.atob) {
+  global.atob = decode;
+}
 
 try {
   firebase.initializeApp(firebaseConfig);
