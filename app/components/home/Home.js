@@ -11,9 +11,9 @@ import {connect} from 'react-redux';
 import {withNavigation} from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {fetchProfile} from '../../actions/ProfileActions';
+import {fetchGoals} from '../../actions/GoalsActions';
 import Goal from './GoalItem';
 import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
-import data from './goals';
 
 class Home extends Component {
   state = {
@@ -29,6 +29,7 @@ class Home extends Component {
 
   componentDidMount() {
     this.props.fetchProfile();
+    this.props.fetchGoals();
     var utils = new Utils();
     var greeting = utils.getGreeting();
     var day = utils.getDay();
@@ -38,15 +39,19 @@ class Home extends Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps !== this.props) {
-      this.setState({
-        firstName: this.props.profile.firstName,
-        lastName: this.props.profile.lastName,
-        email: this.props.profile.email,
-        goals: this.props.profile.goals,
-        goalsList: this.sortByCompleted(
-          data.slice(0, parseInt(this.props.profile.goals)),
-        ),
-      });
+      if (this.props.profile) {
+        this.setState({
+          firstName: this.props.profile.firstName,
+          lastName: this.props.profile.lastName,
+          email: this.props.profile.email,
+          goals: this.props.profile.goals,
+        });
+      }
+      if (this.props.goals.goals) {
+        this.setState({
+          goalsList: this.sortByCompleted(this.props.goals.goals),
+        });
+      }
     }
   }
 
@@ -57,7 +62,7 @@ class Home extends Component {
   renderGoals = (goal, index) => {
     return (
       <Goal
-        goals={this.state.goalsList}
+        goals={this.state.goalsList.slice(0, parseInt(this.state.goals))}
         goal={goal}
         index={index}
         updateGoals={this.updateGoals}
@@ -72,10 +77,10 @@ class Home extends Component {
   render() {
     LayoutAnimation.easeInEaseOut();
 
-    if (this.state.firstName === '' || this.state.lastName === '') {
+    if (!this.state.firstName || !this.state.goalsList[0]) {
       return (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <ActivityIndicator size="large" color="#" />
+          <ActivityIndicator size="large" color="red" />
         </View>
       );
     }
@@ -94,7 +99,7 @@ class Home extends Component {
           <View style={styles.subHeader}>
             <View style={styles.greeting}>
               <Text style={styles.greetingText}>
-                {this.state.greeting} {this.props.profile.firstName}!
+                {this.state.greeting} {this.state.firstName}!
               </Text>
               <Text style={styles.greetingText}>
                 Here {this.state.goals > 1 ? 'are' : 'is'} your{' '}
@@ -109,7 +114,7 @@ class Home extends Component {
 
           <View style={styles.goalsContainer}>
             <FlatList
-              data={this.state.goalsList}
+              data={this.state.goalsList.slice(0, parseInt(this.state.goals))}
               renderItem={({item, index}) => this.renderGoals(item, index)}
               keyExtractor={(item) => item.title}
             />
@@ -122,9 +127,10 @@ class Home extends Component {
 
 const mapStateToProps = (state) => ({
   profile: state.profile.profile,
+  goals: state.goals,
 });
 
-const HomeComp = connect(mapStateToProps, {fetchProfile})(Home);
+const HomeComp = connect(mapStateToProps, {fetchProfile, fetchGoals})(Home);
 export default withNavigation(HomeComp);
 
 const styles = StyleSheet.create({
