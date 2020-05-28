@@ -1,19 +1,19 @@
 import React, {Component} from 'react';
 import {
   StyleSheet,
-  Text,
   View,
   LayoutAnimation,
   ActivityIndicator,
 } from 'react-native';
-import Utils from './Utils';
 import {connect} from 'react-redux';
 import {withNavigation} from 'react-navigation';
-import Icon from 'react-native-vector-icons/Ionicons';
+import {FlatList} from 'react-native-gesture-handler';
 import {fetchProfile} from '../../actions/ProfileActions';
 import {fetchGoals} from '../../actions/GoalsActions';
-import Goal from './GoalItem';
-import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
+import Goal from './components/GoalItem';
+import Greeting from './components/Greeting';
+import Date from './components/Date';
+import Header from './components/Header';
 
 class Home extends Component {
   state = {
@@ -21,20 +21,12 @@ class Home extends Component {
     lastName: '',
     email: '',
     goals: '',
-    day: '',
-    date: '',
-    greeting: '',
     goalsList: [],
   };
 
   componentDidMount() {
     this.props.fetchProfile();
     this.props.fetchGoals();
-    var utils = new Utils();
-    var greeting = utils.getGreeting();
-    var day = utils.getDay();
-    var date = utils.getDate();
-    this.setState({day, date, greeting});
   }
 
   componentDidUpdate(prevProps) {
@@ -87,37 +79,29 @@ class Home extends Component {
 
     return (
       <View style={styles.container}>
-        <View style={{marginLeft: 20, marginRight: 20}}>
+        <View style={{marginLeft: 20, marginRight: 20, marginBottom: 35}}>
           <View style={styles.headerContainer}>
-            <Text style={styles.header}>Home</Text>
-            <View style={styles.date}>
-              <Text style={styles.day}>{this.state.day}</Text>
-              <Text style={styles.dateText}>{this.state.date}</Text>
-            </View>
+            <Header navigation={this.props.navigation} />
           </View>
+        </View>
 
-          <View style={styles.subHeader}>
-            <View style={styles.greeting}>
-              <Text style={styles.greetingText}>
-                {this.state.greeting} {this.state.firstName}!
-              </Text>
-              <Text style={styles.greetingText}>
-                Here {this.state.goals > 1 ? 'are' : 'is'} your{' '}
-                {this.state.goals} {this.state.goals > 1 ? 'goals' : 'goal'} for
-                today
-              </Text>
+        <View style={styles.content}>
+          <View style={{marginLeft: 20, marginRight: 20}}>
+            <View style={styles.dateContainer}>
+              <Date />
             </View>
-            <TouchableOpacity style={{marginRight: 10}}>
-              <Icon name="ios-menu" size={40}></Icon>
-            </TouchableOpacity>
-          </View>
 
-          <View style={styles.goalsContainer}>
-            <FlatList
-              data={this.state.goalsList.slice(0, parseInt(this.state.goals))}
-              renderItem={({item, index}) => this.renderGoals(item, index)}
-              keyExtractor={(item) => item.title}
-            />
+            <View style={styles.greetingContainer}>
+              <Greeting name={this.state.firstName} goals={this.state.goals} />
+            </View>
+
+            <View style={styles.goalsContainer}>
+              <FlatList
+                data={this.state.goalsList.slice(0, parseInt(this.state.goals))}
+                renderItem={({item, index}) => this.renderGoals(item, index)}
+                keyExtractor={(item) => item.title}
+              />
+            </View>
           </View>
         </View>
       </View>
@@ -136,65 +120,27 @@ export default withNavigation(HomeComp);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F9F9F9',
+    backgroundColor: '#48C9B0',
   },
   headerContainer: {
-    marginTop: 75,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    marginTop: 70,
   },
-  header: {
-    fontSize: 34,
-    fontWeight: '700',
-    color: '#000000',
+  content: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    height: '85%',
+    borderRadius: 40,
+    backgroundColor: '#F9F9F9',
+    paddingBottom: 300,
   },
-  subHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 40,
+  dateContainer: {
+    marginTop: 45,
   },
-  date: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  day: {
-    fontSize: 21,
-    fontWeight: '700',
-    marginBottom: 3,
-    color: '#000000',
-  },
-  dateText: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#000000',
-  },
-  greeting: {
-    justifyContent: 'center',
-  },
-  greetingText: {
-    fontSize: 20,
-    fontWeight: '500',
+  greetingContainer: {
+    marginTop: 45,
   },
   goalsContainer: {
-    marginTop: 30,
-  },
-  listContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 16,
-  },
-  goal: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 15,
-    width: 300,
-    height: 60,
-  },
-  goalText: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: '600',
+    marginTop: 45,
   },
 });
