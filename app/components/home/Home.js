@@ -9,7 +9,6 @@ import {
 import {connect} from 'react-redux';
 import {withNavigation} from 'react-navigation';
 import {FlatList} from 'react-native-gesture-handler';
-import {Divider} from 'react-native-elements';
 import {fetchProfile} from '../../actions/ProfileActions';
 import {fetchGoals} from '../../actions/GoalsActions';
 import Goal from './components/GoalItem';
