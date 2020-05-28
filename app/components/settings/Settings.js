@@ -3,17 +3,12 @@ import {
   View,
   StyleSheet,
   Text,
-  Image,
   TouchableOpacity,
   ActivityIndicator,
   LayoutAnimation,
   StatusBar,
-  Animated,
 } from 'react-native';
-import {Divider} from 'react-native-elements';
-import Icon from 'react-native-vector-icons/Ionicons';
 import {withNavigation} from 'react-navigation';
-import ModalSelector from 'react-native-modal-selector';
 import {connect} from 'react-redux';
 import {updateGoals} from '../../actions/ProfileActions';
 import {logoutUser} from '../../actions/AuthActions';
@@ -72,6 +67,9 @@ class Settings extends Component {
         <View style={styles.container}>
           <View style={styles.headerContainer}>
             <Text style={styles.header}>Settings</Text>
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+              <Text style={styles.done}>Done</Text>
+            </TouchableOpacity>
           </View>
 
           <View style={styles.settings}>
@@ -114,21 +112,28 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     width: '100%',
-    height: '85%',
+    height: '95%',
   },
   container: {
     backgroundColor: '#F9F9F9',
     borderRadius: 40,
-    height: 750,
+    height: 850,
   },
   headerContainer: {
     marginTop: 35,
     marginLeft: 20,
+    marginRight: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   header: {
     fontSize: 34,
     fontWeight: '700',
     color: '#000000',
+  },
+  done: {
+    fontSize: 16,
+    marginTop: 12,
   },
   settings: {
     flexDirection: 'column',

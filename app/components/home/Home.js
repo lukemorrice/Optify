@@ -2,12 +2,14 @@ import React, {Component} from 'react';
 import {
   StyleSheet,
   View,
+  Text,
   LayoutAnimation,
   ActivityIndicator,
 } from 'react-native';
 import {connect} from 'react-redux';
 import {withNavigation} from 'react-navigation';
 import {FlatList} from 'react-native-gesture-handler';
+import {Divider} from 'react-native-elements';
 import {fetchProfile} from '../../actions/ProfileActions';
 import {fetchGoals} from '../../actions/GoalsActions';
 import Goal from './components/GoalItem';
@@ -94,7 +96,16 @@ class Home extends Component {
             <View style={styles.greetingContainer}>
               <Greeting name={this.state.firstName} goals={this.state.goals} />
             </View>
+          </View>
+          <View style={styles.goalHeading}>
+            <View style={styles.goalDivider} />
+            <Text style={styles.goalHeadingText}>
+              Today's {this.state.goals > 1 ? 'goals' : 'goal'}
+            </Text>
+            <View style={styles.goalDivider} />
+          </View>
 
+          <View style={{marginLeft: 20, marginRight: 20}}>
             <View style={styles.goalsContainer}>
               <FlatList
                 data={this.state.goalsList.slice(0, parseInt(this.state.goals))}
@@ -135,12 +146,29 @@ const styles = StyleSheet.create({
     paddingBottom: 300,
   },
   dateContainer: {
-    marginTop: 45,
+    marginTop: 50,
   },
   greetingContainer: {
-    marginTop: 45,
+    marginTop: 50,
   },
   goalsContainer: {
-    marginTop: 45,
+    marginTop: 30,
+    marginHorizontal: 10,
+  },
+  goalHeading: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 60,
+  },
+  goalHeadingText: {
+    fontSize: 22,
+    fontWeight: '500',
+    paddingHorizontal: 25,
+  },
+  goalDivider: {
+    backgroundColor: 'black',
+    height: 1,
+    flex: 1,
+    alignSelf: 'center',
   },
 });
