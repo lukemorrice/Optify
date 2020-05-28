@@ -81,7 +81,7 @@ class Home extends Component {
 
     return (
       <View style={styles.container}>
-        <View style={{marginLeft: 20, marginRight: 20, marginBottom: 35}}>
+        <View style={{marginLeft: 20, marginRight: 20}}>
           <View style={styles.headerContainer}>
             <Header navigation={this.props.navigation} />
           </View>
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     width: '100%',
-    height: '85%',
+    height: '84%',
     borderRadius: 40,
     backgroundColor: '#F9F9F9',
     paddingBottom: 300,
@@ -161,8 +161,8 @@ const styles = StyleSheet.create({
     marginTop: 60,
   },
   goalHeadingText: {
-    fontSize: 22,
-    fontWeight: '500',
+    fontSize: 26,
+    fontWeight: '600',
     paddingHorizontal: 25,
   },
   goalDivider: {
