@@ -1,40 +1,24 @@
-import React from 'react';
-import {createBottomTabNavigator} from 'react-navigation-tabs';
-import Icon from 'react-native-vector-icons/Ionicons';
+import {createStackNavigator} from 'react-navigation-stack';
 import Home from '../components/home/Home';
-import SettingsNav from '../components/settings/SettingsNav';
+import Settings from '../components/settings/Settings';
 
-export default AppStack = createBottomTabNavigator(
+const AppStack = createStackNavigator(
   {
     Home: {
       screen: Home,
-      navigationOptions: {
-        headerShown: false,
-        tabBarIcon: ({tintColor}) => (
-          <Icon name="ios-home" size={26} color={tintColor} />
-        ),
-      },
     },
-    SettingsNav: {
-      screen: SettingsNav,
+    Settings: {
+      screen: Settings,
       navigationOptions: {
-        tabBarIcon: ({tintColor}) => (
-          <Icon name="ios-settings" size={26} color={tintColor} />
-        ),
+        gestureResponseDistance: {vertical: 800},
       },
     },
   },
   {
-    tabBarOptions: {
-      activeTintColor: '#34495E',
-      inactiveTintColor: '#B8BBC4',
-      showLabel: false,
-      style: {
-        backgroundColor: '#F4F4F4',
-        paddingTop: 10,
-        justifyContent: 'center',
-      },
-    },
-    initialRouteName: 'Home',
+    mode: 'modal',
+    headerMode: 'none',
+    transparentCard: true,
   },
 );
+
+export default AppStack;

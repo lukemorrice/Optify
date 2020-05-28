@@ -13,7 +13,7 @@ export default Goal = ({goals, goal, index, updateGoals}) => {
     <View style={styles.listContainer}>
       <View
         style={[
-          {backgroundColor: goal.completed ? '#1ABC9C' : '#64B5F6'},
+          {backgroundColor: goal.completed ? '#48C9B0' : '#64B5F6'},
           styles.goal,
         ]}>
         <Text style={styles.goalText}>{goal.title}</Text>
@@ -27,7 +27,7 @@ export default Goal = ({goals, goal, index, updateGoals}) => {
           }
           size={40}
           style={{marginRight: 10}}
-          color={goal.completed ? '#1ABC9C' : '#FF1744'}
+          color={goal.completed ? '#48C9B0' : '#FF1744'}
         />
       </TouchableOpacity>
     </View>
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 15,
     width: 275,
-    height: 52,
+    height: 50,
   },
   goalText: {
     color: 'white',
