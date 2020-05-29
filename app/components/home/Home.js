@@ -23,6 +23,7 @@ class Home extends Component {
     email: '',
     goals: '',
     goalsList: [],
+    showDescription: [false, false, false],
   };
 
   componentDidMount() {
@@ -52,6 +53,11 @@ class Home extends Component {
     return list.sort((x, y) => x.completed - y.completed);
   };
 
+  toggleDescription = (index) => {
+    this.state.showDescription[index] = !this.state.showDescription[index];
+    this.setState({showDescription: this.state.showDescription});
+  };
+
   renderGoals = (goal, index) => {
     return (
       <Goal
@@ -59,8 +65,15 @@ class Home extends Component {
         goal={goal}
         index={index}
         updateGoals={this.updateGoals}
+        toggleDescription={this.toggleDescription}
+        showDescription={this.state.showDescription}
       />
     );
+  };
+
+  toggleGoalCompletion = (index) => {
+    showDescription[index] = !showDescription[index];
+    this.setState({showDescription});
   };
 
   updateGoals = (newGoalsList) => {
