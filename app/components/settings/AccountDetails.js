@@ -40,7 +40,6 @@ const styles = StyleSheet.create({
   },
   accountDetails: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     marginTop: 15,
     marginBottom: 15,
     marginLeft: 20,
@@ -64,6 +63,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   accountText: {
-    marginRight: 150,
+    marginLeft: 30,
   },
 });
