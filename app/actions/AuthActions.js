@@ -20,6 +20,7 @@ export const createUser = (firstName, lastName, email, password) => {
       .then((user) => createUserSuccess(dispatch, user))
       .then(() => {
         const {currentUser} = firebase.auth();
+        const date = getDate();
         try {
           firebase
             .database()
@@ -31,6 +32,8 @@ export const createUser = (firstName, lastName, email, password) => {
                 email,
                 password,
                 goals: 1,
+                lastActive: date,
+                goalsList: {},
               },
             });
         } catch (error) {
@@ -39,6 +42,15 @@ export const createUser = (firstName, lastName, email, password) => {
       })
       .catch((error) => createUserFail(dispatch, error.message));
   };
+};
+
+export const getDate = () => {
+  const date = new Date();
+  const day = date.getDate();
+  const month = date.getMonth();
+  const year = date.getFullYear();
+  const fullDate = day + '/' + month + '/' + year;
+  return fullDate;
 };
 
 const createUserFail = (dispatch, error) => {

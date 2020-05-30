@@ -17,7 +17,8 @@ export default class AccountDetails extends Component {
           <View style={styles.accountDetails}>
             <Image
               source={require('../../images/profile.png')}
-              style={styles.profileImg}></Image>
+              style={styles.profileImg}
+            />
             <View style={styles.accountText}>
               <Text style={styles.name}>
                 {firstName} {lastName}
@@ -63,6 +64,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   accountText: {
-    marginRight: 110,
+    marginRight: 150,
   },
 });
