@@ -113,6 +113,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: '100%',
     height: '92%',
+    // height: '60%',
   },
   container: {
     backgroundColor: '#F9F9F9',
@@ -143,10 +144,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    marginBottom: 60,
+    marginBottom: 70,
+    // marginTop: 100,
   },
   buttonContainer: {
-    backgroundColor: '#34495E',
+    backgroundColor: '#48C9B0',
     alignItems: 'center',
     padding: 12,
     width: 350,

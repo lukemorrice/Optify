@@ -16,8 +16,6 @@ export default Goal = ({
     updateGoals(goals);
   };
 
-  console.log(showDescription);
-
   return (
     <View>
       <View style={styles.listContainer}>
@@ -57,7 +55,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 16,
+    // paddingVertical: 16,
+    marginTop: 30,
+    marginBottom: 10,
   },
   goal: {
     justifyContent: 'center',

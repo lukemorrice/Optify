@@ -34,5 +34,5 @@ export const fetchGoals = () => {
 };
 
 const generateRandomNumber = (maximum) => {
-  return Math.floor(Math.random() * (maximum - 1));
+  return Math.floor(Math.random() * maximum);
 };

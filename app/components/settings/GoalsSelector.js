@@ -26,7 +26,7 @@ export default class GoalsSelector extends Component {
             <View style={styles.row}>
               <Divider></Divider>
               <View style={styles.genSetting}>
-                <Icon name={'ios-star'} size={24} color="green"></Icon>
+                <Icon name={'ios-star'} size={24} color="#48C9B0"></Icon>
                 <Text style={styles.settingName}>Daily number of goals</Text>
                 <Text style={styles.settingValue}>{goals}</Text>
               </View>
@@ -50,11 +50,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   settingName: {
-    fontSize: 16,
+    fontSize: 17,
     marginRight: 150,
   },
   settingValue: {
     fontWeight: '700',
+    fontSize: 17,
   },
   row: {
     backgroundColor: 'white',

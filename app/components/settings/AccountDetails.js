@@ -54,14 +54,15 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   name: {
-    fontSize: 23,
+    fontSize: 26,
     fontWeight: '500',
     marginBottom: 5,
   },
   email: {
     color: '#808080',
+    fontSize: 15,
   },
   accountText: {
-    marginRight: 120,
+    marginRight: 110,
   },
 });

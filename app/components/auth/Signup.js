@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
     height: 45,
     width: 350,
     borderWidth: 2,
-    borderColor: '#34495E',
+    borderColor: 'black',
     fontSize: 16,
     borderRadius: 8,
   },
@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
     fontSize: 19,
   },
   buttonContainer: {
-    backgroundColor: '#34495E',
+    backgroundColor: '#48C9B0',
     alignItems: 'center',
     padding: 12,
     width: 350,

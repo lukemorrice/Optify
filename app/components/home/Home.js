@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   goalsContainer: {
-    marginTop: 30,
+    marginTop: 10,
     marginHorizontal: 10,
   },
   goalHeading: {
