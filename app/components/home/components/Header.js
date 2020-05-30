@@ -16,7 +16,7 @@ export default class Header extends Component {
           <Text style={styles.header}>Home</Text>
           <TouchableOpacity
             style={{marginRight: 10}}
-            onPress={() => this.props.navigation.navigate('Settings')}>
+            onPress={() => this.props.toggleVisible()}>
             <Icon name="ios-cog" size={35}></Icon>
           </TouchableOpacity>
         </View>
