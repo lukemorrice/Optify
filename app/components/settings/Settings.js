@@ -67,7 +67,7 @@ class Settings extends Component {
         <View style={styles.container}>
           <View style={styles.headerContainer}>
             <Text style={styles.header}>Settings</Text>
-            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+            <TouchableOpacity onPress={() => this.props.closeModal()}>
               <Text style={styles.done}>Done</Text>
             </TouchableOpacity>
           </View>
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     width: '100%',
-    height: '92%',
+    height: '100%',
   },
   container: {
     backgroundColor: '#F9F9F9',
@@ -140,10 +140,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   logoutContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
     alignItems: 'center',
-    marginBottom: 70,
+    marginTop: 190,
   },
   buttonContainer: {
     backgroundColor: '#48C9B0',

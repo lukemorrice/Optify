@@ -15,6 +15,7 @@ import Goal from './components/GoalItem';
 import Greeting from './components/Greeting';
 import Date from './components/Date';
 import Header from './components/Header';
+import ModalScreen from './Modal';
 
 class Home extends Component {
   state = {
@@ -24,6 +25,7 @@ class Home extends Component {
     goals: '',
     goalsList: [],
     showDescription: [false, false, false],
+    isModalVisible: false,
   };
 
   componentDidMount() {
@@ -80,6 +82,10 @@ class Home extends Component {
     this.setState({goalsList: this.sortByCompleted(newGoalsList)});
   };
 
+  toggleVisible = () => {
+    this.setState({isModalVisible: !this.state.isModalVisible});
+  };
+
   render() {
     LayoutAnimation.easeInEaseOut();
 
@@ -95,7 +101,10 @@ class Home extends Component {
       <View style={styles.container}>
         <View style={{marginLeft: 20, marginRight: 20}}>
           <View style={styles.headerContainer}>
-            <Header navigation={this.props.navigation} />
+            <Header
+              navigation={this.props.navigation}
+              toggleVisible={this.toggleVisible}
+            />
           </View>
         </View>
 
@@ -109,6 +118,7 @@ class Home extends Component {
               <Greeting name={this.state.firstName} goals={this.state.goals} />
             </View>
           </View>
+
           <View style={styles.goalHeading}>
             <View style={styles.goalDivider} />
             <Text style={styles.goalHeadingText}>
@@ -126,6 +136,11 @@ class Home extends Component {
               />
             </View>
           </View>
+
+          <ModalScreen
+            isVisible={this.state.isModalVisible}
+            toggleVisible={this.toggleVisible}
+          />
         </View>
       </View>
     );
