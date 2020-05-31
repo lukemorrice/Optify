@@ -1,20 +1,16 @@
 import React, {Component} from 'react';
 import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
+// import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+
+// const options = {
+//   enableVibrateFallback: true,
+// };
 
 export default class GoalsSelector extends Component {
-  // state = {
-  //   selectedGoal: '',
-  // };
-
   onChangeGoals = (goal) => {
+    // ReactNativeHapticFeedback.trigger('impactLight', options);
     this.props.updateGoals(goal);
   };
-
-  // componentDidMount() {
-  //   this.setState({selectedGoal: this.props.goals});
-  //   // ss
-  //   console.log(this.state.selectedGoal);
-  // }
 
   render() {
     return (

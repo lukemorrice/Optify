@@ -106,6 +106,7 @@ class Signup extends Component {
               style={styles.input}
               placeholder="Email"
               autoCapitalize="none"
+              textContentType="emailAddress"
               onChangeText={this.onChangeEmail.bind(this)}
               value={this.state.email}></TextInput>
           </View>

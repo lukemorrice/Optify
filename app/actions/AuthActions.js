@@ -58,7 +58,6 @@ const createUserFail = (dispatch, error) => {
 };
 
 const createUserSuccess = (dispatch, user) => {
-  console.log('User created');
   dispatch({
     type: AUTH_CREATE_USER_SUCCESS,
     payload: user,
@@ -66,7 +65,6 @@ const createUserSuccess = (dispatch, user) => {
 };
 
 export const loginUser = (email, password) => {
-  console.log('User logging in:', email);
   return (dispatch) => {
     dispatch({type: AUTH_LOGIN_USER});
 
