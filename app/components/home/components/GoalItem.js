@@ -2,6 +2,11 @@ import React, {useState} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+
+const options = {
+  enableVibrateFallback: true,
+};
 
 export default Goal = ({
   goals,
@@ -12,6 +17,7 @@ export default Goal = ({
   showDescription,
 }) => {
   toggleGoalCompleted = (idx) => {
+    ReactNativeHapticFeedback.trigger('impactMedium', options);
     goals[idx].completed = !goals[idx].completed;
     updateGoals(goals);
   };

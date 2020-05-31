@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
-// import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
-// const options = {
-//   enableVibrateFallback: true,
-// };
+const options = {
+  enableVibrateFallback: true,
+};
 
 export default class GoalsSelector extends Component {
   onChangeGoals = (goal) => {
-    // ReactNativeHapticFeedback.trigger('impactLight', options);
+    ReactNativeHapticFeedback.trigger('impactMedium', options);
     this.props.updateGoals(goal);
   };
 
@@ -31,7 +31,9 @@ export default class GoalsSelector extends Component {
             <Text
               style={[
                 styles.optionText,
-                this.props.goals == '1' ? {color: 'white'} : {color: 'black'},
+                this.props.goals == '1'
+                  ? {color: 'white', fontWeight: '600'}
+                  : {color: 'black'},
               ]}>
               1
             </Text>
@@ -48,7 +50,9 @@ export default class GoalsSelector extends Component {
             <Text
               style={[
                 styles.optionText,
-                this.props.goals == '2' ? {color: 'white'} : {color: 'black'},
+                this.props.goals == '2'
+                  ? {color: 'white', fontWeight: '600'}
+                  : {color: 'black'},
               ]}>
               2
             </Text>
@@ -65,7 +69,9 @@ export default class GoalsSelector extends Component {
             <Text
               style={[
                 styles.optionText,
-                this.props.goals == '3' ? {color: 'white'} : {color: 'black'},
+                this.props.goals == '3'
+                  ? {color: 'white', fontWeight: '600'}
+                  : {color: 'black'},
               ]}>
               3
             </Text>
