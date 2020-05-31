@@ -1,65 +1,107 @@
 import React, {Component} from 'react';
 import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import {Divider} from 'react-native-elements';
-import ModalSelector from 'react-native-modal-selector';
 
 export default class GoalsSelector extends Component {
+  // state = {
+  //   selectedGoal: '',
+  // };
+
   onChangeGoals = (goal) => {
     this.props.updateGoals(goal);
   };
 
+  // componentDidMount() {
+  //   this.setState({selectedGoal: this.props.goals});
+  //   // ss
+  //   console.log(this.state.selectedGoal);
+  // }
+
   render() {
-    const {goals, onChangeGoals} = this.props;
     return (
       <View>
-        <TouchableOpacity>
-          <ModalSelector
-            data={[
-              {id: 1, name: '1'},
-              {id: 2, name: '2'},
-              {id: 3, name: '3'},
+        <View style={styles.settingContainer}>
+          <Text style={styles.settingText}>Daily number of goals</Text>
+        </View>
+        <View style={styles.options}>
+          <TouchableOpacity
+            style={[
+              styles.optionContainer,
+              {borderRightWidth: 0.5},
+              this.props.goals == '1'
+                ? {backgroundColor: '#48C9B0'}
+                : {backgroundColor: 'white'},
             ]}
-            keyExtractor={(item) => item.id}
-            labelExtractor={(item) => item.name}
-            onChange={(option) => onChangeGoals(option.name)}>
-            <View style={styles.row}>
-              <Divider></Divider>
-              <View style={styles.genSetting}>
-                <Icon name={'ios-star'} size={24} color="#48C9B0"></Icon>
-                <Text style={styles.settingName}>Daily number of goals</Text>
-                <Text style={styles.settingValue}>{goals}</Text>
-              </View>
-              <Divider></Divider>
-            </View>
-          </ModalSelector>
-        </TouchableOpacity>
+            onPress={() => this.onChangeGoals('1')}>
+            <Text
+              style={[
+                styles.optionText,
+                this.props.goals == '1' ? {color: 'white'} : {color: 'black'},
+              ]}>
+              1
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.optionContainer,
+              {borderRightWidth: 0.5, borderLeftWidth: 0.5},
+              this.props.goals == '2'
+                ? {backgroundColor: '#48C9B0'}
+                : {backgroundColor: 'white'},
+            ]}
+            onPress={() => this.onChangeGoals('2')}>
+            <Text
+              style={[
+                styles.optionText,
+                this.props.goals == '2' ? {color: 'white'} : {color: 'black'},
+              ]}>
+              2
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.optionContainer,
+              {borderLeftWidth: 0.5},
+              this.props.goals == '3'
+                ? {backgroundColor: '#48C9B0'}
+                : {backgroundColor: 'white'},
+            ]}
+            onPress={() => this.onChangeGoals('3')}>
+            <Text
+              style={[
+                styles.optionText,
+                this.props.goals == '3' ? {color: 'white'} : {color: 'black'},
+              ]}>
+              3
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  genSetting: {
+  settingContainer: {
+    marginLeft: 15,
+    marginBottom: 15,
+  },
+  settingText: {
+    fontSize: 20,
+  },
+  options: {
     flexDirection: 'row',
-    marginTop: 10,
-    marginBottom: 10,
-    marginLeft: 20,
-    marginRight: 20,
-    alignItems: 'center',
     justifyContent: 'space-between',
   },
-  settingName: {
-    fontSize: 17,
-    marginRight: 150,
+  optionContainer: {
+    borderColor: 'black',
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '34%',
+    height: 35,
   },
-  settingValue: {
-    fontWeight: '700',
-    fontSize: 17,
-  },
-  row: {
-    backgroundColor: 'white',
-    marginTop: 5,
-    marginBottom: 12,
+  optionText: {
+    fontSize: 20,
   },
 });

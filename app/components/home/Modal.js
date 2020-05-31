@@ -13,7 +13,9 @@ export default class ModalScreen extends Component {
         onBackdropPress={() => toggleVisible()}
         swipeDirection="down"
         swipeThreshold={400}
-        onSwipeComplete={() => toggleVisible()}>
+        onSwipeComplete={() => toggleVisible()}
+        animationInTiming={450}
+        animationOutTiming={400}>
         <View style={styles.modalContent}>
           <Settings closeModal={toggleVisible} />
         </View>
