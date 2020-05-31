@@ -5,6 +5,7 @@ import {
   Text,
   LayoutAnimation,
   ActivityIndicator,
+  ScrollView,
 } from 'react-native';
 import {connect} from 'react-redux';
 import {withNavigation} from 'react-navigation';
@@ -133,6 +134,7 @@ class Home extends Component {
                 data={this.state.goalsList.slice(0, parseInt(this.state.goals))}
                 renderItem={({item, index}) => this.renderGoals(item, index)}
                 keyExtractor={(item) => item.title}
+                scrollEnabled={false}
               />
             </View>
           </View>
