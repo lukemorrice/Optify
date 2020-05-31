@@ -81,7 +81,7 @@ class Settings extends Component {
 
             <GoalsSelector
               goals={this.props.profile.goals}
-              onChangeGoals={this.onChangeGoals}
+              updateGoals={this.onChangeGoals}
             />
           </View>
 
