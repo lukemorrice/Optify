@@ -233,6 +233,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     fontSize: 16,
     borderRadius: 8,
+    color: 'black',
   },
   element: {
     padding: 15,

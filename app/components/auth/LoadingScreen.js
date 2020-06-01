@@ -1,5 +1,11 @@
 import React from 'react';
-import {View, Text, StyleSheet, ActivityIndicator} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  StatusBar,
+} from 'react-native';
 import firebase from 'firebase';
 
 export default class LoadingScreen extends React.Component {
@@ -12,6 +18,7 @@ export default class LoadingScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <StatusBar barStyle="dark-content" />
         <Text style={{marginBottom: 20}}>Loading...</Text>
         <ActivityIndicator size="large" color="red"></ActivityIndicator>
       </View>

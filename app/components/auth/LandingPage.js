@@ -5,6 +5,7 @@ import {
   View,
   TouchableOpacity,
   LayoutAnimation,
+  StatusBar,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import SwiperFlatList from 'react-native-swiper-flatlist';
@@ -23,6 +24,7 @@ export default class LandingPage extends Component {
 
     return (
       <View style={styles.container}>
+        <StatusBar barStyle="dark-content" />
         <View style={styles.headerContainer}>
           <Text style={styles.header}>Optify</Text>
         </View>
