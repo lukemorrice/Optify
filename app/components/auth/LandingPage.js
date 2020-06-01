@@ -7,6 +7,7 @@ import {
   LayoutAnimation,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
+import {Pages} from 'react-native-pages';
 
 export default class LandingPage extends Component {
   onPressSignUp = () => {
@@ -29,7 +30,7 @@ export default class LandingPage extends Component {
         <View
           style={[
             styles.textContainer,
-            {marginBottom: 40, marginHorizontal: 15},
+            {marginBottom: 20, marginHorizontal: 15},
           ]}>
           <Text style={styles.text}>
             Optify sends you goals every day to help you develop and grow.
@@ -72,6 +73,17 @@ export default class LandingPage extends Component {
 }
 
 const styles = StyleSheet.create({
+  pages: {
+    flex: 1,
+    backgroundColor: 'gray',
+    width: '100%',
+    justifyContent: 'center',
+  },
+  pageView: {
+    width: 1000,
+    height: 1000,
+    backgroundColor: 'gray',
+  },
   container: {
     flex: 1,
     alignItems: 'center',
@@ -97,6 +109,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#333333',
     fontSize: 18,
+    marginVertical: 5,
   },
   buttonContainer: {
     backgroundColor: '#48C9B0',
