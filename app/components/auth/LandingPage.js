@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   LayoutAnimation,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Entypo';
 
 export default class LandingPage extends Component {
   onPressSignUp = () => {
@@ -25,10 +26,27 @@ export default class LandingPage extends Component {
           <Text style={styles.header}>Optify</Text>
         </View>
 
-        <View style={styles.textContainer}>
+        <View
+          style={[
+            styles.textContainer,
+            {marginBottom: 40, marginHorizontal: 15},
+          ]}>
           <Text style={styles.text}>
-            Description of what the app is and why its beneficial, especially
-            during this quarantine period.
+            Optify sends you goals every day to help you develop and grow.
+          </Text>
+          <Text style={styles.text}>
+            <Icon name="dot-single" size={35} />
+          </Text>
+          <Text style={styles.text}>
+            Work on improving yourself by 1% every day and you will be 37 times
+            better after a year.
+          </Text>
+          <Text style={styles.text}>
+            <Icon name="dot-single" size={35} />
+          </Text>
+          <Text style={styles.text}>
+            Optify focuses on small, daily habits which compound together to
+            help you become the best version of yourself.
           </Text>
         </View>
 
@@ -57,13 +75,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#dbf7ff',
+    backgroundColor: 'white',
   },
   header: {
-    fontSize: 40,
+    fontSize: 44,
     textAlign: 'center',
     marginTop: 100,
     fontWeight: 'bold',
+    color: '#48C9B0',
   },
   headerContainer: {
     flex: 1,
@@ -77,7 +96,7 @@ const styles = StyleSheet.create({
   text: {
     textAlign: 'center',
     color: '#333333',
-    fontSize: 20,
+    fontSize: 18,
   },
   buttonContainer: {
     backgroundColor: '#48C9B0',

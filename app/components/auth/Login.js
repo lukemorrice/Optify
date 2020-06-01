@@ -56,7 +56,7 @@ class Login extends Component {
         <TouchableOpacity
           style={styles.back}
           onPress={() => this.props.navigation.goBack()}>
-          <Icon name={'ios-arrow-round-back'} size={32} color="#dbf7ff" />
+          <Icon name={'ios-arrow-round-back'} size={32} color="white" />
         </TouchableOpacity>
 
         <View style={styles.headerContainer}>
@@ -115,7 +115,7 @@ export default withNavigation(LoginComp);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#dbf7ff',
+    backgroundColor: 'white',
   },
   back: {
     position: 'absolute',
