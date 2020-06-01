@@ -7,7 +7,7 @@ import {
   LayoutAnimation,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
-import {Pages} from 'react-native-pages';
+import SwiperFlatList from 'react-native-swiper-flatlist';
 
 export default class LandingPage extends Component {
   onPressSignUp = () => {
@@ -27,29 +27,32 @@ export default class LandingPage extends Component {
           <Text style={styles.header}>Optify</Text>
         </View>
 
-        <View
-          style={[
-            styles.textContainer,
-            {marginBottom: 20, marginHorizontal: 15},
-          ]}>
-          <Text style={styles.text}>
-            Optify sends you goals every day to help you develop and grow.
-          </Text>
-          <Text style={styles.text}>
-            <Icon name="dot-single" size={35} />
-          </Text>
-          <Text style={styles.text}>
-            Work on improving yourself by 1% every day and you will be 37 times
-            better after a year.
-          </Text>
-          <Text style={styles.text}>
-            <Icon name="dot-single" size={35} />
-          </Text>
-          <Text style={styles.text}>
-            Optify focuses on small, daily habits which compound together to
-            help you become the best version of yourself.
-          </Text>
-        </View>
+        <SwiperFlatList
+          style={{width: 350}}
+          showPagination
+          paginationStyle={{marginBottom: 350}}
+          paginationStyleItem={{width: 8, height: 8}}
+          paginationActiveColor="#48C9B0"
+          paginationDefaultColor="#808080">
+          <View style={styles.page}>
+            <Text style={styles.text}>
+              Optify sends you goals every day to help you develop and grow.
+            </Text>
+          </View>
+          <View style={styles.page}>
+            <Text style={styles.text}>
+              Work on improving yourself by 1% every day and you will be{' '}
+              <Text style={{fontWeight: '800'}}>37 times</Text> better after a
+              year.
+            </Text>
+          </View>
+          <View style={styles.page}>
+            <Text style={styles.text}>
+              Optify provides small, daily habits which compound to help you
+              become the best version of yourself.
+            </Text>
+          </View>
+        </SwiperFlatList>
 
         <View style={styles.textContainer}>
           <TouchableOpacity
@@ -73,16 +76,10 @@ export default class LandingPage extends Component {
 }
 
 const styles = StyleSheet.create({
-  pages: {
-    flex: 1,
-    backgroundColor: 'gray',
-    width: '100%',
+  page: {
+    width: 350,
     justifyContent: 'center',
-  },
-  pageView: {
-    width: 1000,
-    height: 1000,
-    backgroundColor: 'gray',
+    alignItems: 'center',
   },
   container: {
     flex: 1,
@@ -108,7 +105,8 @@ const styles = StyleSheet.create({
   text: {
     textAlign: 'center',
     color: '#333333',
-    fontSize: 18,
+    fontSize: 20,
+    fontWeight: '500',
     marginVertical: 5,
   },
   buttonContainer: {
