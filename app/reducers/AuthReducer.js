@@ -6,6 +6,7 @@ import {
   AUTH_CREATE_USER_FAIL,
   AUTH_CREATE_USER_SUCCESS,
   AUTH_LOGOUT_USER,
+  RESET_ERRORS,
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -41,6 +42,8 @@ const auth = (state = INITIAL_STATE, action) => {
       return {...state, loading: false, errorLogging: '', errorCreating: ''};
     case AUTH_LOGOUT_USER:
       return {...state, loading: false, errorLogging: '', errorCreating: ''};
+    case RESET_ERRORS:
+      return {...state, errorLogging: '', errorCreating: ''};
     default:
       return state;
   }

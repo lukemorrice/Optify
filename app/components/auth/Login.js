@@ -10,24 +10,31 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import {withNavigation} from 'react-navigation';
 import {connect} from 'react-redux';
-import {loginUser} from '../../actions/AuthActions';
+import {loginUser, resetErrors} from '../../actions/AuthActions';
 
 class Login extends Component {
   state = {
     email: '',
     password: '',
+    error: '',
   };
 
   onChangeEmail = (email) => {
-    this.setState({email});
+    this.props.resetErrors();
+    this.setState({email, error: ''});
   };
 
   onChangePassword = (password) => {
-    this.setState({password});
+    this.props.resetErrors();
+    this.setState({password, error: ''});
   };
 
   onPressLogin = () => {
-    this.props.loginUser(this.state.email, this.state.password);
+    if (!(this.state.email && this.state.password)) {
+      this.setState({error: 'Please fill out both fields'});
+    } else {
+      this.props.loginUser(this.state.email, this.state.password);
+    }
   };
 
   renderButtons() {
@@ -67,7 +74,9 @@ class Login extends Component {
           <View style={styles.element}>
             <TextInput
               placeholder="Email"
+              placeholderTextColor="gray"
               textContentType="emailAddress"
+              keyboardType="email-address"
               autoCapitalize="none"
               style={styles.input}
               onChangeText={this.onChangeEmail.bind(this)}
@@ -77,6 +86,7 @@ class Login extends Component {
           <View style={styles.element}>
             <TextInput
               placeholder="Password"
+              placeholderTextColor="gray"
               textContentType="password"
               secureTextEntry={true}
               autoCapitalize="none"
@@ -86,7 +96,11 @@ class Login extends Component {
           </View>
 
           <View style={styles.errorContainer}>
-            <Text style={styles.error}>{this.props.auth.errorLogging}</Text>
+            {this.props.auth.errorLogging ? (
+              <Text style={styles.error}>{this.props.auth.errorLogging}</Text>
+            ) : (
+              <Text style={styles.error}>{this.state.error}</Text>
+            )}
           </View>
           {this.renderButtons()}
 
@@ -109,7 +123,7 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-const LoginComp = connect(mapStateToProps, {loginUser})(Login);
+const LoginComp = connect(mapStateToProps, {loginUser, resetErrors})(Login);
 export default withNavigation(LoginComp);
 
 const styles = StyleSheet.create({

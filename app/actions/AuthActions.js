@@ -8,6 +8,7 @@ import {
   AUTH_CREATE_USER_FAIL,
   AUTH_CREATE_USER_SUCCESS,
   AUTH_LOGOUT_USER,
+  RESET_ERRORS,
 } from '../actions/types';
 
 export const createUser = (firstName, lastName, email, password) => {
@@ -87,9 +88,15 @@ const loginUserSuccess = (dispatch, user) => {
   });
 };
 
-export const logoutUser = (dispatch) => {
+export const logoutUser = () => {
   return (dispatch) => {
     dispatch({type: AUTH_LOGOUT_USER});
     firebase.auth().signOut();
+  };
+};
+
+export const resetErrors = () => {
+  return (dispatch) => {
+    dispatch({type: RESET_ERRORS});
   };
 };

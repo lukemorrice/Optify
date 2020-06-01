@@ -10,7 +10,7 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import {withNavigation} from 'react-navigation';
 import {connect} from 'react-redux';
-import {createUser} from '../../actions/AuthActions';
+import {createUser, resetErrors} from '../../actions/AuthActions';
 
 class Signup extends Component {
   state = {
@@ -18,39 +18,63 @@ class Signup extends Component {
     lastName: '',
     email: '',
     password: '',
+    error: '',
   };
 
   onChangeFirstName = (firstName) => {
+    this.props.resetErrors();
     this.setState({
       firstName,
+      error: '',
     });
   };
 
   onChangeLastName = (lastName) => {
+    this.props.resetErrors();
     this.setState({
       lastName,
+      error: '',
     });
   };
 
   onChangeEmail = (email) => {
+    this.props.resetErrors();
     this.setState({
       email,
+      error: '',
     });
   };
 
   onChangePassword = (password) => {
+    this.props.resetErrors();
     this.setState({
       password,
+      error: '',
     });
   };
 
   onPressSignUp = () => {
-    this.props.createUser(
-      this.state.firstName,
-      this.state.lastName,
-      this.state.email,
-      this.state.password,
-    );
+    if (
+      !(
+        this.state.firstName &&
+        this.state.lastName &&
+        this.state.email &&
+        this.state.password
+      )
+    ) {
+      this.setState({error: 'Please fill out all fields'});
+    } else if (this.state.password.length < 6) {
+      this.setState({
+        error: 'Passwords must be at least 6 characters',
+      });
+    } else {
+      this.props.createUser(
+        this.state.firstName,
+        this.state.lastName,
+        this.state.email,
+        this.state.password,
+      );
+    }
   };
 
   renderButtons() {
@@ -87,6 +111,7 @@ class Signup extends Component {
             <TextInput
               style={styles.input}
               placeholder="First Name"
+              placeholderTextColor="gray"
               autoCorrect={false}
               onChangeText={this.onChangeFirstName.bind(this)}
               value={this.state.firstName}></TextInput>
@@ -96,6 +121,7 @@ class Signup extends Component {
             <TextInput
               style={styles.input}
               placeholder="Last Name"
+              placeholderTextColor="gray"
               autoCorrect={false}
               onChangeText={this.onChangeLastName.bind(this)}
               value={this.state.lastName}></TextInput>
@@ -105,8 +131,10 @@ class Signup extends Component {
             <TextInput
               style={styles.input}
               placeholder="Email"
+              placeholderTextColor="gray"
               autoCapitalize="none"
               textContentType="emailAddress"
+              keyboardType="email-address"
               onChangeText={this.onChangeEmail.bind(this)}
               value={this.state.email}></TextInput>
           </View>
@@ -115,6 +143,7 @@ class Signup extends Component {
             <TextInput
               style={styles.input}
               placeholder="Password"
+              placeholderTextColor="gray"
               secureTextEntry
               autoCapitalize="none"
               onChangeText={this.onChangePassword.bind(this)}
@@ -122,7 +151,11 @@ class Signup extends Component {
           </View>
 
           <View style={styles.errorContainer}>
-            <Text style={styles.error}>{this.props.auth.errorCreating}</Text>
+            {this.props.auth.errorCreating ? (
+              <Text style={styles.error}>{this.props.auth.errorCreating}</Text>
+            ) : (
+              <Text style={styles.error}>{this.state.error}</Text>
+            )}
           </View>
           {this.renderButtons()}
 
@@ -145,7 +178,7 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-const SignupComp = connect(mapStateToProps, {createUser})(Signup);
+const SignupComp = connect(mapStateToProps, {createUser, resetErrors})(Signup);
 export default withNavigation(SignupComp);
 
 const styles = StyleSheet.create({
