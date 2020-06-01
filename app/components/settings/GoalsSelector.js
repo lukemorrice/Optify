@@ -22,7 +22,6 @@ export default class GoalsSelector extends Component {
           <TouchableOpacity
             style={[
               styles.optionContainer,
-              {borderRightWidth: 0.5},
               this.props.goals == '1'
                 ? {backgroundColor: '#48C9B0'}
                 : {backgroundColor: 'white'},
@@ -60,7 +59,6 @@ export default class GoalsSelector extends Component {
           <TouchableOpacity
             style={[
               styles.optionContainer,
-              {borderLeftWidth: 0.5},
               this.props.goals == '3'
                 ? {backgroundColor: '#48C9B0'}
                 : {backgroundColor: 'white'},
@@ -85,19 +83,19 @@ export default class GoalsSelector extends Component {
 const styles = StyleSheet.create({
   settingContainer: {
     marginLeft: 15,
-    marginBottom: 15,
+    marginBottom: 12,
   },
   settingText: {
-    fontSize: 20,
+    fontSize: 19,
   },
   options: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   optionContainer: {
-    borderColor: 'black',
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
+    borderColor: 'gray',
+    borderTopWidth: 0.5,
+    borderBottomWidth: 0.5,
     justifyContent: 'center',
     alignItems: 'center',
     width: '34%',
