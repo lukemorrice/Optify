@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     backgroundColor: 'red',
-    height: '70%',
+    height: '86%',
     borderRadius: 40,
     alignItems: 'center',
   },

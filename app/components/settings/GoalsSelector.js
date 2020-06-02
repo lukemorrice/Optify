@@ -86,7 +86,8 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   settingText: {
-    fontSize: 19,
+    fontSize: 20,
+    fontWeight: '500',
   },
   options: {
     flexDirection: 'row',
