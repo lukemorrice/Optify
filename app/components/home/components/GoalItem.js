@@ -36,11 +36,7 @@ export default Goal = ({
         </TouchableOpacity>
         <TouchableOpacity onPress={() => this.toggleGoalCompleted(index)}>
           <Icon
-            name={
-              goal.completed
-                ? 'ios-checkmark-circle'
-                : 'ios-checkmark-circle-outline'
-            }
+            name={'ios-checkmark-circle-outline'}
             size={40}
             style={{marginRight: 10}}
             color={goal.completed ? '#48C9B0' : '#FF1744'}
