@@ -90,14 +90,6 @@ class Home extends Component {
   render() {
     LayoutAnimation.easeInEaseOut();
 
-    if (!this.state.firstName || !this.state.goalsList[0]) {
-      return (
-        <View style={{justifyContent: 'center', alignItems: 'center'}}>
-          <ActivityIndicator size="large" color="#48C9B0" />
-        </View>
-      );
-    }
-
     return (
       <View style={styles.container}>
         <View style={{marginLeft: 20, marginRight: 20}}>
@@ -116,7 +108,16 @@ class Home extends Component {
             </View>
 
             <View style={styles.greetingContainer}>
-              <Greeting name={this.state.firstName} goals={this.state.goals} />
+              {this.state.firstName ? (
+                <Greeting
+                  name={this.state.firstName}
+                  goals={this.state.goals}
+                />
+              ) : (
+                <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                  <ActivityIndicator size="large" color="#48C9B0" />
+                </View>
+              )}
             </View>
           </View>
 
@@ -130,12 +131,26 @@ class Home extends Component {
 
           <View style={{marginLeft: 20, marginRight: 20}}>
             <View style={styles.goalsContainer}>
-              <FlatList
-                data={this.state.goalsList.slice(0, parseInt(this.state.goals))}
-                renderItem={({item, index}) => this.renderGoals(item, index)}
-                keyExtractor={(item) => item.title}
-                scrollEnabled={false}
-              />
+              {this.state.goalsList[0] ? (
+                <FlatList
+                  data={this.state.goalsList.slice(
+                    0,
+                    parseInt(this.state.goals),
+                  )}
+                  renderItem={({item, index}) => this.renderGoals(item, index)}
+                  keyExtractor={(item) => item.title}
+                  scrollEnabled={false}
+                />
+              ) : (
+                <View
+                  style={{
+                    height: 300,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <ActivityIndicator size="large" color="#48C9B0" />
+                </View>
+              )}
             </View>
           </View>
 
