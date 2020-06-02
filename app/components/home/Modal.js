@@ -14,7 +14,7 @@ export default class ModalScreen extends Component {
         swipeDirection="down"
         swipeThreshold={400}
         onSwipeComplete={() => toggleVisible()}
-        animationInTiming={450}
+        animationInTiming={400}
         animationOutTiming={400}>
         <View style={styles.modalContent}>
           <Settings closeModal={toggleVisible} />
