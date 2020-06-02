@@ -5,13 +5,13 @@ import {
   Text,
   LayoutAnimation,
   ActivityIndicator,
-  ScrollView,
 } from 'react-native';
 import {connect} from 'react-redux';
 import {withNavigation} from 'react-navigation';
 import {FlatList} from 'react-native-gesture-handler';
 import {fetchProfile} from '../../actions/ProfileActions';
 import {fetchGoals} from '../../actions/GoalsActions';
+import * as firebase from 'firebase';
 import Goal from './components/GoalItem';
 import Greeting from './components/Greeting';
 import Date from './components/Date';
@@ -74,13 +74,13 @@ class Home extends Component {
     );
   };
 
-  toggleGoalCompletion = (index) => {
-    showDescription[index] = !showDescription[index];
-    this.setState({showDescription});
-  };
-
   updateGoals = (newGoalsList) => {
     this.setState({goalsList: this.sortByCompleted(newGoalsList)});
+    const {currentUser} = firebase.auth();
+    firebase
+      .database()
+      .ref(`/users/${currentUser.uid}/profile`)
+      .update({goalsList: this.sortByCompleted(newGoalsList)});
   };
 
   toggleVisible = () => {

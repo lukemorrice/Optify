@@ -18,15 +18,9 @@ export default class Greeting extends Component {
       <View>
         <View style={styles.greeting}>
           <Text style={styles.greetingText}>
-            {this.state.greeting} {this.props.name}!
+            {this.state.greeting}, {this.props.name}!
           </Text>
         </View>
-        {/* <View style={styles.goalsIntro}>
-          <Text style={styles.goalsIntroText}>
-            Here {this.props.goals > 1 ? 'are' : 'is'} your {this.props.goals}{' '}
-            {this.props.goals > 1 ? 'goals' : 'goal'} for today
-          </Text>
-        </View> */}
       </View>
     );
   }
