@@ -38,10 +38,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row',
     alignItems: 'center',
+    height: 25,
   },
   categoryText: {
     fontSize: 17,
     marginRight: 10,
-    marginBottom: 3,
   },
 });
