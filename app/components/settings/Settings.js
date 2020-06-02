@@ -14,6 +14,7 @@ import {updateGoals} from '../../actions/ProfileActions';
 import {logoutUser} from '../../actions/AuthActions';
 import AccountDetails from './AccountDetails';
 import GoalsSelector from './GoalsSelector';
+import CategorySelector from './CategorySelector';
 
 class Settings extends Component {
   state = {
@@ -83,6 +84,8 @@ class Settings extends Component {
               goals={this.props.profile.goals}
               updateGoals={this.onChangeGoals}
             />
+
+            <CategorySelector />
           </View>
 
           <View style={styles.logoutContainer}>
@@ -141,7 +144,7 @@ const styles = StyleSheet.create({
   },
   logoutContainer: {
     alignItems: 'center',
-    marginTop: 190,
+    marginTop: 130,
   },
   buttonContainer: {
     backgroundColor: '#48C9B0',
