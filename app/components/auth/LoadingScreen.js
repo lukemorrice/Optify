@@ -20,7 +20,7 @@ export default class LoadingScreen extends React.Component {
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
         <Text style={{marginBottom: 20}}>Loading...</Text>
-        <ActivityIndicator size="large" color="red"></ActivityIndicator>
+        <ActivityIndicator size="large" color="#48C9B0"></ActivityIndicator>
       </View>
     );
   }

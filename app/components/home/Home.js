@@ -92,8 +92,8 @@ class Home extends Component {
 
     if (!this.state.firstName || !this.state.goalsList[0]) {
       return (
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <ActivityIndicator size="large" color="red" />
+        <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          <ActivityIndicator size="large" color="#48C9B0" />
         </View>
       );
     }

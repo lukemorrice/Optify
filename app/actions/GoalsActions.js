@@ -46,11 +46,13 @@ const fetchNewGoals = (dispatch, dbRef, currentDate) => {
 
       for (var i = 0; i < 3; i++) {
         do randomIdx = generateRandomNumber(length);
-        while (randomIdxs.includes(randomIdx));
+        while (
+          randomIdxs.includes(randomIdx) ||
+          exerciseGoalExists(list[randomIdx], randomGoals)
+        );
         randomIdxs.push(randomIdx);
         randomGoal = list[randomIdx];
         randomGoals.push(randomGoal);
-        console.log(randomGoal);
       }
 
       dbRef.update({
@@ -67,4 +69,16 @@ const fetchNewGoals = (dispatch, dbRef, currentDate) => {
 
 const generateRandomNumber = (maximum) => {
   return Math.floor(Math.random() * maximum);
+};
+
+const exerciseGoalExists = (goal, currentGoalsList) => {
+  if (goal.category == 'exercise' && currentGoalsList.length > 0) {
+    const goalsCategories = currentGoalsList.map((goal) => goal.category);
+    console.log(goalsCategories, goal);
+    if (goalsCategories.includes('exercise')) {
+      return true;
+    }
+  } else {
+    return false;
+  }
 };
