@@ -1,10 +1,14 @@
-import {GOALS_FETCH} from './types';
-import {getDate} from './AuthActions';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
+import {GOALS_FETCH} from './types';
+import {getDate} from './AuthActions';
+import {
+  updateGoalsForNewCategories,
+  generateRandomNumber,
+  exerciseGoalExists,
+} from './Utils';
 
 export const changeGoalsAfterCategoryUpdate = (currentGoals, newCategories) => {
-  var newGoals = [];
   newCategories = newCategories.map((item) => item.toLowerCase());
   const {currentUser} = firebase.auth();
   const dbRef = firebase.database().ref(`/users/${currentUser.uid}/profile`);
@@ -15,34 +19,12 @@ export const changeGoalsAfterCategoryUpdate = (currentGoals, newCategories) => {
       .collection('goalsDB')
       .doc('goals')
       .onSnapshot((snapshot) => {
-        length = snapshot.data().length;
         list = snapshot.data().goals;
-
-        for (i = 0; i < 3; i++) {
-          var currentGoal = currentGoals[i];
-          if (newCategories.includes(currentGoal.category)) {
-            // this goal is still valid as its category is in the user's set of categories
-            console.log('Keeping', currentGoal.title, 'in set of goals');
-            newGoals.push(currentGoal);
-          } else {
-            console.log(
-              currentGoal.category,
-              'not in',
-              newCategories,
-              '...generating new goal...',
-            );
-            // need to generate a new goal which is of a valid category
-            do {
-              newGoal = list[generateRandomNumber(length)];
-            } while (
-              newGoals.includes(newGoal) ||
-              !newCategories.includes(newGoal.category) ||
-              exerciseGoalExists(newGoal, newGoals)
-            );
-            console.log('Adding:', newGoal.title, '...to new set of goals');
-            newGoals.push(newGoal);
-          }
-        }
+        var newGoals = updateGoalsForNewCategories(
+          newCategories,
+          currentGoals,
+          list,
+        );
 
         dbRef.update({
           goalsList: newGoals,
@@ -118,19 +100,4 @@ const fetchNewGoals = (dispatch, dbRef, currentDate) => {
         payload: randomGoals,
       });
     });
-};
-
-const generateRandomNumber = (maximum) => {
-  return Math.floor(Math.random() * maximum);
-};
-
-const exerciseGoalExists = (goal, currentGoalsList) => {
-  if (goal.category == 'exercise' && currentGoalsList.length > 0) {
-    const goalsCategories = currentGoalsList.map((goal) => goal.category);
-    if (goalsCategories.includes('exercise')) {
-      return true;
-    }
-  } else {
-    return false;
-  }
 };
