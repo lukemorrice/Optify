@@ -1,29 +1,74 @@
 import React, {Component} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import {View, Text, StyleSheet, ActivityIndicator} from 'react-native';
 import CategoryItem from './CategoryItem';
 
 export default class CategorySelector extends Component {
   state = {
-    exercise: false,
-    wellbeing: false,
-    creative: false,
-    learning: true,
+    categories: [],
+  };
+
+  componentDidMount() {
+    this.setState({categories: this.props.categories});
+  }
+
+  updateCategory = (category, toBeAdded) => {
+    var categories = this.state.categories;
+
+    if (toBeAdded) {
+      categories = categories.concat([category]);
+      this.setState({
+        categories: categories,
+      });
+    } else {
+      categories = categories.filter((item) => item !== category);
+      this.setState({
+        categories: categories,
+      });
+      this.props.updateGoals(categories);
+    }
+    this.props.updateCategories(categories);
   };
 
   render() {
+    if (this.state.categories[0] == '') {
+      return <ActivityIndicator />;
+    }
     return (
       <View style={styles.container}>
         <Text style={styles.header}>Types of goals</Text>
         <View style={styles.row}>
-          <CategoryItem name="Exercise" />
-          <CategoryItem name="Learning" />
-          <CategoryItem name="Wellbeing" />
+          <CategoryItem
+            name="Exercise"
+            categories={this.props.categories}
+            updateCategory={this.updateCategory}
+          />
+          <CategoryItem
+            name="Learning"
+            categories={this.props.categories}
+            updateCategory={this.updateCategory}
+          />
+          <CategoryItem
+            name="Wellbeing"
+            categories={this.props.categories}
+            updateCategory={this.updateCategory}
+          />
         </View>
         <View style={[styles.row, {borderTopWidth: 0, marginTop: 0}]}>
-          <CategoryItem name="Creative" />
-          <CategoryItem name="Relationships" />
-          <CategoryItem name="Habits" />
+          <CategoryItem
+            name="Creative"
+            categories={this.props.categories}
+            updateCategory={this.updateCategory}
+          />
+          <CategoryItem
+            name="Relationships"
+            categories={this.props.categories}
+            updateCategory={this.updateCategory}
+          />
+          <CategoryItem
+            name="Habits"
+            categories={this.props.categories}
+            updateCategory={this.updateCategory}
+          />
         </View>
       </View>
     );

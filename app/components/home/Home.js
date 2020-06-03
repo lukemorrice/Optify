@@ -16,6 +16,7 @@ import Goal from './components/GoalItem';
 import Greeting from './components/Greeting';
 import Date from './components/Date';
 import Header from './components/Header';
+import HeaderNoIcon from './components/HeaderNoIcon';
 import ModalScreen from './Modal';
 
 class Home extends Component {
@@ -94,10 +95,14 @@ class Home extends Component {
       <View style={styles.container}>
         <View style={{marginLeft: 20, marginRight: 20}}>
           <View style={styles.headerContainer}>
-            <Header
-              navigation={this.props.navigation}
-              toggleVisible={this.toggleVisible}
-            />
+            {this.state.firstName ? (
+              <Header
+                navigation={this.props.navigation}
+                toggleVisible={this.toggleVisible}
+              />
+            ) : (
+              <HeaderNoIcon />
+            )}
           </View>
         </View>
 

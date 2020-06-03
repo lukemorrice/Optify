@@ -1,5 +1,25 @@
-import {PROFILE_FETCH, PROFILE_UPDATE_GOALS} from './types';
+import {
+  PROFILE_FETCH,
+  PROFILE_UPDATE_GOALS,
+  PROFILE_UPDATE_CATEGORIES,
+} from './types';
 import firebase from 'firebase';
+
+export const updateGoalsCategories = (categories) => {
+  const {currentUser} = firebase.auth();
+
+  return (dispatch) => {
+    firebase
+      .database()
+      .ref(`/users/${currentUser.uid}/profile`)
+      .update({categories})
+      .then(() => {
+        dispatch({
+          type: PROFILE_UPDATE_CATEGORIES,
+        });
+      });
+  };
+};
 
 export const fetchProfile = () => {
   const {currentUser} = firebase.auth();

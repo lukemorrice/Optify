@@ -35,6 +35,14 @@ export const createUser = (firstName, lastName, email, password) => {
                 goals: 1,
                 lastActive: date,
                 goalsList: {},
+                categories: [
+                  'Exercise',
+                  'Learning',
+                  'Wellbeing',
+                  'Creative',
+                  'Relationships',
+                  'Habits',
+                ],
               },
             });
         } catch (error) {

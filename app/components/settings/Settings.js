@@ -10,8 +10,9 @@ import {
 } from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {connect} from 'react-redux';
-import {updateGoals} from '../../actions/ProfileActions';
+import {updateGoals, updateGoalsCategories} from '../../actions/ProfileActions';
 import {logoutUser} from '../../actions/AuthActions';
+import {changeGoalsAfterCategoryUpdate} from '../../actions/GoalsActions';
 import AccountDetails from './AccountDetails';
 import GoalsSelector from './GoalsSelector';
 import CategorySelector from './CategorySelector';
@@ -22,6 +23,7 @@ class Settings extends Component {
     lastName: '',
     email: '',
     goals: '',
+    categories: [],
   };
 
   componentDidMount() {
@@ -31,6 +33,7 @@ class Settings extends Component {
       lastName: this.props.profile.lastName,
       email: this.props.profile.email,
       goals: this.props.profile.goals,
+      categories: this.props.profile.categories,
     });
   }
 
@@ -45,6 +48,7 @@ class Settings extends Component {
         lastName: this.props.profile.lastName,
         email: this.props.profile.email,
         goals: this.props.profile.goals,
+        categories: this.props.profile.categories,
       });
     }
   }
@@ -55,6 +59,15 @@ class Settings extends Component {
 
   onPressLogout = () => {
     this.props.logoutUser();
+  };
+
+  updateCategories = (categories) => {
+    this.props.updateGoalsCategories(categories);
+  };
+
+  updateGoalsForNewCategory = (newCategories) => {
+    const goals = this.props.profile.goalsList;
+    this.props.changeGoalsAfterCategoryUpdate(goals, newCategories);
   };
 
   render() {
@@ -85,7 +98,11 @@ class Settings extends Component {
               updateGoals={this.onChangeGoals}
             />
 
-            <CategorySelector />
+            <CategorySelector
+              updateCategories={this.updateCategories}
+              categories={this.props.profile.categories}
+              updateGoals={this.updateGoalsForNewCategory}
+            />
           </View>
 
           <View style={styles.logoutContainer}>
@@ -105,9 +122,12 @@ const mapStateToProps = (state) => ({
   profile: state.profile.profile,
 });
 
-const SettingsComp = connect(mapStateToProps, {updateGoals, logoutUser})(
-  Settings,
-);
+const SettingsComp = connect(mapStateToProps, {
+  updateGoals,
+  logoutUser,
+  updateGoalsCategories,
+  changeGoalsAfterCategoryUpdate,
+})(Settings);
 export default withNavigation(SettingsComp);
 
 const styles = StyleSheet.create({
