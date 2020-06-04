@@ -3,25 +3,27 @@ export const updateGoalsForNewCategories = (
   currentGoalsList,
   fullGoalsList,
 ) => {
-  var newGoalsList = [];
-  const availableGoals = fullGoalsList.filter((goal) =>
+  var newGoalsList = currentGoalsList.filter((goal) =>
     categoryList.includes(goal.category),
   );
 
-  for (i = 0; i < 3; i++) {
-    if (!availableGoals.includes(currentGoalsList[i])) {
+  if (newGoalsList.length !== 3) {
+    const availableGoals = fullGoalsList.filter((goal) =>
+      categoryList.includes(goal.category),
+    );
+
+    var numOfNeededGoals = 3 - newGoalsList.length;
+
+    for (i = 0; i < numOfNeededGoals; i++) {
       do {
         newGoal = availableGoals[generateRandomNumber(availableGoals.length)];
       } while (
         newGoalsList.includes(newGoal) ||
         exerciseGoalExists(newGoal, newGoalsList)
       );
-    } else {
-      newGoal = currentGoalsList[i];
+      newGoalsList.push(newGoal);
     }
-    newGoalsList.push(newGoal);
   }
-
   return newGoalsList;
 };
 
