@@ -19,7 +19,7 @@ export const changeGoalsAfterCategoryUpdate = (currentGoals, newCategories) => {
       .collection('goalsDB')
       .doc('goals')
       .onSnapshot((snapshot) => {
-        list = snapshot.data().goals;
+        var list = snapshot.data().goals;
         var newGoals = updateGoalsForNewCategories(
           newCategories,
           currentGoals,
@@ -44,6 +44,7 @@ export const fetchGoals = () => {
   const currentDate = getDate();
   var lastActive;
   var goalsList;
+  var categories;
 
   return (dispatch) => {
     dbRef
@@ -70,15 +71,17 @@ const returnCurrentGoals = (dispatch, goals) => {
 const fetchNewGoals = (dispatch, dbRef, currentDate, categories) => {
   console.log('Fetching new goals...');
   categories = categories.map((item) => item.toLowerCase());
+
   firebase
     .firestore()
     .collection('goalsDB')
     .doc('goals')
     .onSnapshot((snapshot) => {
-      list = snapshot.data().goals;
-      length = snapshot.data().length;
-      randomGoals = [];
-      randomIdxs = [];
+      var list = snapshot.data().goals;
+      var length = snapshot.data().length;
+      var randomGoals = [];
+      var randomIdxs = [];
+      var randomIdx;
 
       for (var i = 0; i < 3; i++) {
         do randomIdx = generateRandomNumber(length);
@@ -88,9 +91,11 @@ const fetchNewGoals = (dispatch, dbRef, currentDate, categories) => {
           !categories.includes(list[randomIdx].category)
         );
         randomIdxs.push(randomIdx);
-        randomGoal = list[randomIdx];
+        var randomGoal = list[randomIdx];
         randomGoals.push(randomGoal);
       }
+
+      randomGoals = randomGoals.map((goal) => ({...goal, completed: false}));
 
       dbRef.update({
         goalsList: randomGoals,
