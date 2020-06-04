@@ -50,11 +50,12 @@ export const fetchGoals = () => {
       .once('value', (snap) => {
         lastActive = snap.val().lastActive;
         goalsList = snap.val().goalsList;
+        categories = snap.val().categories;
       })
       .then(() => {
         lastActive == currentDate && goalsList
           ? returnCurrentGoals(dispatch, goalsList)
-          : fetchNewGoals(dispatch, dbRef, currentDate);
+          : fetchNewGoals(dispatch, dbRef, currentDate, categories);
       });
   };
 };
@@ -66,7 +67,9 @@ const returnCurrentGoals = (dispatch, goals) => {
   });
 };
 
-const fetchNewGoals = (dispatch, dbRef, currentDate) => {
+const fetchNewGoals = (dispatch, dbRef, currentDate, categories) => {
+  console.log('Fetching new goals...');
+  categories = categories.map((item) => item.toLowerCase());
   firebase
     .firestore()
     .collection('goalsDB')
@@ -74,7 +77,6 @@ const fetchNewGoals = (dispatch, dbRef, currentDate) => {
     .onSnapshot((snapshot) => {
       list = snapshot.data().goals;
       length = snapshot.data().length;
-      categories = snapshot.data().categories;
       randomGoals = [];
       randomIdxs = [];
 
@@ -95,6 +97,7 @@ const fetchNewGoals = (dispatch, dbRef, currentDate) => {
         lastActive: currentDate,
       });
 
+      console.log('Dispatching new goals...');
       dispatch({
         type: GOALS_FETCH,
         payload: randomGoals,
