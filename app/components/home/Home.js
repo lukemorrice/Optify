@@ -11,6 +11,7 @@ import {withNavigation} from 'react-navigation';
 import {FlatList} from 'react-native-gesture-handler';
 import {fetchProfile} from '../../actions/ProfileActions';
 import {fetchGoals} from '../../actions/GoalsActions';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import * as firebase from 'firebase';
 import Goal from './components/GoalItem';
 import Greeting from './components/Greeting';
@@ -26,6 +27,7 @@ class Home extends Component {
     email: '',
     goals: '',
     goalsList: [],
+    completedGoals: '',
     showDescription: [false, false, false],
     isModalVisible: false,
   };
@@ -48,6 +50,9 @@ class Home extends Component {
       if (this.props.goals.goals) {
         this.setState({
           goalsList: this.sortByCompleted(this.props.goals.goals),
+          completedGoals: this.props.goals.goals.filter(
+            (goal) => goal.completed,
+          ).length,
         });
       }
     }
@@ -111,7 +116,6 @@ class Home extends Component {
             <View style={styles.dateContainer}>
               <Date />
             </View>
-
             <View style={styles.greetingContainer}>
               {this.state.firstName ? (
                 <Greeting
@@ -124,6 +128,22 @@ class Home extends Component {
                 </View>
               )}
             </View>
+            {this.state.completedGoals == this.state.goals ? (
+              <View style={styles.congrats}>
+                <Text style={styles.congratsMsg}>
+                  Nice job! All goals completed{' '}
+                </Text>
+                <View style={{backgroundColor: '#FFEB3B', borderRadius: 100}}>
+                  <Icon
+                    name="smile-beam"
+                    size={25}
+                    style={{borderRadius: 100}}
+                  />
+                </View>
+              </View>
+            ) : (
+              <View style={{height: 10, marginTop: 25}} />
+            )}
           </View>
 
           <View style={styles.goalHeading}>
@@ -198,7 +218,7 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   greetingContainer: {
-    marginTop: 50,
+    marginTop: 35,
   },
   goalsContainer: {
     marginTop: 10,
@@ -207,7 +227,7 @@ const styles = StyleSheet.create({
   goalHeading: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 60,
+    marginTop: 30,
   },
   goalHeadingText: {
     fontSize: 26,
@@ -219,5 +239,15 @@ const styles = StyleSheet.create({
     height: 1,
     flex: 1,
     alignSelf: 'center',
+  },
+  congrats: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 30,
+    marginTop: 25,
+  },
+  congratsMsg: {
+    fontSize: 20,
   },
 });

@@ -96,6 +96,7 @@ const fetchNewGoals = (dispatch, dbRef, currentDate, categories) => {
       }
 
       randomGoals = randomGoals.map((goal) => ({...goal, completed: false}));
+      console.log(randomGoals);
 
       dbRef.update({
         goalsList: randomGoals,
