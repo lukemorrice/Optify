@@ -70,6 +70,10 @@ class Settings extends Component {
     this.props.changeGoalsAfterCategoryUpdate(goals, newCategories);
   };
 
+  onPressDone = () => {
+    this.props.closeModal();
+  };
+
   render() {
     LayoutAnimation.easeInEaseOut();
 
@@ -81,7 +85,7 @@ class Settings extends Component {
         <View style={styles.container}>
           <View style={styles.headerContainer}>
             <Text style={styles.header}>Settings</Text>
-            <TouchableOpacity onPress={() => this.props.closeModal()}>
+            <TouchableOpacity onPress={() => this.onPressDone()}>
               <Text style={styles.done}>Done</Text>
             </TouchableOpacity>
           </View>

@@ -32,9 +32,10 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   modalContent: {
-    backgroundColor: 'red',
+    backgroundColor: '#F9F9F9',
     height: '86%',
-    borderRadius: 40,
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
     alignItems: 'center',
   },
 });

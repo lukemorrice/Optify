@@ -11,7 +11,6 @@ import {withNavigation} from 'react-navigation';
 import {FlatList} from 'react-native-gesture-handler';
 import {fetchProfile} from '../../actions/ProfileActions';
 import {fetchGoals} from '../../actions/GoalsActions';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 import * as firebase from 'firebase';
 import Goal from './components/GoalItem';
 import Greeting from './components/Greeting';
@@ -19,6 +18,7 @@ import Date from './components/Date';
 import Header from './components/Header';
 import HeaderNoIcon from './components/HeaderNoIcon';
 import ModalScreen from './Modal';
+import CongratsMsg from './components/Congrats';
 
 class Home extends Component {
   state = {
@@ -130,18 +130,7 @@ class Home extends Component {
             </View>
             {this.state.firstName &&
             this.state.completedGoals == this.state.goals ? (
-              <View style={styles.congrats}>
-                <Text style={styles.congratsMsg}>
-                  Nice job! All goals completed{' '}
-                </Text>
-                <View style={{backgroundColor: '#FFEB3B', borderRadius: 100}}>
-                  <Icon
-                    name="smile-beam"
-                    size={25}
-                    style={{borderRadius: 100}}
-                  />
-                </View>
-              </View>
+              <CongratsMsg />
             ) : (
               <View style={{height: 10, marginTop: 25}} />
             )}
@@ -211,7 +200,8 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: '100%',
     height: '84%',
-    borderRadius: 40,
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
     backgroundColor: '#F9F9F9',
     paddingBottom: 300,
   },
@@ -240,15 +230,5 @@ const styles = StyleSheet.create({
     height: 1,
     flex: 1,
     alignSelf: 'center',
-  },
-  congrats: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 30,
-    marginTop: 25,
-  },
-  congratsMsg: {
-    fontSize: 20,
   },
 });
