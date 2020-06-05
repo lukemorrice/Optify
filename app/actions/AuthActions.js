@@ -35,6 +35,8 @@ export const createUser = (firstName, lastName, email, password) => {
                 goals: 1,
                 lastActive: date,
                 goalsList: {},
+                goalsCompleted: 0,
+                goalsSet: 0,
                 categories: [
                   'Exercise',
                   'Learning',
