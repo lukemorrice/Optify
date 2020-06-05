@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
@@ -24,8 +24,27 @@ export default class CategoryItem extends Component {
 
   toggleChecked = (name) => {
     ReactNativeHapticFeedback.trigger('impactMedium', options);
-    this.setState({checked: !this.state.checked});
-    this.props.updateCategory(name, !this.state.checked);
+    let futureLength = -1;
+    let futureCategories = [];
+    let currentCategories = this.props.categories;
+
+    if (this.state.checked === true) {
+      futureCategories = currentCategories.filter(
+        (category) => category !== name,
+      );
+      futureLength = futureCategories.length;
+    }
+
+    if (futureLength == 0) {
+      Alert.alert('Please select at least one type of goal');
+    } else if (futureLength == 1 && futureCategories.includes('Exercise')) {
+      Alert.alert('Please note, only one exercise goal will be sent each day');
+      this.setState({checked: !this.state.checked});
+      this.props.updateCategory(name, !this.state.checked);
+    } else {
+      this.setState({checked: !this.state.checked});
+      this.props.updateCategory(name, !this.state.checked);
+    }
   };
 
   render() {

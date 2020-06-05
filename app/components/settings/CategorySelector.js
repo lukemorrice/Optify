@@ -19,6 +19,7 @@ export default class CategorySelector extends Component {
       this.setState({
         categories: categories,
       });
+      this.props.updateGoals(categories);
     } else {
       categories = categories.filter((item) => item !== category);
       this.setState({

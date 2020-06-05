@@ -7,14 +7,21 @@ export const updateGoalsForNewCategories = (
     categoryList.includes(goal.category),
   );
 
+  // return just one goal if exercise is the user's only goal type
+  if (categoryList.includes('exercise') && categoryList.length == 1) {
+    newGoalsList = onlyExerciseGoals(currentGoalsList, fullGoalsList);
+    return newGoalsList;
+  }
+
   if (newGoalsList.length !== 3) {
     const availableGoals = fullGoalsList.filter((goal) =>
       categoryList.includes(goal.category),
     );
 
     var numOfNeededGoals = 3 - newGoalsList.length;
+    var newGoal;
 
-    for (i = 0; i < numOfNeededGoals; i++) {
+    for (let i = 0; i < numOfNeededGoals; i++) {
       do {
         newGoal = availableGoals[generateRandomNumber(availableGoals.length)];
       } while (
@@ -25,6 +32,24 @@ export const updateGoalsForNewCategories = (
     }
   }
   return newGoalsList;
+};
+
+const onlyExerciseGoals = (userGoals, allGoals) => {
+  let newGoals = [];
+  let exerciseGoals = userGoals.filter((goal) => goal.category == 'exercise');
+  if (exerciseGoals.length >= 1) {
+    newGoals.push(exerciseGoals[0]);
+  } else {
+    let allExerciseGoals = allGoals.filter(
+      (goal) => goal.category == 'exercise',
+    );
+    let randomIdx = generateRandomNumber(allExerciseGoals.length);
+    let newGoal = allExerciseGoals[randomIdx];
+    console.log('Added:', newGoal.title);
+    newGoals.push(newGoal);
+  }
+
+  return newGoals;
 };
 
 export const generateRandomNumber = (maximum) => {
