@@ -128,7 +128,8 @@ class Home extends Component {
                 </View>
               )}
             </View>
-            {this.state.completedGoals == this.state.goals ? (
+            {this.state.firstName &&
+            this.state.completedGoals == this.state.goals ? (
               <View style={styles.congrats}>
                 <Text style={styles.congratsMsg}>
                   Nice job! All goals completed{' '}
