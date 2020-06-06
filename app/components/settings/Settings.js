@@ -77,7 +77,7 @@ class Settings extends Component {
   render() {
     LayoutAnimation.easeInEaseOut();
 
-    if (this.state.firstName === '' || this.state.lastName === '') {
+    if (this.state.firstName === '') {
       return <ActivityIndicator />;
     }
     return (

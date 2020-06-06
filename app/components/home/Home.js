@@ -48,11 +48,14 @@ class Home extends Component {
         });
       }
       if (this.props.goals.goals) {
+        let currentNumGoals = this.props.profile.goals;
+        let currentGoals = this.props.goals.goals.slice(
+          0,
+          parseInt(currentNumGoals),
+        );
         this.setState({
           goalsList: this.sortByCompleted(this.props.goals.goals),
-          completedGoals: this.props.goals.goals.filter(
-            (goal) => goal.completed,
-          ).length,
+          completedGoals: currentGoals.filter((goal) => goal.completed).length,
         });
       }
     }
@@ -81,12 +84,14 @@ class Home extends Component {
   };
 
   updateGoals = (newGoalsList) => {
+    console.log(newGoalsList);
+    console.log(this.sortByCompleted(newGoalsList));
     this.setState({goalsList: this.sortByCompleted(newGoalsList)});
     const {currentUser} = firebase.auth();
-    firebase
-      .database()
-      .ref(`/users/${currentUser.uid}/profile`)
-      .update({goalsList: this.sortByCompleted(newGoalsList)});
+    // firebase
+    //   .database()
+    //   .ref(`/users/${currentUser.uid}/profile`)
+    //   .update({goalsList: newGoalsList});
   };
 
   toggleVisible = () => {

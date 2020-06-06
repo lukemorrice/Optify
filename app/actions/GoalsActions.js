@@ -62,17 +62,19 @@ export const fetchGoals = () => {
       .then(() => {
         lastActive == currentDate && goalsList
           ? returnCurrentGoals(dispatch, goalsList)
-          : fetchNewGoals(dispatch, dbRef, currentDate, categories);
+          : fetchNewGoals(dispatch, dbRef, categories);
       })
       .then(() => {
-        if (goalsList) {
-          let completed = goalsList.filter((goal) => goal.completed == true);
-          let newCompleted = goalsCompleted + completed;
-          let newGoalsSet = goalsSet + goals;
+        if (goalsList && lastActive !== currentDate) {
+          let completed = goalsList.filter((goal) => goal.completed == true)
+            .length;
+          let newCompleted = parseInt(goalsCompleted) + parseInt(completed);
+          let newGoalsSet = parseInt(goalsSet) + parseInt(goals);
 
           dbRef.update({
             goalsCompleted: newCompleted,
-            goals: newGoalsSet,
+            goalsSet: newGoalsSet,
+            lastActive: currentDate,
           });
         }
       });
@@ -86,7 +88,7 @@ const returnCurrentGoals = (dispatch, goals) => {
   });
 };
 
-const fetchNewGoals = (dispatch, dbRef, currentDate, categories) => {
+const fetchNewGoals = (dispatch, dbRef, categories) => {
   categories = categories.map((item) => item.toLowerCase());
 
   firebase
@@ -113,10 +115,10 @@ const fetchNewGoals = (dispatch, dbRef, currentDate, categories) => {
       }
 
       randomGoals = randomGoals.map((goal) => ({...goal, completed: false}));
+      console.log('Fetched goals:', randomGoals);
 
       dbRef.update({
         goalsList: randomGoals,
-        lastActive: currentDate,
       });
 
       console.log('Dispatching new goals...');
