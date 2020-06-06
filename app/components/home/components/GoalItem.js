@@ -17,6 +17,7 @@ export default Goal = ({
   showDescription,
 }) => {
   toggleGoalCompleted = (idx) => {
+    console.log(goals);
     ReactNativeHapticFeedback.trigger('impactMedium', options);
     goals[idx].completed = !goals[idx].completed;
     updateGoals(goals);

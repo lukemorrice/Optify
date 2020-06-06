@@ -27,6 +27,7 @@ class Home extends Component {
     email: '',
     goals: '',
     goalsList: [],
+    fullGoalsList: [],
     completedGoals: '',
     showDescription: [false, false, false],
     isModalVisible: false,
@@ -48,18 +49,26 @@ class Home extends Component {
         });
       }
       if (this.props.goals.goals) {
-        let currentNumGoals = this.props.profile.goals;
-        let currentGoals = this.props.goals.goals.slice(
-          0,
-          parseInt(currentNumGoals),
-        );
+        let currentNumGoals = parseInt(this.props.profile.goals);
+        let currentGoals = this.props.goals.goals.slice(0, currentNumGoals);
         this.setState({
-          goalsList: this.sortByCompleted(this.props.goals.goals),
+          goalsList: this.sortByCompleted(currentGoals),
+          fullGoalsList: this.props.goals.goals,
           completedGoals: currentGoals.filter((goal) => goal.completed).length,
         });
       }
     }
   }
+
+  updateGoals = (goalsList) => {
+    goalsList = this.sortByCompleted(goalsList);
+    this.setState({goalsList});
+    const {currentUser} = firebase.auth();
+    firebase
+      .database()
+      .ref(`/users/${currentUser.uid}/profile`)
+      .update({goalsList});
+  };
 
   sortByCompleted = (list) => {
     return list.sort((x, y) => x.completed - y.completed);
@@ -73,7 +82,7 @@ class Home extends Component {
   renderGoals = (goal, index) => {
     return (
       <Goal
-        goals={this.state.goalsList.slice(0, parseInt(this.state.goals))}
+        goals={this.state.goalsList}
         goal={goal}
         index={index}
         updateGoals={this.updateGoals}
@@ -81,17 +90,6 @@ class Home extends Component {
         showDescription={this.state.showDescription}
       />
     );
-  };
-
-  updateGoals = (newGoalsList) => {
-    console.log(newGoalsList);
-    console.log(this.sortByCompleted(newGoalsList));
-    this.setState({goalsList: this.sortByCompleted(newGoalsList)});
-    const {currentUser} = firebase.auth();
-    // firebase
-    //   .database()
-    //   .ref(`/users/${currentUser.uid}/profile`)
-    //   .update({goalsList: newGoalsList});
   };
 
   toggleVisible = () => {
