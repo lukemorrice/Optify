@@ -62,7 +62,7 @@ export const fetchGoals = () => {
       .then(() => {
         lastActive == currentDate && goalsList
           ? returnCurrentGoals(dispatch, goalsList)
-          : fetchNewGoals(dispatch, dbRef, categories);
+          : fetchNewGoals(dispatch, dbRef, goals, categories);
       })
       .then(() => {
         if (goalsList && lastActive !== currentDate) {
@@ -88,8 +88,9 @@ const returnCurrentGoals = (dispatch, goals) => {
   });
 };
 
-const fetchNewGoals = (dispatch, dbRef, categories) => {
+const fetchNewGoals = (dispatch, dbRef, goals, categories) => {
   categories = categories.map((item) => item.toLowerCase());
+  goals = parseInt(goals);
 
   firebase
     .firestore()
@@ -102,7 +103,7 @@ const fetchNewGoals = (dispatch, dbRef, categories) => {
       var randomIdxs = [];
       var randomIdx;
 
-      for (var i = 0; i < 3; i++) {
+      for (var i = 0; i < goals; i++) {
         do randomIdx = generateRandomNumber(length);
         while (
           randomIdxs.includes(randomIdx) ||
@@ -115,13 +116,11 @@ const fetchNewGoals = (dispatch, dbRef, categories) => {
       }
 
       randomGoals = randomGoals.map((goal) => ({...goal, completed: false}));
-      console.log('Fetched goals:', randomGoals);
 
       dbRef.update({
         goalsList: randomGoals,
       });
 
-      console.log('Dispatching new goals...');
       dispatch({
         type: GOALS_FETCH,
         payload: randomGoals,

@@ -27,7 +27,6 @@ class Home extends Component {
     email: '',
     goals: '',
     goalsList: [],
-    fullGoalsList: [],
     completedGoals: '',
     showDescription: [false, false, false],
     isModalVisible: false,
@@ -49,19 +48,17 @@ class Home extends Component {
         });
       }
       if (this.props.goals.goals) {
-        let currentNumGoals = parseInt(this.props.profile.goals);
-        let currentGoals = this.props.goals.goals.slice(0, currentNumGoals);
         this.setState({
-          goalsList: this.sortByCompleted(currentGoals),
-          fullGoalsList: this.props.goals.goals,
-          completedGoals: currentGoals.filter((goal) => goal.completed).length,
+          goalsList: this.props.goals.goals,
+          completedGoals: this.props.goals.goals.filter(
+            (goal) => goal.completed,
+          ).length,
         });
       }
     }
   }
 
   updateGoals = (goalsList) => {
-    goalsList = this.sortByCompleted(goalsList);
     this.setState({goalsList});
     const {currentUser} = firebase.auth();
     firebase
@@ -151,10 +148,7 @@ class Home extends Component {
             <View style={styles.goalsContainer}>
               {this.state.goalsList[0] ? (
                 <FlatList
-                  data={this.state.goalsList.slice(
-                    0,
-                    parseInt(this.state.goals),
-                  )}
+                  data={this.state.goalsList}
                   renderItem={({item, index}) => this.renderGoals(item, index)}
                   keyExtractor={(item) => item.title}
                   scrollEnabled={false}
