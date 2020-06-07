@@ -80,18 +80,11 @@ export const updateGoals = (goals) => {
           newGoalsSet = currentGoals;
         }
         // need to remove goals
+        // return as many goals as needed from list in reverse order
         else {
-          var completedGoals = currentGoals.filter((goal) => goal.completed);
-          goalsNeeded = goalsNeeded * -1;
-
-          if (completedGoals.length >= 1) {
-            for (var i = 0; i < goalsNeeded; i++) newGoal = completedGoals[i];
-            newGoalsSet.push(newGoal);
-          } else {
-            for (var i = 0; i < goals; i++) {
-              var randomGoal = currentGoals[i];
-              newGoalsSet.push(randomGoal);
-            }
+          currentGoals = sortByCompleted(currentGoals);
+          for (var i = 0; i < goals; i++) {
+            newGoalsSet.push(currentGoals[i]);
           }
         }
 
@@ -129,4 +122,8 @@ const getMoreGoals = (goalsNeeded, currentGoals, categories, fullGoalsList) => {
     newGoals = newGoals.concat([newGoal]);
   }
   return newGoals;
+};
+
+sortByCompleted = (list) => {
+  return list.sort((x, y) => y.completed - x.completed);
 };

@@ -49,7 +49,7 @@ class Home extends Component {
       }
       if (this.props.goals.goals) {
         this.setState({
-          goalsList: this.props.goals.goals,
+          goalsList: this.sortByCompleted(this.props.goals.goals),
           completedGoals: this.props.goals.goals.filter(
             (goal) => goal.completed,
           ).length,
@@ -59,6 +59,7 @@ class Home extends Component {
   }
 
   updateGoals = (goalsList) => {
+    goalsList = this.sortByCompleted(goalsList);
     this.setState({goalsList});
     const {currentUser} = firebase.auth();
     firebase
