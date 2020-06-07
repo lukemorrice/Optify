@@ -22,6 +22,7 @@ class Signup extends Component {
   };
 
   onChangeFirstName = (firstName) => {
+    firstName = firstName.trim();
     this.props.resetErrors();
     this.setState({
       firstName,
@@ -30,6 +31,7 @@ class Signup extends Component {
   };
 
   onChangeLastName = (lastName) => {
+    lastName = lastName.trim();
     this.props.resetErrors();
     this.setState({
       lastName,
@@ -38,6 +40,7 @@ class Signup extends Component {
   };
 
   onChangeEmail = (email) => {
+    email = email.trim();
     this.props.resetErrors();
     this.setState({
       email,
@@ -65,7 +68,7 @@ class Signup extends Component {
       this.setState({error: 'Please fill out all fields'});
     } else if (this.state.password.length < 6) {
       this.setState({
-        error: 'Passwords must be at least 6 characters',
+        error: 'Password must be at least 6 characters',
       });
     } else {
       this.props.createUser(

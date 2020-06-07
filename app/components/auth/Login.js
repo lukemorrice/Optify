@@ -20,6 +20,7 @@ class Login extends Component {
   };
 
   onChangeEmail = (email) => {
+    email = email.trim();
     this.props.resetErrors();
     this.setState({email, error: ''});
   };
