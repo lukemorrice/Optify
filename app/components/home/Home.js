@@ -97,10 +97,17 @@ class Home extends Component {
     this.setState({isModalVisible: !this.state.isModalVisible});
   };
 
+  wait(timeout) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, timeout);
+    });
+  }
+
   refreshGoals = () => {
     this.setState({refreshing: true});
-    this.props.fetchGoals();
-    this.setState({refreshing: false});
+    this.wait(600)
+      .then(() => this.props.fetchGoals())
+      .then(() => this.setState({refreshing: false}));
   };
 
   render() {
