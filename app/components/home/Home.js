@@ -5,6 +5,8 @@ import {
   Text,
   LayoutAnimation,
   ActivityIndicator,
+  ScrollView,
+  RefreshControl,
 } from 'react-native';
 import {connect} from 'react-redux';
 import {withNavigation} from 'react-navigation';
@@ -30,6 +32,7 @@ class Home extends Component {
     completedGoals: '',
     showDescription: [false, false, false],
     isModalVisible: false,
+    refreshing: false,
   };
 
   componentDidMount() {
@@ -94,6 +97,12 @@ class Home extends Component {
     this.setState({isModalVisible: !this.state.isModalVisible});
   };
 
+  refreshGoals = () => {
+    this.setState({refreshing: true});
+    this.props.fetchGoals();
+    this.setState({refreshing: false});
+  };
+
   render() {
     LayoutAnimation.easeInEaseOut();
 
@@ -152,7 +161,14 @@ class Home extends Component {
                   data={this.state.goalsList}
                   renderItem={({item, index}) => this.renderGoals(item, index)}
                   keyExtractor={(item) => item.title}
-                  scrollEnabled={false}
+                  style={{height: 450}}
+                  refreshControl={
+                    <RefreshControl
+                      refreshing={this.state.refreshing}
+                      onRefresh={() => this.refreshGoals()}
+                      tintColor="#808B96"
+                    />
+                  }
                 />
               ) : (
                 <View
@@ -201,7 +217,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
     backgroundColor: '#F9F9F9',
-    paddingBottom: 300,
   },
   dateContainer: {
     marginTop: 50,

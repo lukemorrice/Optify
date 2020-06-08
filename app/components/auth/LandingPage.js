@@ -30,7 +30,7 @@ export default class LandingPage extends Component {
         </View>
 
         <SwiperFlatList
-          style={{width: 350}}
+          style={{width: 355}}
           showPagination
           paginationStyle={{marginBottom: 330}}
           paginationStyleItem={{width: 8, height: 8}}
@@ -79,7 +79,7 @@ export default class LandingPage extends Component {
 
 const styles = StyleSheet.create({
   page: {
-    width: 350,
+    width: 355,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   text: {
     textAlign: 'center',
     color: '#333333',
-    fontSize: 20,
+    fontSize: 21,
     fontWeight: '500',
     marginVertical: 5,
   },

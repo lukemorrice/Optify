@@ -6,7 +6,6 @@ import {
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
-  KeyboardAvoidingView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {withNavigation} from 'react-navigation';
@@ -19,6 +18,7 @@ class Signup extends Component {
     lastName: '',
     email: '',
     password: '',
+    confirmPassword: '',
     error: '',
   };
 
@@ -57,6 +57,14 @@ class Signup extends Component {
     });
   };
 
+  onChangeConfirmPassword = (confirmPassword) => {
+    this.props.resetErrors();
+    this.setState({
+      confirmPassword,
+      error: '',
+    });
+  };
+
   onPressSignUp = () => {
     if (
       !(
@@ -71,6 +79,8 @@ class Signup extends Component {
       this.setState({
         error: 'Password must be at least 6 characters',
       });
+    } else if (this.state.password !== this.state.confirmPassword) {
+      this.setState({error: "Passwords don't match"});
     } else {
       this.props.createUser(
         this.state.firstName,
@@ -154,6 +164,21 @@ class Signup extends Component {
               value={this.state.password}></TextInput>
           </View>
 
+          {this.state.password !== '' ? (
+            <View style={styles.element}>
+              <TextInput
+                style={styles.input}
+                placeholder="Confirm Password"
+                placeholderTextColor="gray"
+                secureTextEntry
+                autoCapitalize="none"
+                onChangeText={this.onChangeConfirmPassword.bind(this)}
+                value={this.state.confirmPassword}></TextInput>
+            </View>
+          ) : (
+            <View />
+          )}
+
           <View style={styles.errorContainer}>
             {this.props.auth.errorCreating ? (
               <Text style={styles.error}>{this.props.auth.errorCreating}</Text>
@@ -203,7 +228,7 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     alignItems: 'center',
-    marginTop: 200,
+    marginTop: 170,
     justifyContent: 'center',
     marginBottom: 20,
   },
