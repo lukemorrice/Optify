@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   header: {
-    fontSize: 34,
+    fontSize: 36,
     fontWeight: '700',
     color: '#000000',
   },
