@@ -38,20 +38,20 @@ export default class LandingPage extends Component {
           paginationDefaultColor="#808080">
           <View style={styles.page}>
             <Text style={styles.text}>
-              Optify sends you goals every day to help you develop and grow
+              Optify aims to help you build habits to become the best version of
+              yourself
             </Text>
           </View>
           <View style={styles.page}>
             <Text style={styles.text}>
-              Work on improving yourself by 1% every day and you will be{' '}
-              <Text style={{fontWeight: '800'}}>37 times</Text> better after a
+              If you improve just 1% a day, you will be{' '}
+              <Text style={{fontWeight: '800'}}>37</Text> times better after a
               year
             </Text>
           </View>
           <View style={styles.page}>
             <Text style={styles.text}>
-              Optify provides small, daily habits which compound to help you
-              become the best version of yourself
+              Optify sends goals every day to help you develop and grow
             </Text>
           </View>
         </SwiperFlatList>
