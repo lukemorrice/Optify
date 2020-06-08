@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   },
   circle: {
     backgroundColor: '#48C9B0',
-    borderRadius: 200,
+    borderRadius: 110,
     height: 220,
     width: 220,
     justifyContent: 'center',
