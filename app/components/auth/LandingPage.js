@@ -7,8 +7,8 @@ import {
   LayoutAnimation,
   StatusBar,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/Entypo';
 import SwiperFlatList from 'react-native-swiper-flatlist';
+import OptifyHeader from './OptifyHeader';
 
 export default class LandingPage extends Component {
   onPressSignUp = () => {
@@ -25,14 +25,14 @@ export default class LandingPage extends Component {
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
-        <View style={styles.headerContainer}>
-          <Text style={styles.header}>Optify</Text>
+        <View style={{marginTop: 125}}>
+          <OptifyHeader />
         </View>
 
         <SwiperFlatList
           style={{width: 350}}
           showPagination
-          paginationStyle={{marginBottom: 350}}
+          paginationStyle={{marginBottom: 330}}
           paginationStyleItem={{width: 8, height: 8}}
           paginationActiveColor="#48C9B0"
           paginationDefaultColor="#808080">
@@ -88,21 +88,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
   },
-  header: {
-    fontSize: 44,
-    textAlign: 'center',
-    marginTop: 100,
-    fontWeight: 'bold',
-    color: '#48C9B0',
-  },
-  headerContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    width: '100%',
-  },
   textContainer: {
     flex: 1,
     justifyContent: 'center',
+    marginBottom: 50,
   },
   text: {
     textAlign: 'center',
