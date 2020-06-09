@@ -5,7 +5,6 @@ import {
   Text,
   LayoutAnimation,
   ActivityIndicator,
-  ScrollView,
   RefreshControl,
 } from 'react-native';
 import {connect} from 'react-redux';

@@ -3,6 +3,7 @@ import {View, StyleSheet, Text} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import {PRIMARY_COLOUR, SECONDARY_COLOUR} from '../../design';
 
 const options = {
   enableVibrateFallback: true,
@@ -18,6 +19,9 @@ export default Goal = ({
 }) => {
   toggleGoalCompleted = (idx) => {
     ReactNativeHapticFeedback.trigger('impactMedium', options);
+    if (showDescription[idx]) {
+      toggleDescription(idx);
+    }
     goals[idx].completed = !goals[idx].completed;
     updateGoals(goals);
   };
@@ -28,7 +32,11 @@ export default Goal = ({
         <TouchableOpacity onPress={() => toggleDescription(index)}>
           <View
             style={[
-              {backgroundColor: goal.completed ? '#48C9B0' : '#64B5F6'},
+              {
+                backgroundColor: goal.completed
+                  ? PRIMARY_COLOUR
+                  : SECONDARY_COLOUR,
+              },
               styles.goal,
             ]}>
             <Text style={styles.goalText}>{goal.title}</Text>
@@ -39,7 +47,7 @@ export default Goal = ({
             name={'ios-checkmark-circle-outline'}
             size={40}
             style={{marginRight: 10}}
-            color={goal.completed ? '#48C9B0' : '#FF1744'}
+            color={goal.completed ? PRIMARY_COLOUR : SECONDARY_COLOUR}
           />
         </TouchableOpacity>
       </View>
@@ -76,14 +84,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 15,
-    backgroundColor: '#48C9B0',
-    width: '100%',
-    height: 50,
+    backgroundColor: SECONDARY_COLOUR,
+    height: 60,
   },
   descriptionText: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '500',
-    width: '90%',
+    width: '95%',
   },
 });
