@@ -7,22 +7,6 @@ import {
 import {generateRandomNumber, exerciseGoalExists} from './Utils';
 import firebase from 'firebase';
 
-export const updateGoalsCategories = (categories) => {
-  const {currentUser} = firebase.auth();
-
-  return (dispatch) => {
-    firebase
-      .database()
-      .ref(`/users/${currentUser.uid}/profile`)
-      .update({categories})
-      .then(() => {
-        dispatch({
-          type: PROFILE_UPDATE_CATEGORIES,
-        });
-      });
-  };
-};
-
 export const fetchProfile = () => {
   const {currentUser} = firebase.auth();
 
@@ -34,6 +18,22 @@ export const fetchProfile = () => {
         dispatch({
           type: PROFILE_FETCH,
           payload: snapshot.val(),
+        });
+      });
+  };
+};
+
+export const updateCategories = (categories) => {
+  const {currentUser} = firebase.auth();
+
+  return (dispatch) => {
+    firebase
+      .database()
+      .ref(`/users/${currentUser.uid}/profile`)
+      .update({categories})
+      .then(() => {
+        dispatch({
+          type: PROFILE_UPDATE_CATEGORIES,
         });
       });
   };
