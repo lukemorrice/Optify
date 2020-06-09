@@ -102,9 +102,9 @@ class AddGoal extends Component {
         </View>
         <View style={styles.contentContainer}>
           <View style={styles.content}>
-            <View style={styles.userGoals}>
-              <Text style={styles.subHeading}>Your goals</Text>
-              {this.state.customGoalsList !== [] ? (
+            {this.state.customGoalsList[0] ? (
+              <View style={styles.userGoals}>
+                <Text style={styles.subHeading}>Your goals</Text>
                 <View>
                   <FlatList
                     data={this.state.customGoalsList}
@@ -114,15 +114,14 @@ class AddGoal extends Component {
                     keyExtractor={(item) => item.title}
                   />
                 </View>
-              ) : (
-                <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                  <Text>
-                    You haven't added any of your own goals yet, got any in
-                    mind?
-                  </Text>
-                </View>
-              )}
-            </View>
+              </View>
+            ) : (
+              <View style={{marginBottom: 30, marginTop: 10}}>
+                <Text style={{fontSize: 18}}>
+                  You haven't added any of your own goals yet, got any in mind?
+                </Text>
+              </View>
+            )}
 
             <View style={styles.addGoal}>
               <Text style={styles.subHeading}>Add a new goal</Text>
