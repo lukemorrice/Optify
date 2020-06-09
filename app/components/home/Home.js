@@ -11,7 +11,7 @@ import {connect} from 'react-redux';
 import {withNavigation} from 'react-navigation';
 import {FlatList} from 'react-native-gesture-handler';
 import {fetchProfile} from '../../actions/ProfileActions';
-import {fetchGoals} from '../../actions/GoalsActions';
+import {fetchGoals, fetchCustomGoals} from '../../actions/GoalsActions';
 import * as firebase from 'firebase';
 import Goal from './components/GoalItem';
 import Greeting from './components/Greeting';
@@ -37,6 +37,7 @@ class Home extends Component {
   componentDidMount() {
     this.props.fetchProfile();
     this.props.fetchGoals();
+    this.props.fetchCustomGoals();
   }
 
   componentDidUpdate(prevProps) {
@@ -207,9 +208,14 @@ class Home extends Component {
 const mapStateToProps = (state) => ({
   profile: state.profile.profile,
   goals: state.goals,
+  customGoals: state.customGoals,
 });
 
-const HomeComp = connect(mapStateToProps, {fetchProfile, fetchGoals})(Home);
+const HomeComp = connect(mapStateToProps, {
+  fetchProfile,
+  fetchGoals,
+  fetchCustomGoals,
+})(Home);
 export default withNavigation(HomeComp);
 
 const styles = StyleSheet.create({

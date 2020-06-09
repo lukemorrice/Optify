@@ -1,6 +1,6 @@
 import * as firebase from 'firebase';
 import 'firebase/firestore';
-import {GOALS_FETCH} from './types';
+import {GOALS_FETCH, CUSTOM_GOALS_FETCH} from './types';
 import {getDate} from './AuthActions';
 import {
   updateGoalsForNewCategories,
@@ -34,6 +34,51 @@ export const changeGoalsAfterCategoryUpdate = (currentGoals, newCategories) => {
           type: GOALS_FETCH,
           payload: newGoals,
         });
+      });
+  };
+};
+
+export const addCustomGoal = (title, description) => {
+  const {currentUser} = firebase.auth();
+  const dbRef = firebase.database().ref(`/users/${currentUser.uid}/profile`);
+  var newGoal = {title, description};
+  var newGoals = [];
+  var customGoalsList = [];
+
+  return (dispatch) => {
+    dbRef
+      .once('value', (snap) => {
+        customGoalsList = snap.val().customGoalsList;
+      })
+      .then(() => {
+        if (customGoalsList) {
+          newGoals = newGoals.concat(customGoalsList);
+        }
+        newGoals = newGoals.concat([newGoal]);
+        dbRef.update({
+          customGoalsList: newGoals,
+        });
+
+        dispatch({
+          type: CUSTOM_GOALS_FETCH,
+          payload: newGoals,
+        });
+      });
+  };
+};
+
+export const fetchCustomGoals = () => {
+  const {currentUser} = firebase.auth();
+  const dbRef = firebase.database().ref(`/users/${currentUser.uid}/profile`);
+  var customGoalsList;
+
+  return (dispatch) => {
+    dbRef
+      .once('value', (snap) => {
+        customGoalsList = snap.val().customGoalsList;
+      })
+      .then(() => {
+        dispatch({type: CUSTOM_GOALS_FETCH, payload: customGoalsList});
       });
   };
 };

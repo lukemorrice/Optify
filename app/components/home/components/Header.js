@@ -10,7 +10,7 @@ export default class Header extends Component {
           <Text style={styles.header}>Home</Text>
           <View style={styles.icons}>
             <TouchableOpacity
-              style={{marginRight: 15}}
+              style={{marginRight: 20}}
               onPress={() => this.props.navigateToAddGoal()}>
               <Icon name="ios-add-circle-outline" size={35}></Icon>
             </TouchableOpacity>
