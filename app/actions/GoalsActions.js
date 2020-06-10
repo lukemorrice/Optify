@@ -67,6 +67,24 @@ export const addCustomGoal = (title, description) => {
   };
 };
 
+export const removeCustomGoal = (goalTitle) => {
+  const {currentUser} = firebase.auth();
+  const dbRef = firebase.database().ref(`/users/${currentUser.uid}/profile`);
+  var currentCustomGoals;
+  var newCustomGoals;
+
+  dbRef.once('value', (snap) => {
+    currentCustomGoals = snap.val().customGoalsList;
+    newCustomGoals = currentCustomGoals.filter(
+      (goal) => goal.title !== goalTitle,
+    );
+
+    dbRef.update({
+      customGoalsList: newCustomGoals,
+    });
+  });
+};
+
 export const fetchGoals = () => {
   const {currentUser} = firebase.auth();
   const dbRef = firebase.database().ref(`/users/${currentUser.uid}/profile`);

@@ -86,7 +86,7 @@ class Settings extends Component {
           <View style={styles.headerContainer}>
             <Text style={styles.header}>Settings</Text>
             <TouchableOpacity onPress={() => this.onPressDone()}>
-              <Text style={styles.done}>Done</Text>
+              <Text style={{fontSize: 17}}>Done</Text>
             </TouchableOpacity>
           </View>
 
@@ -152,15 +152,12 @@ const styles = StyleSheet.create({
     marginRight: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
   header: {
     fontSize: 36,
     fontWeight: '700',
     color: '#000000',
-  },
-  done: {
-    fontSize: 17,
-    marginTop: 12,
   },
   settings: {
     flexDirection: 'column',

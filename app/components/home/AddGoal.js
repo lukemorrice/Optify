@@ -10,10 +10,10 @@ import {
 import {connect} from 'react-redux';
 import {withNavigation} from 'react-navigation';
 import {FlatList, TextInput} from 'react-native-gesture-handler';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {PRIMARY_COLOUR, SECONDARY_COLOUR} from '../design';
-import {addCustomGoal} from '../../actions/GoalsActions';
+import {addCustomGoal, removeCustomGoal} from '../../actions/GoalsActions';
+import * as firebase from 'firebase';
 
 class AddGoal extends Component {
   state = {
@@ -37,6 +37,10 @@ class AddGoal extends Component {
       if (this.props.profile.customGoalsList) {
         this.setState({
           customGoalsList: this.props.profile.customGoalsList,
+        });
+      } else {
+        this.setState({
+          customGoalsList: [],
         });
       }
     }
@@ -62,8 +66,36 @@ class AddGoal extends Component {
     }
   };
 
+  removeGoal = (goal) => {
+    const goalTitle = goal.title;
+    const {currentUser} = firebase.auth();
+    const dbRef = firebase.database().ref(`/users/${currentUser.uid}/profile`);
+
+    dbRef.once('value', (snap) => {
+      var customGoalsList = snap.val().customGoalsList;
+      customGoalsList = customGoalsList.filter(
+        (goal) => goal.title !== goalTitle,
+      );
+
+      dbRef.update({
+        customGoalsList,
+      });
+    });
+  };
+
   renderGoals = (goal, index) => {
-    return <Text style={styles.goalText}>{goal.title}</Text>;
+    if (this.state.editingGoals) {
+      return (
+        <View style={{flexDirection: 'row'}}>
+          <TouchableOpacity onPress={() => this.removeGoal(goal)}>
+            <Icon name="ios-remove-circle" size={32} color="red" />
+          </TouchableOpacity>
+          <Text style={[styles.goalText, {marginLeft: 15}]}>{goal.title}</Text>
+        </View>
+      );
+    } else {
+      return <Text style={styles.goalText}>{goal.title}</Text>;
+    }
   };
 
   renderButtons() {
@@ -86,6 +118,10 @@ class AddGoal extends Component {
     }
   }
 
+  toggleEditGoals = () => {
+    this.setState({editingGoals: !this.state.editingGoals});
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -95,7 +131,7 @@ class AddGoal extends Component {
             onPress={() => this.props.navigation.goBack()}>
             <Icon name={'ios-arrow-round-back'} size={36} color="white" />
           </TouchableOpacity>
-          <Text style={styles.header}>Add custom goal</Text>
+          <Text style={styles.header}>Custom Goals</Text>
         </View>
         <View style={styles.contentContainer}>
           <View style={styles.content}>
@@ -125,7 +161,20 @@ class AddGoal extends Component {
 
             {this.state.customGoalsList[0] ? (
               <View style={styles.userGoals}>
-                <Text style={styles.subHeading}>Your goals</Text>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: 10,
+                  }}>
+                  <Text style={styles.subHeading}>Your goals</Text>
+                  <TouchableOpacity onPress={() => this.toggleEditGoals()}>
+                    <Text style={{fontSize: 17}}>
+                      {this.state.editingGoals ? 'Done' : 'Edit'}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
                 <View>
                   <FlatList
                     data={this.state.customGoalsList}
@@ -139,7 +188,16 @@ class AddGoal extends Component {
                 </View>
               </View>
             ) : (
-              <View style={{marginBottom: 30, marginTop: 10}}>
+              <View style={styles.userGoals}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: 10,
+                  }}>
+                  <Text style={styles.subHeading}>Your goals</Text>
+                </View>
                 <Text style={{fontSize: 18}}>
                   You haven't added any of your own goals yet, got any in mind?
                 </Text>
@@ -157,7 +215,9 @@ const mapStateToProps = (state) => ({
   goals: state.goals,
 });
 
-const AddGoalComp = connect(mapStateToProps, {addCustomGoal})(AddGoal);
+const AddGoalComp = connect(mapStateToProps, {addCustomGoal, removeCustomGoal})(
+  AddGoal,
+);
 export default withNavigation(AddGoalComp);
 
 const styles = StyleSheet.create({
@@ -200,7 +260,6 @@ const styles = StyleSheet.create({
   subHeading: {
     fontSize: 25,
     fontWeight: '600',
-    marginBottom: 10,
   },
   userGoals: {
     marginTop: 75,
