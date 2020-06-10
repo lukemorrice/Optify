@@ -297,6 +297,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   button: {
-    paddingTop: 20,
+    paddingTop: 15,
   },
 });
