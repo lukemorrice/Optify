@@ -8,11 +8,18 @@ export default class Header extends Component {
       <View>
         <View style={styles.headerContainer}>
           <Text style={styles.header}>Home</Text>
-          <TouchableOpacity
-            style={{marginRight: 10}}
-            onPress={() => this.props.toggleVisible()}>
-            <Icon name="ios-cog" size={35}></Icon>
-          </TouchableOpacity>
+          <View style={styles.icons}>
+            <TouchableOpacity
+              style={{marginRight: 20}}
+              onPress={() => this.props.navigateToAddGoal()}>
+              <Icon name="ios-add-circle-outline" size={35}></Icon>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{marginRight: 10}}
+              onPress={() => this.props.toggleVisible()}>
+              <Icon name="ios-cog" size={35}></Icon>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     );
@@ -28,5 +35,8 @@ const styles = StyleSheet.create({
     fontSize: 36,
     fontWeight: '700',
     color: '#000000',
+  },
+  icons: {
+    flexDirection: 'row',
   },
 });

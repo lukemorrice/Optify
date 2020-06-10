@@ -60,6 +60,10 @@ class Home extends Component {
     }
   }
 
+  navigateToAddGoal = () => {
+    this.props.navigation.navigate('AddGoal');
+  };
+
   updateGoals = (goalsList) => {
     goalsList = this.sortByCompleted(goalsList);
     this.setState({goalsList});
@@ -120,6 +124,7 @@ class Home extends Component {
               <Header
                 navigation={this.props.navigation}
                 toggleVisible={this.toggleVisible}
+                navigateToAddGoal={this.navigateToAddGoal}
               />
             ) : (
               <HeaderNoIcon />
@@ -204,7 +209,10 @@ const mapStateToProps = (state) => ({
   goals: state.goals,
 });
 
-const HomeComp = connect(mapStateToProps, {fetchProfile, fetchGoals})(Home);
+const HomeComp = connect(mapStateToProps, {
+  fetchProfile,
+  fetchGoals,
+})(Home);
 export default withNavigation(HomeComp);
 
 const styles = StyleSheet.create({

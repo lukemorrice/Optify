@@ -1,6 +1,6 @@
 import * as firebase from 'firebase';
 import 'firebase/firestore';
-import {GOALS_FETCH} from './types';
+import {GOALS_FETCH, CUSTOM_GOALS_FETCH} from './types';
 import {getDate} from './AuthActions';
 import {
   updateGoalsForNewCategories,
@@ -38,6 +38,35 @@ export const changeGoalsAfterCategoryUpdate = (currentGoals, newCategories) => {
   };
 };
 
+export const addCustomGoal = (title, description) => {
+  const {currentUser} = firebase.auth();
+  const dbRef = firebase.database().ref(`/users/${currentUser.uid}/profile`);
+  var newGoal = {title, description};
+  var newGoals = [];
+  var customGoalsList = [];
+
+  return (dispatch) => {
+    dbRef
+      .once('value', (snap) => {
+        customGoalsList = snap.val().customGoalsList;
+      })
+      .then(() => {
+        if (customGoalsList) {
+          newGoals = newGoals.concat(customGoalsList);
+        }
+        newGoals = newGoals.concat([newGoal]);
+        dbRef.update({
+          customGoalsList: newGoals,
+        });
+
+        dispatch({
+          type: CUSTOM_GOALS_FETCH,
+          payload: newGoals,
+        });
+      });
+  };
+};
+
 export const fetchGoals = () => {
   const {currentUser} = firebase.auth();
   const dbRef = firebase.database().ref(`/users/${currentUser.uid}/profile`);
@@ -48,6 +77,7 @@ export const fetchGoals = () => {
   var goals;
   var goalsCompleted;
   var goalsSet;
+  var customGoals;
 
   return (dispatch) => {
     dbRef
@@ -58,11 +88,12 @@ export const fetchGoals = () => {
         goals = snap.val().goals;
         goalsCompleted = snap.val().goalsCompleted;
         goalsSet = snap.val().goalsSet;
+        customGoalsList = snap.val().customGoalsList;
       })
       .then(() => {
         lastActive == currentDate && goalsList
           ? returnCurrentGoals(dispatch, goalsList)
-          : fetchNewGoals(dispatch, dbRef, goals, categories);
+          : fetchNewGoals(dispatch, dbRef, goals, categories, customGoalsList);
       })
       .then(() => {
         if (goalsList && lastActive !== currentDate) {
@@ -88,7 +119,7 @@ const returnCurrentGoals = (dispatch, goals) => {
   });
 };
 
-const fetchNewGoals = (dispatch, dbRef, goals, categories) => {
+const fetchNewGoals = (dispatch, dbRef, goals, categories, customGoalsList) => {
   categories = categories.map((item) => item.toLowerCase());
   goals = parseInt(goals);
 
@@ -98,20 +129,20 @@ const fetchNewGoals = (dispatch, dbRef, goals, categories) => {
     .doc('goals')
     .onSnapshot((snapshot) => {
       var list = snapshot.data().goals;
-      var length = snapshot.data().length;
+      if (customGoalsList) {
+        list = list.concat(customGoalsList);
+      }
+      var length = list.length;
       var randomGoals = [];
-      var randomIdxs = [];
-      var randomIdx;
+      var randomGoal;
 
       for (var i = 0; i < goals; i++) {
-        do randomIdx = generateRandomNumber(length);
+        do randomGoal = list[generateRandomNumber(length)];
         while (
-          randomIdxs.includes(randomIdx) ||
-          exerciseGoalExists(list[randomIdx], randomGoals) ||
-          !categories.includes(list[randomIdx].category)
+          randomGoals.includes(randomGoal) ||
+          exerciseGoalExists(randomGoal, randomGoals) ||
+          !categories.includes(randomGoal.category)
         );
-        randomIdxs.push(randomIdx);
-        var randomGoal = list[randomIdx];
         randomGoals.push(randomGoal);
       }
 

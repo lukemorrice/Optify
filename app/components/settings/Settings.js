@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {connect} from 'react-redux';
-import {updateGoals, updateGoalsCategories} from '../../actions/ProfileActions';
+import {updateGoals, updateCategories} from '../../actions/ProfileActions';
 import {logoutUser} from '../../actions/AuthActions';
 import {changeGoalsAfterCategoryUpdate} from '../../actions/GoalsActions';
 import AccountDetails from './AccountDetails';
@@ -62,7 +62,7 @@ class Settings extends Component {
   };
 
   updateCategories = (categories) => {
-    this.props.updateGoalsCategories(categories);
+    this.props.updateCategories(categories);
   };
 
   updateGoalsForNewCategory = (newCategories) => {
@@ -129,7 +129,7 @@ const mapStateToProps = (state) => ({
 const SettingsComp = connect(mapStateToProps, {
   updateGoals,
   logoutUser,
-  updateGoalsCategories,
+  updateCategories,
   changeGoalsAfterCategoryUpdate,
 })(Settings);
 export default withNavigation(SettingsComp);

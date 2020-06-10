@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import AuthStack from './AuthStack';
-import RootStackScreen from './AppStack';
+import AppStack from './AppStack';
 import LoadingScreen from '../components/auth/LoadingScreen';
 
 const Navigator = createAppContainer(
   createSwitchNavigator(
     {
       Loading: LoadingScreen,
-      App: RootStackScreen,
+      App: AppStack,
       Auth: AuthStack,
     },
     {

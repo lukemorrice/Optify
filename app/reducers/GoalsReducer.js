@@ -1,4 +1,4 @@
-import {GOALS_FETCH} from '../actions/types';
+import {GOALS_FETCH, CUSTOM_GOALS_FETCH} from '../actions/types';
 
 const INITIAL_STATE = {};
 

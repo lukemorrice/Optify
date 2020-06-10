@@ -85,11 +85,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 15,
     backgroundColor: SECONDARY_COLOUR,
-    height: 60,
+    height: 55,
   },
   descriptionText: {
     color: 'white',
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '500',
     width: '95%',
   },

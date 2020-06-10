@@ -64,7 +64,7 @@ class Login extends Component {
         <TouchableOpacity
           style={styles.back}
           onPress={() => this.props.navigation.goBack()}>
-          <Icon name={'ios-arrow-round-back'} size={32} color="white" />
+          <Icon name={'ios-arrow-round-back'} size={36} color="white" />
         </TouchableOpacity>
 
         <View style={styles.headerContainer}>
@@ -136,9 +136,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 48,
     left: 32,
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: 38,
+    height: 38,
+    borderRadius: 19,
     backgroundColor: 'rgba(21, 22, 48, 0.2)',
     alignItems: 'center',
     justifyContent: 'center',
