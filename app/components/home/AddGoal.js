@@ -10,6 +10,7 @@ import {
 import {connect} from 'react-redux';
 import {withNavigation} from 'react-navigation';
 import {FlatList, TextInput} from 'react-native-gesture-handler';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {PRIMARY_COLOUR, SECONDARY_COLOUR} from '../design';
 import {addCustomGoal} from '../../actions/GoalsActions';
@@ -57,16 +58,12 @@ class AddGoal extends Component {
     } else {
       this.setState({loading: true});
       this.props.addCustomGoal(title, description);
-      this.setState({loading: false});
+      this.setState({loading: false, title: '', description: ''});
     }
   };
 
   renderGoals = (goal, index) => {
-    return (
-      <View>
-        <Text style={styles.goalText}>{goal.title}</Text>
-      </View>
-    );
+    return <Text style={styles.goalText}>{goal.title}</Text>;
   };
 
   renderButtons() {
@@ -96,33 +93,12 @@ class AddGoal extends Component {
           <TouchableOpacity
             style={styles.backButton}
             onPress={() => this.props.navigation.goBack()}>
-            <Icon name={'ios-arrow-round-back'} size={32} color="white" />
+            <Icon name={'ios-arrow-round-back'} size={36} color="white" />
           </TouchableOpacity>
           <Text style={styles.header}>Add custom goal</Text>
         </View>
         <View style={styles.contentContainer}>
           <View style={styles.content}>
-            {this.state.customGoalsList[0] ? (
-              <View style={styles.userGoals}>
-                <Text style={styles.subHeading}>Your goals</Text>
-                <View>
-                  <FlatList
-                    data={this.state.customGoalsList}
-                    renderItem={({item, index}) =>
-                      this.renderGoals(item, index)
-                    }
-                    keyExtractor={(item) => item.title}
-                  />
-                </View>
-              </View>
-            ) : (
-              <View style={{marginBottom: 30, marginTop: 10}}>
-                <Text style={{fontSize: 18}}>
-                  You haven't added any of your own goals yet, got any in mind?
-                </Text>
-              </View>
-            )}
-
             <View style={styles.addGoal}>
               <Text style={styles.subHeading}>Add a new goal</Text>
               <View style={styles.element}>
@@ -138,12 +114,37 @@ class AddGoal extends Component {
                   style={[styles.textInput, {height: 60}]}
                   placeholder="Description"
                   multiline={true}
+                  maxLength={85}
                   onChangeText={this.onChangeDescription.bind(this)}
                   value={this.state.description}
                 />
               </View>
             </View>
+
             {this.renderButtons()}
+
+            {this.state.customGoalsList[0] ? (
+              <View style={styles.userGoals}>
+                <Text style={styles.subHeading}>Your goals</Text>
+                <View>
+                  <FlatList
+                    data={this.state.customGoalsList}
+                    renderItem={({item, index}) =>
+                      this.renderGoals(item, index)
+                    }
+                    keyExtractor={(item) => item.title}
+                    scrollEnabled={false}
+                    style={{height: 300}}
+                  />
+                </View>
+              </View>
+            ) : (
+              <View style={{marginBottom: 30, marginTop: 10}}>
+                <Text style={{fontSize: 18}}>
+                  You haven't added any of your own goals yet, got any in mind?
+                </Text>
+              </View>
+            )}
           </View>
         </View>
       </View>
@@ -154,7 +155,6 @@ class AddGoal extends Component {
 const mapStateToProps = (state) => ({
   profile: state.profile.profile,
   goals: state.goals,
-  customGoals: state.customGoals,
 });
 
 const AddGoalComp = connect(mapStateToProps, {addCustomGoal})(AddGoal);
@@ -177,9 +177,9 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   backButton: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: 38,
+    height: 38,
+    borderRadius: 19,
     backgroundColor: 'rgba(21, 22, 48, 0.2)',
     alignItems: 'center',
     justifyContent: 'center',
@@ -198,15 +198,18 @@ const styles = StyleSheet.create({
     margin: 20,
   },
   subHeading: {
-    fontSize: 24,
+    fontSize: 25,
     fontWeight: '600',
     marginBottom: 10,
   },
   userGoals: {
-    height: 225,
+    marginTop: 75,
+  },
+  addGoal: {
+    marginTop: 10,
   },
   goalText: {
-    fontSize: 18,
+    fontSize: 20,
     marginVertical: 3,
   },
   textInput: {
