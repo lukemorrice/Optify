@@ -57,8 +57,13 @@ class AddGoal extends Component {
   submitGoal = () => {
     const title = this.state.title.trim();
     const description = this.state.description.trim();
+    const customGoalsTitles = this.state.customGoalsList.map(
+      (goal) => goal.title,
+    );
     if (!(title && description)) {
       Alert.alert('Please complete both fields to add your custom goal');
+    } else if (customGoalsTitles.includes(title)) {
+      Alert.alert('Custom goal titles must be unique');
     } else {
       this.setState({loading: true});
       this.props.addCustomGoal(title, description);
