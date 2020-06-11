@@ -130,13 +130,13 @@ class Home extends Component {
               <HeaderNoIcon />
             )}
           </View>
+          <View style={styles.dateContainer}>
+            <Date />
+          </View>
         </View>
 
         <View style={styles.content}>
           <View style={{marginLeft: 20, marginRight: 20}}>
-            <View style={styles.dateContainer}>
-              <Date />
-            </View>
             <View style={styles.greetingContainer}>
               {this.state.firstName ? (
                 <Greeting
@@ -149,49 +149,44 @@ class Home extends Component {
                 </View>
               )}
             </View>
+
+            <View style={styles.goalHeading}>
+              <Text style={styles.goalHeadingText}>
+                Today's {this.state.goals > 1 ? 'goals' : 'goal'}
+              </Text>
+            </View>
+
+            {this.state.goalsList[0] ? (
+              <FlatList
+                data={this.state.goalsList}
+                renderItem={({item, index}) => this.renderGoals(item, index)}
+                keyExtractor={(item) => item.title}
+                // style={{height: 450}}
+                refreshControl={
+                  <RefreshControl
+                    refreshing={this.state.refreshing}
+                    onRefresh={() => this.refreshGoals()}
+                    tintColor="#808B96"
+                  />
+                }
+              />
+            ) : (
+              <View
+                style={{
+                  height: 300,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <ActivityIndicator size="large" color="#48C9B0" />
+              </View>
+            )}
+
             {this.state.firstName &&
             this.state.completedGoals == this.state.goals ? (
               <CongratsMsg />
             ) : (
-              <View style={{height: 10, marginTop: 25}} />
+              <View />
             )}
-          </View>
-
-          <View style={styles.goalHeading}>
-            <View style={styles.goalDivider} />
-            <Text style={styles.goalHeadingText}>
-              Today's {this.state.goals > 1 ? 'goals' : 'goal'}
-            </Text>
-            <View style={styles.goalDivider} />
-          </View>
-
-          <View style={{marginLeft: 20, marginRight: 20}}>
-            <View style={styles.goalsContainer}>
-              {this.state.goalsList[0] ? (
-                <FlatList
-                  data={this.state.goalsList}
-                  renderItem={({item, index}) => this.renderGoals(item, index)}
-                  keyExtractor={(item) => item.title}
-                  style={{height: 450}}
-                  refreshControl={
-                    <RefreshControl
-                      refreshing={this.state.refreshing}
-                      onRefresh={() => this.refreshGoals()}
-                      tintColor="#808B96"
-                    />
-                  }
-                />
-              ) : (
-                <View
-                  style={{
-                    height: 300,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  <ActivityIndicator size="large" color="#48C9B0" />
-                </View>
-              )}
-            </View>
           </View>
 
           <ModalScreen
@@ -227,35 +222,22 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     width: '100%',
-    height: '84%',
+    height: '80%',
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
     backgroundColor: '#F9F9F9',
   },
   dateContainer: {
-    marginTop: 50,
+    marginTop: 15,
   },
   greetingContainer: {
-    marginTop: 35,
-  },
-  goalsContainer: {
-    marginTop: 10,
-    marginHorizontal: 10,
+    marginTop: 30,
   },
   goalHeading: {
-    flexDirection: 'row',
-    justifyContent: 'center',
     marginTop: 30,
   },
   goalHeadingText: {
-    fontSize: 26,
+    fontSize: 24,
     fontWeight: '600',
-    paddingHorizontal: 25,
-  },
-  goalDivider: {
-    backgroundColor: 'black',
-    height: 1,
-    flex: 1,
-    alignSelf: 'center',
   },
 });

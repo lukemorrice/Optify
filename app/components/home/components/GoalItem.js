@@ -29,27 +29,33 @@ export default Goal = ({
   return (
     <View>
       <View style={styles.listContainer}>
-        <TouchableOpacity onPress={() => toggleDescription(index)}>
-          <View
-            style={[
-              {
-                backgroundColor: goal.completed
-                  ? PRIMARY_COLOUR
-                  : SECONDARY_COLOUR,
-              },
-              styles.goal,
-            ]}>
-            <Text style={styles.goalText}>{goal.title}</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => this.toggleGoalCompleted(index)}>
-          <Icon
-            name={'ios-checkmark-circle-outline'}
-            size={40}
-            style={{marginRight: 10}}
-            color={goal.completed ? PRIMARY_COLOUR : SECONDARY_COLOUR}
-          />
-        </TouchableOpacity>
+        <View style={{width: '100%'}}>
+          <TouchableOpacity onPress={() => toggleDescription(index)}>
+            <View
+              style={[
+                {
+                  backgroundColor: goal.completed
+                    ? PRIMARY_COLOUR
+                    : SECONDARY_COLOUR,
+                },
+                styles.goal,
+              ]}>
+              <Text style={styles.goalText}>{goal.title}</Text>
+              <TouchableOpacity onPress={() => this.toggleGoalCompleted(index)}>
+                <Icon
+                  name={
+                    goal.completed
+                      ? 'ios-checkmark-circle'
+                      : 'ios-checkmark-circle-outline'
+                  }
+                  size={40}
+                  style={{marginRight: 10}}
+                  color="white"
+                />
+              </TouchableOpacity>
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
       {showDescription[index] && (
         <View style={styles.description}>
@@ -66,19 +72,19 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: 30,
-    marginBottom: 10,
   },
   goal: {
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    flexDirection: 'row',
     borderRadius: 15,
-    width: 275,
     height: 50,
   },
   goalText: {
     color: 'white',
     fontSize: 18,
     fontWeight: '600',
+    marginLeft: 15,
   },
   description: {
     justifyContent: 'center',
@@ -86,6 +92,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     backgroundColor: SECONDARY_COLOUR,
     height: 55,
+    marginTop: 5,
   },
   descriptionText: {
     color: 'white',

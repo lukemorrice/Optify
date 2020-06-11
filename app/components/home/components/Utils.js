@@ -37,7 +37,6 @@ export default class Utils {
     var printDate = new Date().toLocaleDateString('en-UK', options);
     const day_numeric = printDate.split(',')[1].trim().split(' ')[1];
     const month = printDate.split(',')[1].split(' ')[1];
-    const year = printDate.split(',')[2].trim();
-    return day_numeric + ' ' + month + ' ' + year;
+    return day_numeric + ' ' + month;
   }
 }

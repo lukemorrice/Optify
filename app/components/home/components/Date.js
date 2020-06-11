@@ -17,28 +17,20 @@ export default class Date extends Component {
 
   render() {
     return (
-      <View style={styles.date}>
-        <Text style={styles.day}>{this.state.day}</Text>
-        <Text style={styles.dateText}>{this.state.date}</Text>
+      <View>
+        <Text style={styles.day}>
+          {this.state.day} {this.state.date}
+        </Text>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  date: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   day: {
-    fontSize: 23,
-    fontWeight: '700',
+    fontSize: 24,
+    fontWeight: '600',
     marginBottom: 3,
-    color: '#000000',
-  },
-  dateText: {
-    fontSize: 17,
-    fontWeight: '500',
     color: '#000000',
   },
 });

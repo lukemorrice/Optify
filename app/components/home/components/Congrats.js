@@ -24,8 +24,14 @@ export default class CongratsMsg extends Component {
         <Text style={styles.congratsMsg}>
           {this.state.message}! All goals completed{' '}
         </Text>
-        <View style={{backgroundColor: '#FFEB3B', borderRadius: 100}}>
-          <Icon name="smile-beam" size={25} style={{borderRadius: 100}} />
+        <View
+          style={{
+            backgroundColor: '#FFEB3B',
+            height: 25,
+            width: 25,
+            borderRadius: 50,
+          }}>
+          <Icon name="smile-beam" size={25} style={{borderRadius: 50}} />
         </View>
       </View>
     );
@@ -35,12 +41,11 @@ export default class CongratsMsg extends Component {
 const styles = StyleSheet.create({
   congrats: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    marginTop: 35,
     alignItems: 'center',
-    height: 30,
-    marginTop: 25,
+    justifyContent: 'center',
   },
   congratsMsg: {
-    fontSize: 20,
+    fontSize: 21,
   },
 });

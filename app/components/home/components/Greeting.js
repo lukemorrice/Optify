@@ -16,24 +16,17 @@ export default class Greeting extends Component {
   render() {
     return (
       <View>
-        <View style={styles.greeting}>
-          <Text style={styles.greetingText}>
-            {this.state.greeting}, {this.props.name}!
-          </Text>
-        </View>
+        <Text style={styles.greetingText}>
+          {this.state.greeting}, {this.props.name}!
+        </Text>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  greeting: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  goalsIntro: {},
   greetingText: {
-    fontSize: 24,
-    fontWeight: '500',
+    fontSize: 31,
+    fontWeight: '400',
   },
 });
