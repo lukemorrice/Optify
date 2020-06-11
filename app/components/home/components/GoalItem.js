@@ -26,44 +26,96 @@ export default Goal = ({
     updateGoals(goals);
   };
 
-  return (
-    <View>
-      <View style={styles.listContainer}>
-        <View style={{width: '100%'}}>
-          <TouchableOpacity onPress={() => toggleDescription(index)}>
-            <View
-              style={[
-                {
+  if (!showDescription[index]) {
+    return (
+      <View style={{marginTop: 30}}>
+        <View style={styles.listContainer}>
+          <View style={{width: '100%'}}>
+            <TouchableOpacity onPress={() => toggleDescription(index)}>
+              <View
+                style={{
                   backgroundColor: goal.completed
                     ? PRIMARY_COLOUR
                     : SECONDARY_COLOUR,
-                },
-                styles.goal,
-              ]}>
-              <Text style={styles.goalText}>{goal.title}</Text>
-              <TouchableOpacity onPress={() => this.toggleGoalCompleted(index)}>
-                <Icon
-                  name={
-                    goal.completed
-                      ? 'ios-checkmark-circle'
-                      : 'ios-checkmark-circle-outline'
-                  }
-                  size={40}
-                  style={{marginRight: 10}}
-                  color="white"
-                />
-              </TouchableOpacity>
-            </View>
-          </TouchableOpacity>
+                  borderRadius: 15,
+                  height: 55,
+                  justifyContent: 'center',
+                }}>
+                <View
+                  style={{
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                  }}>
+                  <Text style={styles.goalText}>{goal.title}</Text>
+                  <TouchableOpacity
+                    onPress={() => this.toggleGoalCompleted(index)}>
+                    <Icon
+                      name={
+                        goal.completed
+                          ? 'ios-checkmark-circle'
+                          : 'ios-checkmark-circle-outline'
+                      }
+                      size={40}
+                      style={{marginRight: 10}}
+                      color="white"
+                    />
+                  </TouchableOpacity>
+                </View>
+                <View />
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-      {showDescription[index] && (
-        <View style={styles.description}>
-          <Text style={styles.descriptionText}>{goal.description}</Text>
+    );
+  } else {
+    return (
+      <View style={{marginTop: 30}}>
+        <View style={styles.listContainer}>
+          <View style={{width: '100%'}}>
+            <TouchableOpacity onPress={() => toggleDescription(index)}>
+              <View
+                style={{
+                  backgroundColor: goal.completed
+                    ? PRIMARY_COLOUR
+                    : SECONDARY_COLOUR,
+                  borderRadius: 15,
+                  height: 110,
+                }}>
+                <View
+                  style={{
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                    marginTop: 5,
+                    marginBottom: 7,
+                  }}>
+                  <Text style={styles.goalText}>{goal.title}</Text>
+                  <TouchableOpacity
+                    onPress={() => this.toggleGoalCompleted(index)}>
+                    <Icon
+                      name={
+                        goal.completed
+                          ? 'ios-checkmark-circle'
+                          : 'ios-checkmark-circle-outline'
+                      }
+                      size={40}
+                      style={{marginRight: 10}}
+                      color="white"
+                    />
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.description}>
+                  <Text style={styles.descriptionText}>{goal.description}</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
-      )}
-    </View>
-  );
+      </View>
+    );
+  }
 };
 
 const styles = StyleSheet.create({
@@ -71,7 +123,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 30,
   },
   goal: {
     justifyContent: 'space-between',
@@ -89,15 +140,13 @@ const styles = StyleSheet.create({
   description: {
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 15,
-    backgroundColor: SECONDARY_COLOUR,
-    height: 55,
-    marginTop: 5,
+    marginLeft: 15,
+    marginRight: 10,
   },
   descriptionText: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: '500',
-    width: '95%',
+    width: '100%',
   },
 });

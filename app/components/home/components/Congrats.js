@@ -41,7 +41,8 @@ export default class CongratsMsg extends Component {
 const styles = StyleSheet.create({
   congrats: {
     flexDirection: 'row',
-    marginTop: 35,
+    marginTop: 25,
+    marginBottom: 5,
     alignItems: 'center',
     justifyContent: 'center',
   },
