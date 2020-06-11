@@ -169,7 +169,7 @@ class Home extends Component {
                 data={this.state.goalsList}
                 renderItem={({item, index}) => this.renderGoals(item, index)}
                 keyExtractor={(item) => item.title}
-                style={{height: 450}}
+                style={{height: 425}}
                 refreshControl={
                   <RefreshControl
                     refreshing={this.state.refreshing}
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   goalHeading: {
-    marginTop: 30,
+    marginTop: 35,
     marginBottom: 10,
   },
   goalHeadingText: {

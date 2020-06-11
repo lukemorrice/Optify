@@ -88,7 +88,7 @@ export default Goal = ({
                     justifyContent: 'space-between',
                     alignItems: 'center',
                     flexDirection: 'row',
-                    marginTop: 5,
+                    marginTop: 5.5,
                     marginBottom: 7,
                   }}>
                   <Text style={styles.goalText}>{goal.title}</Text>

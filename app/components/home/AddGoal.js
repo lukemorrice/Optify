@@ -146,6 +146,7 @@ class AddGoal extends Component {
                 <TextInput
                   style={styles.textInput}
                   placeholder="Title"
+                  placeholderTextColor="gray"
                   onChangeText={this.onChangeTitle.bind(this)}
                   value={this.state.title}
                 />
@@ -154,6 +155,7 @@ class AddGoal extends Component {
                 <TextInput
                   style={[styles.textInput, {height: 60}]}
                   placeholder="Description"
+                  placeholderTextColor="gray"
                   multiline={true}
                   maxLength={85}
                   onChangeText={this.onChangeDescription.bind(this)}
