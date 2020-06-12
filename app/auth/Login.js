@@ -10,7 +10,7 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import {withNavigation} from 'react-navigation';
 import {connect} from 'react-redux';
-import {loginUser, resetErrors} from '../../actions/AuthActions';
+import {loginUser, resetErrors} from '../actions/authorisation';
 
 class Login extends Component {
   state = {

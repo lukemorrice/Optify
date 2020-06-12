@@ -1,7 +1,7 @@
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 import {GOALS_FETCH, CUSTOM_GOALS_FETCH, PROFILE_FETCH} from './types';
-import {getDate} from './AuthActions';
+import {getDate} from './authorisation';
 import {
   updateGoalsForNewCategories,
   generateRandomNumber,

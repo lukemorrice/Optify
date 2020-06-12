@@ -11,7 +11,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {withNavigation} from 'react-navigation';
 import {connect} from 'react-redux';
-import {createUser, resetErrors} from '../../actions/AuthActions';
+import {createUser, resetErrors} from '../actions/authorisation';
 
 class Signup extends Component {
   state = {

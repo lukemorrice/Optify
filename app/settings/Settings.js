@@ -10,12 +10,12 @@ import {
 } from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {connect} from 'react-redux';
-import {updateGoals, updateCategories} from '../../actions/ProfileActions';
-import {logoutUser} from '../../actions/AuthActions';
-import {changeGoalsAfterCategoryUpdate} from '../../actions/GoalsActions';
-import AccountDetails from './AccountDetails';
-import GoalsSelector from './GoalsSelector';
-import CategorySelector from './CategorySelector';
+import {updateGoals, updateCategories} from '../actions/profile';
+import {logoutUser} from '../actions/authorisation';
+import {changeGoalsAfterCategoryUpdate} from '../actions/goals';
+import AccountDetails from './components/AccountDetails';
+import GoalsSelector from './components//GoalsSelector';
+import CategorySelector from './components/CategorySelector';
 
 class Settings extends Component {
   state = {

@@ -3,7 +3,7 @@ import {View, StyleSheet, Text} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
-import {PRIMARY_COLOUR, SECONDARY_COLOUR} from '../../design';
+import {PRIMARY_COLOUR, SECONDARY_COLOUR} from '../../Style';
 
 const options = {
   enableVibrateFallback: true,

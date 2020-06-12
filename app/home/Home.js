@@ -10,8 +10,8 @@ import {
 import {connect} from 'react-redux';
 import {withNavigation} from 'react-navigation';
 import {FlatList} from 'react-native-gesture-handler';
-import {fetchProfile} from '../../actions/ProfileActions';
-import {fetchGoals} from '../../actions/GoalsActions';
+import {fetchProfile} from '../actions/profile';
+import {fetchGoals} from '../actions/goals';
 import * as firebase from 'firebase';
 import Goal from './components/GoalItem';
 import Greeting from './components/Greeting';
@@ -20,7 +20,7 @@ import Header from './components/Header';
 import HeaderNoIcon from './components/HeaderNoIcon';
 import ModalScreen from './Modal';
 import CongratsMsg from './components/Congrats';
-import {PRIMARY_COLOUR} from '../design';
+import {PRIMARY_COLOUR} from '../Style';
 
 class Home extends Component {
   state = {
@@ -179,7 +179,7 @@ class Home extends Component {
 
               <View style={{marginLeft: 15, marginRight: 15}}>
                 <FlatList
-                  data={this.state.dailyGoalsList.concat(this.state.goalsList)}
+                  data={this.state.goalsList}
                   renderItem={({item, index}) => this.renderGoals(item, index)}
                   keyExtractor={(item) => item.title}
                   style={{height: 425}}

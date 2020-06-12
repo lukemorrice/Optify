@@ -1,6 +1,6 @@
 import {createStackNavigator} from 'react-navigation-stack';
-import Home from '../components/home/Home';
-import AddGoal from '../components/home/AddGoal';
+import Home from '../home/Home';
+import AddGoal from '../home/AddGoal';
 
 const AppStack = createStackNavigator(
   {

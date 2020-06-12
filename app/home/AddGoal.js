@@ -12,9 +12,8 @@ import {connect} from 'react-redux';
 import {withNavigation} from 'react-navigation';
 import {FlatList, TextInput} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {PRIMARY_COLOUR, SECONDARY_COLOUR} from '../design';
-import {addCustomGoal, removeCustomGoal} from '../../actions/GoalsActions';
-import * as firebase from 'firebase';
+import {PRIMARY_COLOUR, SECONDARY_COLOUR} from '../Style';
+import {addCustomGoal, removeCustomGoal} from '../actions/goals';
 
 class AddGoal extends Component {
   state = {
@@ -201,54 +200,57 @@ class AddGoal extends Component {
           <View style={styles.content}>
             <View style={styles.addGoal}>
               <Text style={styles.subHeading}>Add a new goal</Text>
-              <View style={styles.element}>
-                <TextInput
-                  style={styles.textInput}
-                  placeholder="Title"
-                  placeholderTextColor="gray"
-                  onChangeText={this.onChangeTitle.bind(this)}
-                  value={this.state.title}
-                />
-              </View>
-              <View style={styles.element}>
-                <TextInput
-                  style={[styles.textInput, {height: 60}]}
-                  placeholder="Description"
-                  placeholderTextColor="gray"
-                  multiline={true}
-                  maxLength={85}
-                  onChangeText={this.onChangeDescription.bind(this)}
-                  value={this.state.description}
-                />
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  height: 80,
-                }}>
+              <View style={{marginTop: 5}}>
+                <View style={styles.element}>
+                  <TextInput
+                    style={styles.textInput}
+                    placeholder="Title"
+                    placeholderTextColor="gray"
+                    onChangeText={this.onChangeTitle.bind(this)}
+                    value={this.state.title}
+                  />
+                </View>
+                <View style={styles.element}>
+                  <TextInput
+                    style={[styles.textInput, {height: 60}]}
+                    placeholder="Description"
+                    placeholderTextColor="gray"
+                    multiline={true}
+                    maxLength={85}
+                    onChangeText={this.onChangeDescription.bind(this)}
+                    value={this.state.description}
+                  />
+                </View>
                 <View
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
+                    justifyContent: 'space-between',
+                    height: 80,
+                    marginTop: 10,
                   }}>
-                  <Text
+                  <View
                     style={{
-                      fontSize: 18,
-                      marginLeft: 2,
-                      marginRight: 10,
-                      fontWeight: '500',
+                      flexDirection: 'row',
+                      alignItems: 'center',
                     }}>
-                    Daily goal
-                  </Text>
-                  <Switch
-                    onValueChange={() => this.toggleDailyGoal()}
-                    value={this.state.dailyGoal}
-                    trackColor={{true: PRIMARY_COLOUR, false: 'grey'}}
-                  />
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        marginLeft: 2,
+                        marginRight: 10,
+                        fontWeight: '500',
+                      }}>
+                      Daily goal
+                    </Text>
+                    <Switch
+                      onValueChange={() => this.toggleDailyGoal()}
+                      value={this.state.dailyGoal}
+                      trackColor={{true: PRIMARY_COLOUR, false: 'grey'}}
+                    />
+                  </View>
+                  {this.renderButtons()}
                 </View>
-                {this.renderButtons()}
               </View>
             </View>
 

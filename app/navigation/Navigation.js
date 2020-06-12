@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import AuthStack from './AuthStack';
 import AppStack from './AppStack';
-import LoadingScreen from '../components/auth/LoadingScreen';
+import LoadingScreen from '../auth/LoadingScreen';
 
 const Navigator = createAppContainer(
   createSwitchNavigator(

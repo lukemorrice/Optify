@@ -1,5 +1,4 @@
 import firebase from 'firebase';
-
 import {
   AUTH_LOGIN_USER,
   AUTH_LOGIN_USER_FAIL,
@@ -9,7 +8,7 @@ import {
   AUTH_CREATE_USER_SUCCESS,
   AUTH_LOGOUT_USER,
   RESET_ERRORS,
-} from '../actions/types';
+} from './types';
 
 export const createUser = (firstName, lastName, email, password) => {
   return (dispatch) => {
