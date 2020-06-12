@@ -60,12 +60,12 @@ class Home extends Component {
         });
       }
       if (this.props.profile.dailyGoalsList) {
-        console.log(
-          'Daily goals have updated:',
-          this.props.profile.dailyGoalsList,
-        );
         this.setState({
           dailyGoalsList: this.props.profile.dailyGoalsList,
+        });
+      } else {
+        this.setState({
+          dailyGoalsList: [],
         });
       }
     }

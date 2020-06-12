@@ -96,29 +96,52 @@ export const addCustomGoal = (title, description, dailyGoal) => {
   }
 };
 
-export const removeCustomGoal = (goalTitle) => {
+export const removeCustomGoal = (goal) => {
   const {currentUser} = firebase.auth();
   const dbRef = firebase.database().ref(`/users/${currentUser.uid}/profile`);
-  var currentCustomGoals;
-  var newCustomGoals;
+  var goalTitle = goal.title;
 
-  return (dispatch) => {
-    dbRef.once('value', (snap) => {
-      currentCustomGoals = snap.val().customGoalsList;
-      newCustomGoals = currentCustomGoals.filter(
-        (goal) => goal.title !== goalTitle,
-      );
+  if (goal.dailyGoal) {
+    return (dispatch) => {
+      dbRef.once('value', (snap) => {
+        var profile = snap.val();
+        var dailyGoalsList = snap.val().dailyGoalsList;
+        dailyGoalsList = dailyGoalsList.filter(
+          (goal) => goal.title !== goalTitle,
+        );
 
-      dbRef.update({
-        customGoalsList: newCustomGoals,
+        dbRef.update({
+          dailyGoalsList,
+        });
+
+        profile.dailyGoalsList = dailyGoalsList;
+        dispatch({
+          type: PROFILE_FETCH,
+          payload: profile,
+        });
       });
+    };
+  } else {
+    return (dispatch) => {
+      dbRef.once('value', (snap) => {
+        var profile = snap.val();
+        var customGoalsList = snap.val().customGoalsList;
+        customGoalsList = customGoalsList.filter(
+          (goal) => goal.title !== goalTitle,
+        );
 
-      dispatch({
-        type: PROFILE_FETCH,
-        payload: snap.val(),
+        dbRef.update({
+          customGoalsList,
+        });
+
+        profile.customGoalsList = customGoalsList;
+        dispatch({
+          type: PROFILE_FETCH,
+          payload: profile,
+        });
       });
-    });
-  };
+    };
+  }
 };
 
 export const fetchGoals = () => {

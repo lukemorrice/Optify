@@ -53,6 +53,10 @@ class AddGoal extends Component {
       }
 
       if (this.props.profile.dailyGoalsList) {
+        console.log(
+          'Daily goals updated to:',
+          this.props.profile.dailyGoalsList,
+        );
         this.setState({
           dailyGoalsList: this.props.profile.dailyGoalsList,
         });
@@ -92,34 +96,7 @@ class AddGoal extends Component {
   };
 
   removeGoal = (goal) => {
-    const goalTitle = goal.title;
-    const dailyGoal = goal.dailyGoal;
-    const {currentUser} = firebase.auth();
-    const dbRef = firebase.database().ref(`/users/${currentUser.uid}/profile`);
-
-    if (dailyGoal) {
-      dbRef.once('value', (snap) => {
-        var dailyGoalsList = snap.val().dailyGoalsList;
-        dailyGoalsList = dailyGoalsList.filter(
-          (goal) => goal.title !== goalTitle,
-        );
-
-        dbRef.update({
-          dailyGoalsList,
-        });
-      });
-    } else {
-      dbRef.once('value', (snap) => {
-        var customGoalsList = snap.val().customGoalsList;
-        customGoalsList = customGoalsList.filter(
-          (goal) => goal.title !== goalTitle,
-        );
-
-        dbRef.update({
-          customGoalsList,
-        });
-      });
-    }
+    this.props.removeCustomGoal(goal);
   };
 
   renderGoals = (goal, index) => {
