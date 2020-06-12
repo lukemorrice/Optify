@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Alert,
+  Switch,
 } from 'react-native';
 import {connect} from 'react-redux';
 import {withNavigation} from 'react-navigation';
@@ -21,6 +22,8 @@ class AddGoal extends Component {
     description: '',
     category: '',
     customGoalsList: [],
+    dailyGoalsList: [],
+    dailyGoal: false,
     loading: false,
   };
 
@@ -28,6 +31,11 @@ class AddGoal extends Component {
     if (this.props.profile.customGoalsList) {
       this.setState({
         customGoalsList: this.props.profile.customGoalsList,
+      });
+    }
+    if (this.props.profile.dailyGoalsList) {
+      this.setState({
+        dailyGoalsList: this.props.profile.dailyGoalsList,
       });
     }
   }
@@ -41,6 +49,17 @@ class AddGoal extends Component {
       } else {
         this.setState({
           customGoalsList: [],
+        });
+      }
+
+      if (this.props.profile.dailyGoalsList) {
+        this.setState({
+          dailyGoalsList: this.props.profile.dailyGoalsList,
+        });
+      } else {
+        this.setState({
+          dailyGoalsList: [],
+          editingGoals: false,
         });
       }
     }
@@ -57,6 +76,7 @@ class AddGoal extends Component {
   submitGoal = () => {
     const title = this.state.title.trim();
     const description = this.state.description.trim();
+    const dailyGoal = this.state.dailyGoal;
     const customGoalsTitles = this.state.customGoalsList.map(
       (goal) => goal.title,
     );
@@ -66,40 +86,86 @@ class AddGoal extends Component {
       Alert.alert('Custom goal titles must be unique');
     } else {
       this.setState({loading: true});
-      this.props.addCustomGoal(title, description);
+      this.props.addCustomGoal(title, description, dailyGoal);
       this.setState({loading: false, title: '', description: ''});
     }
   };
 
   removeGoal = (goal) => {
     const goalTitle = goal.title;
+    const dailyGoal = goal.dailyGoal;
     const {currentUser} = firebase.auth();
     const dbRef = firebase.database().ref(`/users/${currentUser.uid}/profile`);
 
-    dbRef.once('value', (snap) => {
-      var customGoalsList = snap.val().customGoalsList;
-      customGoalsList = customGoalsList.filter(
-        (goal) => goal.title !== goalTitle,
-      );
+    if (dailyGoal) {
+      dbRef.once('value', (snap) => {
+        var dailyGoalsList = snap.val().dailyGoalsList;
+        dailyGoalsList = dailyGoalsList.filter(
+          (goal) => goal.title !== goalTitle,
+        );
 
-      dbRef.update({
-        customGoalsList,
+        dbRef.update({
+          dailyGoalsList,
+        });
       });
-    });
+    } else {
+      dbRef.once('value', (snap) => {
+        var customGoalsList = snap.val().customGoalsList;
+        customGoalsList = customGoalsList.filter(
+          (goal) => goal.title !== goalTitle,
+        );
+
+        dbRef.update({
+          customGoalsList,
+        });
+      });
+    }
   };
 
   renderGoals = (goal, index) => {
+    console.log(goal.dailyGoal);
     if (this.state.editingGoals) {
       return (
         <View style={{flexDirection: 'row'}}>
           <TouchableOpacity onPress={() => this.removeGoal(goal)}>
-            <Icon name="ios-remove-circle" size={32} color="red" />
+            <Icon
+              name="ios-remove-circle"
+              size={32}
+              color="red"
+              style={{marginRight: 10}}
+            />
           </TouchableOpacity>
-          <Text style={[styles.goalText, {marginLeft: 15}]}>{goal.title}</Text>
+          {goal.dailyGoal ? (
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}>
+              <Text style={styles.goalText}>{goal.title}</Text>
+              <Text style={{color: 'gray', fontSize: 18}}>(Daily goal)</Text>
+            </View>
+          ) : (
+            <Text style={styles.goalText}>{goal.title}</Text>
+          )}
         </View>
       );
     } else {
-      return <Text style={styles.goalText}>{goal.title}</Text>;
+      if (goal.dailyGoal) {
+        return (
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <Text style={styles.goalText}>{goal.title}</Text>
+            <Text style={{color: 'gray', fontSize: 18}}>(Daily)</Text>
+          </View>
+        );
+      } else {
+        return <Text style={styles.goalText}>{goal.title}</Text>;
+      }
     }
   };
 
@@ -112,19 +178,21 @@ class AddGoal extends Component {
       );
     } else {
       return (
-        <View style={styles.button}>
-          <TouchableOpacity
-            style={styles.buttonContainer}
-            onPress={() => this.submitGoal()}>
-            <Text style={styles.buttonText}>Submit</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+          style={styles.buttonContainer}
+          onPress={() => this.submitGoal()}>
+          <Text style={styles.buttonText}>Submit</Text>
+        </TouchableOpacity>
       );
     }
   }
 
   toggleEditGoals = () => {
     this.setState({editingGoals: !this.state.editingGoals});
+  };
+
+  toggleDailyGoal = () => {
+    this.setState({dailyGoal: !this.state.dailyGoal});
   };
 
   render() {
@@ -162,11 +230,38 @@ class AddGoal extends Component {
                   value={this.state.description}
                 />
               </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  height: 80,
+                }}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      marginLeft: 2,
+                      marginRight: 10,
+                      fontWeight: '500',
+                    }}>
+                    Daily goal
+                  </Text>
+                  <Switch
+                    onValueChange={() => this.toggleDailyGoal()}
+                    value={this.state.dailyGoal}
+                    trackColor={{true: PRIMARY_COLOUR, false: 'grey'}}
+                  />
+                </View>
+                {this.renderButtons()}
+              </View>
             </View>
 
-            {this.renderButtons()}
-
-            {this.state.customGoalsList[0] ? (
+            {this.state.customGoalsList[0] || this.state.dailyGoalsList[0] ? (
               <View style={styles.userGoals}>
                 <View
                   style={{
@@ -184,7 +279,9 @@ class AddGoal extends Component {
                 </View>
                 <View>
                   <FlatList
-                    data={this.state.customGoalsList}
+                    data={this.state.customGoalsList.concat(
+                      this.state.dailyGoalsList,
+                    )}
                     renderItem={({item, index}) =>
                       this.renderGoals(item, index)
                     }
@@ -300,10 +397,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#48C9B0',
     alignItems: 'center',
     padding: 12,
-    width: 200,
+    width: 175,
     borderRadius: 15,
-  },
-  button: {
-    paddingTop: 15,
   },
 });

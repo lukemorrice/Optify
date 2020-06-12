@@ -138,51 +138,55 @@ class Home extends Component {
 
         <View style={styles.content}>
           {this.state.firstName && this.state.goalsList[0] ? (
-            <View style={{marginLeft: 20, marginRight: 20}}>
-              <View style={styles.greetingContainer}>
-                {this.state.firstName ? (
-                  <Greeting
-                    name={this.state.firstName}
-                    goals={this.state.goals}
-                  />
+            <View>
+              <View style={{marginLeft: 20, marginRight: 20}}>
+                <View style={styles.greetingContainer}>
+                  {this.state.firstName ? (
+                    <Greeting
+                      name={this.state.firstName}
+                      goals={this.state.goals}
+                    />
+                  ) : (
+                    <View
+                      style={{justifyContent: 'center', alignItems: 'center'}}>
+                      <ActivityIndicator size="large" color="#48C9B0" />
+                    </View>
+                  )}
+                </View>
+
+                <View style={styles.goalHeading}>
+                  <Text style={styles.goalHeadingText}>
+                    Today's {this.state.goals > 1 ? 'goals' : 'goal'}
+                  </Text>
+                </View>
+
+                {this.state.completedGoals == this.state.goals ? (
+                  <CongratsMsg />
                 ) : (
-                  <View
-                    style={{justifyContent: 'center', alignItems: 'center'}}>
-                    <ActivityIndicator size="large" color="#48C9B0" />
-                  </View>
+                  <View />
                 )}
               </View>
 
-              <View style={styles.goalHeading}>
-                <Text style={styles.goalHeadingText}>
-                  Today's {this.state.goals > 1 ? 'goals' : 'goal'}
-                </Text>
+              <View style={{marginLeft: 15, marginRight: 15}}>
+                <FlatList
+                  data={this.state.goalsList}
+                  renderItem={({item, index}) => this.renderGoals(item, index)}
+                  keyExtractor={(item) => item.title}
+                  style={{height: 425}}
+                  refreshControl={
+                    <RefreshControl
+                      refreshing={this.state.refreshing}
+                      onRefresh={() => this.refreshGoals()}
+                      tintColor="#808B96"
+                    />
+                  }
+                />
+
+                <ModalScreen
+                  isVisible={this.state.isModalVisible}
+                  toggleVisible={this.toggleVisible}
+                />
               </View>
-
-              {this.state.completedGoals == this.state.goals ? (
-                <CongratsMsg />
-              ) : (
-                <View />
-              )}
-
-              <FlatList
-                data={this.state.goalsList}
-                renderItem={({item, index}) => this.renderGoals(item, index)}
-                keyExtractor={(item) => item.title}
-                style={{height: 425}}
-                refreshControl={
-                  <RefreshControl
-                    refreshing={this.state.refreshing}
-                    onRefresh={() => this.refreshGoals()}
-                    tintColor="#808B96"
-                  />
-                }
-              />
-
-              <ModalScreen
-                isVisible={this.state.isModalVisible}
-                toggleVisible={this.toggleVisible}
-              />
             </View>
           ) : (
             <View

@@ -3,23 +3,13 @@ import {View, Text, StyleSheet} from 'react-native';
 import Utils from './Utils';
 
 export default class Date extends Component {
-  state = {
-    day: '',
-    date: '',
-  };
-
-  componentDidMount() {
-    var utils = new Utils();
-    var day = utils.getDay();
-    var date = utils.getDate();
-    this.setState({day, date});
-  }
-
   render() {
+    var day = new Utils().getDay();
+    var date = new Utils().getDate();
     return (
       <View>
         <Text style={styles.day}>
-          {this.state.day} {this.state.date}
+          {day} {date}
         </Text>
       </View>
     );

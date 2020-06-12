@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
   },
   logoutContainer: {
     alignItems: 'center',
-    marginTop: 130,
+    marginTop: 100,
   },
   buttonContainer: {
     backgroundColor: '#48C9B0',

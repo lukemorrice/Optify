@@ -38,33 +38,57 @@ export const changeGoalsAfterCategoryUpdate = (currentGoals, newCategories) => {
   };
 };
 
-export const addCustomGoal = (title, description) => {
+export const addCustomGoal = (title, description, dailyGoal) => {
   const {currentUser} = firebase.auth();
   const dbRef = firebase.database().ref(`/users/${currentUser.uid}/profile`);
-  var newGoal = {title, description};
+  var newGoal = {title, description, dailyGoal};
   var newGoals = [];
   var customGoalsList = [];
+  var dailyGoalsList = [];
 
-  return (dispatch) => {
-    dbRef
-      .once('value', (snap) => {
-        customGoalsList = snap.val().customGoalsList;
-      })
-      .then(() => {
-        if (customGoalsList) {
-          newGoals = newGoals.concat(customGoalsList);
-        }
-        newGoals = newGoals.concat([newGoal]);
-        dbRef.update({
-          customGoalsList: newGoals,
-        });
+  if (dailyGoal) {
+    return (dispatch) => {
+      dbRef
+        .once('value', (snap) => {
+          dailyGoalsList = snap.val().dailyGoalsList;
+        })
+        .then(() => {
+          if (dailyGoalsList) {
+            newGoals = newGoals.concat(dailyGoalsList);
+          }
+          newGoals = newGoals.concat([newGoal]);
+          dbRef.update({
+            dailyGoalsList: newGoals,
+          });
 
-        dispatch({
-          type: CUSTOM_GOALS_FETCH,
-          payload: newGoals,
+          dispatch({
+            type: CUSTOM_GOALS_FETCH,
+            payload: newGoals,
+          });
         });
-      });
-  };
+    };
+  } else {
+    return (dispatch) => {
+      dbRef
+        .once('value', (snap) => {
+          customGoalsList = snap.val().customGoalsList;
+        })
+        .then(() => {
+          if (customGoalsList) {
+            newGoals = newGoals.concat(customGoalsList);
+          }
+          newGoals = newGoals.concat([newGoal]);
+          dbRef.update({
+            customGoalsList: newGoals,
+          });
+
+          dispatch({
+            type: CUSTOM_GOALS_FETCH,
+            payload: newGoals,
+          });
+        });
+    };
+  }
 };
 
 export const removeCustomGoal = (goalTitle) => {
@@ -95,7 +119,7 @@ export const fetchGoals = () => {
   var goals;
   var goalsCompleted;
   var goalsSet;
-  var customGoals;
+  var customGoalsList;
 
   return (dispatch) => {
     dbRef
