@@ -1,6 +1,6 @@
 import * as firebase from 'firebase';
 import 'firebase/firestore';
-import {GOALS_FETCH, CUSTOM_GOALS_FETCH} from './types';
+import {GOALS_FETCH, CUSTOM_GOALS_FETCH, PROFILE_FETCH} from './types';
 import {getDate} from './AuthActions';
 import {
   updateGoalsForNewCategories,
@@ -86,6 +86,11 @@ export const addCustomGoal = (title, description, dailyGoal) => {
             type: CUSTOM_GOALS_FETCH,
             payload: newGoals,
           });
+
+          dispatch({
+            type: PROFILE_FETCH,
+            payload: snap.val(),
+          });
         });
     };
   }
@@ -97,16 +102,23 @@ export const removeCustomGoal = (goalTitle) => {
   var currentCustomGoals;
   var newCustomGoals;
 
-  dbRef.once('value', (snap) => {
-    currentCustomGoals = snap.val().customGoalsList;
-    newCustomGoals = currentCustomGoals.filter(
-      (goal) => goal.title !== goalTitle,
-    );
+  return (dispatch) => {
+    dbRef.once('value', (snap) => {
+      currentCustomGoals = snap.val().customGoalsList;
+      newCustomGoals = currentCustomGoals.filter(
+        (goal) => goal.title !== goalTitle,
+      );
 
-    dbRef.update({
-      customGoalsList: newCustomGoals,
+      dbRef.update({
+        customGoalsList: newCustomGoals,
+      });
+
+      dispatch({
+        type: PROFILE_FETCH,
+        payload: snap.val(),
+      });
     });
-  });
+  };
 };
 
 export const fetchGoals = () => {

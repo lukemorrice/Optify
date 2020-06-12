@@ -123,33 +123,46 @@ class AddGoal extends Component {
   };
 
   renderGoals = (goal, index) => {
-    console.log(goal.dailyGoal);
     if (this.state.editingGoals) {
-      return (
-        <View style={{flexDirection: 'row'}}>
-          <TouchableOpacity onPress={() => this.removeGoal(goal)}>
-            <Icon
-              name="ios-remove-circle"
-              size={32}
-              color="red"
-              style={{marginRight: 10}}
-            />
-          </TouchableOpacity>
-          {goal.dailyGoal ? (
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}>
+      if (goal.dailyGoal) {
+        return (
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              height: 35,
+            }}>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <TouchableOpacity onPress={() => this.removeGoal(goal)}>
+                <Icon
+                  name="ios-remove-circle"
+                  size={30}
+                  color="red"
+                  style={{marginRight: 10}}
+                />
+              </TouchableOpacity>
               <Text style={styles.goalText}>{goal.title}</Text>
-              <Text style={{color: 'gray', fontSize: 18}}>(Daily goal)</Text>
             </View>
-          ) : (
+            <Text style={{color: 'gray', fontSize: 18}}>(Daily)</Text>
+          </View>
+        );
+      } else {
+        return (
+          <View
+            style={{flexDirection: 'row', alignItems: 'center', height: 35}}>
+            <TouchableOpacity onPress={() => this.removeGoal(goal)}>
+              <Icon
+                name="ios-remove-circle"
+                size={32}
+                color="red"
+                style={{marginRight: 10}}
+              />
+            </TouchableOpacity>
             <Text style={styles.goalText}>{goal.title}</Text>
-          )}
-        </View>
-      );
+          </View>
+        );
+      }
     } else {
       if (goal.dailyGoal) {
         return (
@@ -158,6 +171,7 @@ class AddGoal extends Component {
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
+              height: 35,
             }}>
             <Text style={styles.goalText}>{goal.title}</Text>
             <Text style={{color: 'gray', fontSize: 18}}>(Daily)</Text>
@@ -287,7 +301,7 @@ class AddGoal extends Component {
                     }
                     keyExtractor={(item) => item.title}
                     scrollEnabled={false}
-                    style={{height: 300}}
+                    style={{height: 300, marginTop: 5}}
                   />
                 </View>
               </View>

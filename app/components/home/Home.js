@@ -29,6 +29,7 @@ class Home extends Component {
     email: '',
     goals: '',
     goalsList: [],
+    dailyGoalsList: [],
     completedGoals: '',
     showDescription: [false, false, false],
     isModalVisible: false,
@@ -56,6 +57,15 @@ class Home extends Component {
           completedGoals: this.props.goals.goals.filter(
             (goal) => goal.completed,
           ).length,
+        });
+      }
+      if (this.props.profile.dailyGoalsList) {
+        console.log(
+          'Daily goals have updated:',
+          this.props.profile.dailyGoalsList,
+        );
+        this.setState({
+          dailyGoalsList: this.props.profile.dailyGoalsList,
         });
       }
     }
@@ -169,7 +179,7 @@ class Home extends Component {
 
               <View style={{marginLeft: 15, marginRight: 15}}>
                 <FlatList
-                  data={this.state.goalsList}
+                  data={this.state.dailyGoalsList.concat(this.state.goalsList)}
                   renderItem={({item, index}) => this.renderGoals(item, index)}
                   keyExtractor={(item) => item.title}
                   style={{height: 425}}
