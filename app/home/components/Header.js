@@ -11,7 +11,7 @@ export default class Header extends Component {
           <View style={styles.icons}>
             <TouchableOpacity
               style={{marginRight: 20}}
-              onPress={() => this.props.navigateToAddGoal()}>
+              onPress={() => this.props.navigation.navigate('AddGoal')}>
               <Icon name="ios-add-circle-outline" size={35}></Icon>
             </TouchableOpacity>
             <TouchableOpacity

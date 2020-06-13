@@ -10,20 +10,18 @@ const options = {
 };
 
 export default Goal = ({
-  goals,
   goal,
   index,
-  updateGoals,
   toggleDescription,
   showDescription,
+  toggleGoalCompleted,
 }) => {
-  toggleGoalCompleted = (idx) => {
+  toggleCompleted = (idx) => {
     ReactNativeHapticFeedback.trigger('impactMedium', options);
     if (showDescription[idx]) {
       toggleDescription(idx);
     }
-    goals[idx].completed = !goals[idx].completed;
-    updateGoals(goals);
+    toggleGoalCompleted(idx);
   };
 
   if (!showDescription[index]) {
@@ -48,8 +46,7 @@ export default Goal = ({
                     flexDirection: 'row',
                   }}>
                   <Text style={styles.goalText}>{goal.title}</Text>
-                  <TouchableOpacity
-                    onPress={() => this.toggleGoalCompleted(index)}>
+                  <TouchableOpacity onPress={() => this.toggleCompleted(index)}>
                     <Icon
                       name={
                         goal.completed

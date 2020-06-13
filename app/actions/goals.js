@@ -224,7 +224,6 @@ const fetchNewGoals = (dispatch, dbRef, goals, categories, customGoalsList) => {
       }
 
       randomGoals = randomGoals.map((goal) => ({...goal, completed: false}));
-
       dbRef.update({
         goalsList: randomGoals,
       });
@@ -234,4 +233,27 @@ const fetchNewGoals = (dispatch, dbRef, goals, categories, customGoalsList) => {
         payload: randomGoals,
       });
     });
+};
+
+export const updateUserGoals = (goalsList) => {
+  const {currentUser} = firebase.auth();
+  const dbRef = firebase.database().ref(`/users/${currentUser.uid}/profile`);
+  return (dispatch) => {
+    dbRef.update({goalsList});
+  };
+};
+
+export const toggleGoalCompleted = (idx, goals) => {
+  goals[idx].completed = !goals[idx].completed;
+  var goalsList = goals;
+  const {currentUser} = firebase.auth();
+  const dbRef = firebase.database().ref(`/users/${currentUser.uid}/profile`);
+  return (dispatch) => {
+    dbRef.update({goalsList});
+
+    dispatch({
+      type: GOALS_FETCH,
+      payload: goalsList,
+    });
+  };
 };

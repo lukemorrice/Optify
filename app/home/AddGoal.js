@@ -8,65 +8,19 @@ import {
   Alert,
   Switch,
 } from 'react-native';
-import {connect} from 'react-redux';
 import {withNavigation} from 'react-navigation';
 import {FlatList, TextInput} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {PRIMARY_COLOUR, SECONDARY_COLOUR} from '../Style';
-import {addCustomGoal, removeCustomGoal} from '../actions/goals';
 
 class AddGoal extends Component {
   state = {
     title: '',
     description: '',
     category: '',
-    customGoalsList: [],
-    dailyGoalsList: [],
     dailyGoal: false,
     loading: false,
   };
-
-  componentDidMount() {
-    if (this.props.profile.customGoalsList) {
-      this.setState({
-        customGoalsList: this.props.profile.customGoalsList,
-      });
-    }
-    if (this.props.profile.dailyGoalsList) {
-      this.setState({
-        dailyGoalsList: this.props.profile.dailyGoalsList,
-      });
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps !== this.props) {
-      if (this.props.profile.customGoalsList) {
-        this.setState({
-          customGoalsList: this.props.profile.customGoalsList,
-        });
-      } else {
-        this.setState({
-          customGoalsList: [],
-        });
-      }
-
-      if (this.props.profile.dailyGoalsList) {
-        console.log(
-          'Daily goals updated to:',
-          this.props.profile.dailyGoalsList,
-        );
-        this.setState({
-          dailyGoalsList: this.props.profile.dailyGoalsList,
-        });
-      } else {
-        this.setState({
-          dailyGoalsList: [],
-          editingGoals: false,
-        });
-      }
-    }
-  }
 
   onChangeTitle = (title) => {
     this.setState({title});
@@ -98,7 +52,7 @@ class AddGoal extends Component {
     this.props.removeCustomGoal(goal);
   };
 
-  renderGoals = (goal, index) => {
+  renderGoals = (goal) => {
     if (this.state.editingGoals) {
       if (goal.dailyGoal) {
         return (
@@ -254,7 +208,7 @@ class AddGoal extends Component {
               </View>
             </View>
 
-            {this.state.customGoalsList[0] || this.state.dailyGoalsList[0] ? (
+            {this.props.customGoals ? (
               <View style={styles.userGoals}>
                 <View
                   style={{
@@ -272,12 +226,8 @@ class AddGoal extends Component {
                 </View>
                 <View>
                   <FlatList
-                    data={this.state.customGoalsList.concat(
-                      this.state.dailyGoalsList,
-                    )}
-                    renderItem={({item, index}) =>
-                      this.renderGoals(item, index)
-                    }
+                    data={this.props.customGoals}
+                    renderItem={({item}) => this.renderGoals(item)}
                     keyExtractor={(item) => item.title}
                     scrollEnabled={false}
                     style={{height: 300, marginTop: 5}}
@@ -307,15 +257,7 @@ class AddGoal extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  profile: state.profile.profile,
-  goals: state.goals,
-});
-
-const AddGoalComp = connect(mapStateToProps, {addCustomGoal, removeCustomGoal})(
-  AddGoal,
-);
-export default withNavigation(AddGoalComp);
+export default withNavigation(AddGoal);
 
 const styles = StyleSheet.create({
   container: {

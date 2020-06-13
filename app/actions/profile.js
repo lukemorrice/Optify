@@ -50,6 +50,7 @@ export const updateGoals = (goals) => {
 
     dbRef.once('value', (snap) => {
       currentGoals = snap.val().goalsList;
+      currentGoals = currentGoals.filter((goal) => !goal.dailyGoal);
       currentNumGoals = snap.val().goals;
       categories = snap.val().categories;
     });

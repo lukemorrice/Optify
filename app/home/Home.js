@@ -1,18 +1,7 @@
 import React, {Component} from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  LayoutAnimation,
-  ActivityIndicator,
-  RefreshControl,
-} from 'react-native';
-import {connect} from 'react-redux';
+import {StyleSheet, View, Text, LayoutAnimation} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {FlatList} from 'react-native-gesture-handler';
-import {fetchProfile} from '../actions/profile';
-import {fetchGoals} from '../actions/goals';
-import * as firebase from 'firebase';
 import Goal from './components/GoalItem';
 import Greeting from './components/Greeting';
 import Date from './components/Date';
@@ -20,73 +9,11 @@ import Header from './components/Header';
 import HeaderNoIcon from './components/HeaderNoIcon';
 import ModalScreen from './Modal';
 import CongratsMsg from './components/Congrats';
-import {PRIMARY_COLOUR} from '../Style';
 
 class Home extends Component {
   state = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    goals: '',
-    goalsList: [],
-    dailyGoalsList: [],
-    completedGoals: '',
-    showDescription: [false, false, false],
+    showDescription: [],
     isModalVisible: false,
-    refreshing: false,
-  };
-
-  componentDidMount() {
-    this.props.fetchProfile();
-    this.props.fetchGoals();
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps !== this.props) {
-      if (this.props.profile) {
-        this.setState({
-          firstName: this.props.profile.firstName,
-          lastName: this.props.profile.lastName,
-          email: this.props.profile.email,
-          goals: this.props.profile.goals,
-        });
-      }
-      if (this.props.goals.goals) {
-        this.setState({
-          goalsList: this.sortByCompleted(this.props.goals.goals),
-          completedGoals: this.props.goals.goals.filter(
-            (goal) => goal.completed,
-          ).length,
-        });
-      }
-      if (this.props.profile.dailyGoalsList) {
-        this.setState({
-          dailyGoalsList: this.props.profile.dailyGoalsList,
-        });
-      } else {
-        this.setState({
-          dailyGoalsList: [],
-        });
-      }
-    }
-  }
-
-  navigateToAddGoal = () => {
-    this.props.navigation.navigate('AddGoal');
-  };
-
-  updateGoals = (goalsList) => {
-    goalsList = this.sortByCompleted(goalsList);
-    this.setState({goalsList});
-    const {currentUser} = firebase.auth();
-    firebase
-      .database()
-      .ref(`/users/${currentUser.uid}/profile`)
-      .update({goalsList});
-  };
-
-  sortByCompleted = (list) => {
-    return list.sort((x, y) => x.completed - y.completed);
   };
 
   toggleDescription = (index) => {
@@ -94,48 +21,43 @@ class Home extends Component {
     this.setState({showDescription: this.state.showDescription});
   };
 
-  renderGoals = (goal, index) => {
-    return (
-      <Goal
-        goals={this.state.goalsList}
-        goal={goal}
-        index={index}
-        updateGoals={this.updateGoals}
-        toggleDescription={this.toggleDescription}
-        showDescription={this.state.showDescription}
-      />
-    );
-  };
-
   toggleVisible = () => {
     this.setState({isModalVisible: !this.state.isModalVisible});
   };
 
-  wait(timeout) {
-    return new Promise((resolve) => {
-      setTimeout(resolve, timeout);
-    });
-  }
+  toggleGoalCompleted = (idx) => {
+    this.props.toggleGoalCompleted(idx);
+  };
 
-  refreshGoals = () => {
-    this.setState({refreshing: true});
-    this.wait(600)
-      .then(() => this.props.fetchGoals())
-      .then(() => this.setState({refreshing: false}));
+  renderGoals = (goal, index) => {
+    return (
+      <Goal
+        goal={goal}
+        index={index}
+        toggleDescription={this.toggleDescription}
+        showDescription={this.state.showDescription}
+        toggleGoalCompleted={this.toggleGoalCompleted}
+      />
+    );
   };
 
   render() {
     LayoutAnimation.easeInEaseOut();
+    var firstName = this.props.profile.firstName;
+    var goalsList = this.props.goalsList;
+    var goals = goalsList.length;
+    var allGoalsCompleted =
+      this.props.goalsList.filter((goal) => goal.completed).length ==
+      this.props.goalsList.length;
 
     return (
       <View style={styles.container}>
         <View style={{marginLeft: 20, marginRight: 20}}>
           <View style={styles.headerContainer}>
-            {this.state.firstName ? (
+            {firstName ? (
               <Header
                 navigation={this.props.navigation}
                 toggleVisible={this.toggleVisible}
-                navigateToAddGoal={this.navigateToAddGoal}
               />
             ) : (
               <HeaderNoIcon />
@@ -147,83 +69,40 @@ class Home extends Component {
         </View>
 
         <View style={styles.content}>
-          {this.state.firstName && this.state.goalsList[0] ? (
-            <View>
-              <View style={{marginLeft: 20, marginRight: 20}}>
-                <View style={styles.greetingContainer}>
-                  {this.state.firstName ? (
-                    <Greeting
-                      name={this.state.firstName}
-                      goals={this.state.goals}
-                    />
-                  ) : (
-                    <View
-                      style={{justifyContent: 'center', alignItems: 'center'}}>
-                      <ActivityIndicator size="large" color="#48C9B0" />
-                    </View>
-                  )}
-                </View>
-
-                <View style={styles.goalHeading}>
-                  <Text style={styles.goalHeadingText}>
-                    Today's {this.state.goals > 1 ? 'goals' : 'goal'}
-                  </Text>
-                </View>
-
-                {this.state.completedGoals == this.state.goals ? (
-                  <CongratsMsg />
-                ) : (
-                  <View />
-                )}
-              </View>
-
-              <View style={{marginLeft: 15, marginRight: 15}}>
-                <FlatList
-                  data={this.state.goalsList}
-                  renderItem={({item, index}) => this.renderGoals(item, index)}
-                  keyExtractor={(item) => item.title}
-                  style={{height: 425}}
-                  refreshControl={
-                    <RefreshControl
-                      refreshing={this.state.refreshing}
-                      onRefresh={() => this.refreshGoals()}
-                      tintColor="#808B96"
-                    />
-                  }
-                />
-
-                <ModalScreen
-                  isVisible={this.state.isModalVisible}
-                  toggleVisible={this.toggleVisible}
-                />
-              </View>
+          <View style={{marginLeft: 20, marginRight: 20}}>
+            <View style={styles.greetingContainer}>
+              <Greeting name={this.props.profile.firstName} />
             </View>
-          ) : (
-            <View
-              style={{
-                height: '75%',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <ActivityIndicator size="large" color={PRIMARY_COLOUR} />
+
+            <View style={styles.goalHeading}>
+              <Text style={styles.goalHeadingText}>
+                Today's {goals > 1 ? 'goals' : 'goal'}
+              </Text>
             </View>
-          )}
+
+            {allGoalsCompleted ? <CongratsMsg /> : <View />}
+          </View>
+
+          <View style={{marginLeft: 15, marginRight: 15}}>
+            <FlatList
+              data={goalsList}
+              renderItem={({item, index}) => this.renderGoals(item, index)}
+              keyExtractor={(item) => item.title}
+              style={{height: 450}}
+            />
+
+            <ModalScreen
+              isVisible={this.state.isModalVisible}
+              toggleVisible={this.toggleVisible}
+            />
+          </View>
         </View>
       </View>
     );
   }
 }
 
-const mapStateToProps = (state) => ({
-  profile: state.profile.profile,
-  goals: state.goals,
-});
-
-const HomeComp = connect(mapStateToProps, {
-  fetchProfile,
-  fetchGoals,
-})(Home);
-export default withNavigation(HomeComp);
+export default withNavigation(Home);
 
 const styles = StyleSheet.create({
   container: {
