@@ -83,7 +83,7 @@ class Home extends Component {
               data={goalsList}
               renderItem={({item, index}) => this.renderGoals(item, index)}
               keyExtractor={(item) => item.title}
-              style={{height: 475}}
+              style={{height: allGoalsCompleted ? 485 : 540}}
             />
 
             <ModalScreen

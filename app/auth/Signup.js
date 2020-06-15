@@ -6,6 +6,8 @@ import {
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -110,104 +112,107 @@ class Signup extends Component {
 
   render() {
     return (
-      <KeyboardAwareScrollView
-        style={{flex: 1}}
-        scrollEnabled={false}
-        keyboardOpeningTime={100}>
-        <View style={styles.container}>
-          <TouchableOpacity
-            style={styles.back}
-            onPress={() => this.props.navigation.goBack()}>
-            <Icon name={'ios-arrow-round-back'} size={36} color="white" />
-          </TouchableOpacity>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <KeyboardAwareScrollView
+          style={{flex: 1}}
+          scrollEnabled={false}
+          keyboardOpeningTime={100}>
+          <View style={styles.container}>
+            <TouchableOpacity
+              style={styles.back}
+              onPress={() => this.props.navigation.goBack()}>
+              <Icon name={'ios-arrow-round-back'} size={36} color="white" />
+            </TouchableOpacity>
 
-          <View style={styles.headerContainer}>
-            <Text
-              style={styles.header}>{`Hello!\nSign up to get started.`}</Text>
-          </View>
-
-          <View style={styles.formContainer}>
-            <View style={styles.element}>
-              <TextInput
-                style={styles.input}
-                placeholder="First Name"
-                placeholderTextColor="gray"
-                autoCorrect={false}
-                onChangeText={this.onChangeFirstName.bind(this)}
-                value={this.state.firstName}></TextInput>
+            <View style={styles.headerContainer}>
+              <Text
+                style={styles.header}>{`Hello!\nSign up to get started.`}</Text>
             </View>
 
-            <View style={styles.element}>
-              <TextInput
-                style={styles.input}
-                placeholder="Last Name"
-                placeholderTextColor="gray"
-                autoCorrect={false}
-                onChangeText={this.onChangeLastName.bind(this)}
-                value={this.state.lastName}></TextInput>
-            </View>
-
-            <View style={styles.element}>
-              <TextInput
-                style={styles.input}
-                placeholder="Email"
-                placeholderTextColor="gray"
-                autoCapitalize="none"
-                textContentType="emailAddress"
-                keyboardType="email-address"
-                onChangeText={this.onChangeEmail.bind(this)}
-                value={this.state.email}></TextInput>
-            </View>
-
-            <View style={styles.element}>
-              <TextInput
-                style={styles.input}
-                placeholder="Password"
-                placeholderTextColor="gray"
-                secureTextEntry
-                autoCapitalize="none"
-                onChangeText={this.onChangePassword.bind(this)}
-                value={this.state.password}></TextInput>
-            </View>
-
-            {this.state.password !== '' ? (
+            <View style={styles.formContainer}>
               <View style={styles.element}>
                 <TextInput
                   style={styles.input}
-                  placeholder="Confirm Password"
+                  placeholder="First Name"
+                  placeholderTextColor="gray"
+                  autoCorrect={false}
+                  onChangeText={this.onChangeFirstName.bind(this)}
+                  value={this.state.firstName}></TextInput>
+              </View>
+
+              <View style={styles.element}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Last Name"
+                  placeholderTextColor="gray"
+                  autoCorrect={false}
+                  onChangeText={this.onChangeLastName.bind(this)}
+                  value={this.state.lastName}></TextInput>
+              </View>
+
+              <View style={styles.element}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Email"
+                  placeholderTextColor="gray"
+                  autoCapitalize="none"
+                  textContentType="emailAddress"
+                  keyboardType="email-address"
+                  onChangeText={this.onChangeEmail.bind(this)}
+                  value={this.state.email}></TextInput>
+              </View>
+
+              <View style={styles.element}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Password"
                   placeholderTextColor="gray"
                   secureTextEntry
                   autoCapitalize="none"
-                  onChangeText={this.onChangeConfirmPassword.bind(this)}
-                  value={this.state.confirmPassword}></TextInput>
+                  onChangeText={this.onChangePassword.bind(this)}
+                  value={this.state.password}></TextInput>
               </View>
-            ) : (
-              <View />
-            )}
 
-            <View style={styles.errorContainer}>
-              {this.props.auth.errorCreating ? (
-                <Text style={styles.error}>
-                  {this.props.auth.errorCreating}
-                </Text>
+              {this.state.password !== '' ? (
+                <View style={styles.element}>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Confirm Password"
+                    placeholderTextColor="gray"
+                    secureTextEntry
+                    autoCapitalize="none"
+                    onChangeText={this.onChangeConfirmPassword.bind(this)}
+                    value={this.state.confirmPassword}></TextInput>
+                </View>
               ) : (
-                <Text style={styles.error}>{this.state.error}</Text>
+                <View />
               )}
-            </View>
-            {this.renderButtons()}
 
-            <View style={[{flexDirection: 'row'}, {justifyContent: 'center'}]}>
-              <Text style={styles.login}>Already have an account? </Text>
-              <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('Login')}>
-                <Text style={[styles.login, {color: '#ff4d4d'}]}>
-                  Log in here
-                </Text>
-              </TouchableOpacity>
+              <View style={styles.errorContainer}>
+                {this.props.auth.errorCreating ? (
+                  <Text style={styles.error}>
+                    {this.props.auth.errorCreating}
+                  </Text>
+                ) : (
+                  <Text style={styles.error}>{this.state.error}</Text>
+                )}
+              </View>
+              {this.renderButtons()}
+
+              <View
+                style={[{flexDirection: 'row'}, {justifyContent: 'center'}]}>
+                <Text style={styles.login}>Already have an account? </Text>
+                <TouchableOpacity
+                  onPress={() => this.props.navigation.navigate('Login')}>
+                  <Text style={[styles.login, {color: '#ff4d4d'}]}>
+                    Log in here
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
-      </KeyboardAwareScrollView>
+        </KeyboardAwareScrollView>
+      </TouchableWithoutFeedback>
     );
   }
 }

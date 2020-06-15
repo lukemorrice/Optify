@@ -6,6 +6,8 @@ import {
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {withNavigation} from 'react-navigation';
@@ -60,62 +62,64 @@ class Login extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <TouchableOpacity
-          style={styles.back}
-          onPress={() => this.props.navigation.goBack()}>
-          <Icon name={'ios-arrow-round-back'} size={36} color="white" />
-        </TouchableOpacity>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <View style={styles.container}>
+          <TouchableOpacity
+            style={styles.back}
+            onPress={() => this.props.navigation.goBack()}>
+            <Icon name={'ios-arrow-round-back'} size={36} color="white" />
+          </TouchableOpacity>
 
-        <View style={styles.headerContainer}>
-          <Text style={styles.header}>{`Hello again.\nWelcome back.`}</Text>
+          <View style={styles.headerContainer}>
+            <Text style={styles.header}>{`Hello again.\nWelcome back.`}</Text>
+          </View>
+
+          <View style={styles.formContainer}>
+            <View style={styles.element}>
+              <TextInput
+                placeholder="Email"
+                placeholderTextColor="gray"
+                textContentType="emailAddress"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                style={styles.input}
+                onChangeText={this.onChangeEmail.bind(this)}
+                value={this.state.email}></TextInput>
+            </View>
+
+            <View style={styles.element}>
+              <TextInput
+                placeholder="Password"
+                placeholderTextColor="gray"
+                textContentType="password"
+                secureTextEntry={true}
+                autoCapitalize="none"
+                style={styles.input}
+                onChangeText={this.onChangePassword.bind(this)}
+                value={this.state.password}></TextInput>
+            </View>
+
+            <View style={styles.errorContainer}>
+              {this.props.auth.errorLogging ? (
+                <Text style={styles.error}>{this.props.auth.errorLogging}</Text>
+              ) : (
+                <Text style={styles.error}>{this.state.error}</Text>
+              )}
+            </View>
+            {this.renderButtons()}
+
+            <View style={[{flexDirection: 'row'}, {justifyContent: 'center'}]}>
+              <Text style={styles.signup}>New to Optify? </Text>
+              <TouchableOpacity
+                onPress={() => this.props.navigation.navigate('Signup')}>
+                <Text style={[styles.signup, {color: '#ff4d4d'}]}>
+                  Sign up here
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
-
-        <View style={styles.formContainer}>
-          <View style={styles.element}>
-            <TextInput
-              placeholder="Email"
-              placeholderTextColor="gray"
-              textContentType="emailAddress"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              style={styles.input}
-              onChangeText={this.onChangeEmail.bind(this)}
-              value={this.state.email}></TextInput>
-          </View>
-
-          <View style={styles.element}>
-            <TextInput
-              placeholder="Password"
-              placeholderTextColor="gray"
-              textContentType="password"
-              secureTextEntry={true}
-              autoCapitalize="none"
-              style={styles.input}
-              onChangeText={this.onChangePassword.bind(this)}
-              value={this.state.password}></TextInput>
-          </View>
-
-          <View style={styles.errorContainer}>
-            {this.props.auth.errorLogging ? (
-              <Text style={styles.error}>{this.props.auth.errorLogging}</Text>
-            ) : (
-              <Text style={styles.error}>{this.state.error}</Text>
-            )}
-          </View>
-          {this.renderButtons()}
-
-          <View style={[{flexDirection: 'row'}, {justifyContent: 'center'}]}>
-            <Text style={styles.signup}>New to Optify? </Text>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.navigate('Signup')}>
-              <Text style={[styles.signup, {color: '#ff4d4d'}]}>
-                Sign up here
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
+      </TouchableWithoutFeedback>
     );
   }
 }
