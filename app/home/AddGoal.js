@@ -7,6 +7,8 @@ import {
   ActivityIndicator,
   Alert,
   Switch,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {FlatList, TextInput} from 'react-native-gesture-handler';
@@ -68,13 +70,13 @@ class AddGoal extends Component {
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-              height: 35,
+              height: 36,
             }}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <TouchableOpacity onPress={() => this.removeGoal(goal)}>
                 <Icon
                   name="ios-remove-circle"
-                  size={30}
+                  size={32}
                   color="red"
                   style={{marginRight: 10}}
                 />
@@ -87,7 +89,11 @@ class AddGoal extends Component {
       } else {
         return (
           <View
-            style={{flexDirection: 'row', alignItems: 'center', height: 35}}>
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              height: 36,
+            }}>
             <TouchableOpacity onPress={() => this.removeGoal(goal)}>
               <Icon
                 name="ios-remove-circle"
@@ -108,7 +114,7 @@ class AddGoal extends Component {
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-              height: 35,
+              height: 36,
             }}>
             <Text style={styles.goalText}>{goal.title}</Text>
             <Text style={{color: 'gray', fontSize: 18}}>(Daily)</Text>
@@ -148,118 +154,121 @@ class AddGoal extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.headerContainer}>
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={() => this.props.navigation.goBack()}>
-            <Icon name={'ios-arrow-round-back'} size={36} color="white" />
-          </TouchableOpacity>
-          <Text style={styles.header}>Custom Goals</Text>
-        </View>
-        <View style={styles.contentContainer}>
-          <View style={styles.content}>
-            <View style={styles.addGoal}>
-              <Text style={styles.subHeading}>Add a new goal</Text>
-              <View style={{marginTop: 5}}>
-                <View style={styles.element}>
-                  <TextInput
-                    style={styles.textInput}
-                    placeholder="Title"
-                    placeholderTextColor="gray"
-                    onChangeText={this.onChangeTitle.bind(this)}
-                    value={this.state.title}
-                  />
-                </View>
-                <View style={styles.element}>
-                  <TextInput
-                    style={[styles.textInput, {height: 60}]}
-                    placeholder="Description"
-                    placeholderTextColor="gray"
-                    multiline={true}
-                    maxLength={85}
-                    onChangeText={this.onChangeDescription.bind(this)}
-                    value={this.state.description}
-                  />
-                </View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    height: 80,
-                    marginTop: 10,
-                  }}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <View style={styles.container}>
+          <View style={styles.headerContainer}>
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => this.props.navigation.goBack()}>
+              <Icon name={'ios-arrow-round-back'} size={36} color="white" />
+            </TouchableOpacity>
+            <Text style={styles.header}>Custom Goals</Text>
+          </View>
+          <View style={styles.contentContainer}>
+            <View style={styles.content}>
+              <View style={styles.addGoal}>
+                <Text style={styles.subHeading}>Add a new goal</Text>
+                <View style={{marginTop: 5}}>
+                  <View style={styles.element}>
+                    <TextInput
+                      style={styles.textInput}
+                      placeholder="Title"
+                      placeholderTextColor="gray"
+                      onChangeText={this.onChangeTitle.bind(this)}
+                      value={this.state.title}
+                    />
+                  </View>
+                  <View style={styles.element}>
+                    <TextInput
+                      style={[styles.textInput, {height: 60}]}
+                      placeholder="Description"
+                      placeholderTextColor="gray"
+                      multiline={true}
+                      maxLength={85}
+                      onChangeText={this.onChangeDescription.bind(this)}
+                      value={this.state.description}
+                    />
+                  </View>
                   <View
                     style={{
                       flexDirection: 'row',
                       alignItems: 'center',
+                      justifyContent: 'space-between',
+                      height: 80,
+                      marginTop: 10,
                     }}>
-                    <Text
+                    <View
                       style={{
-                        fontSize: 18,
-                        marginLeft: 2,
-                        marginRight: 10,
-                        fontWeight: '500',
+                        flexDirection: 'row',
+                        alignItems: 'center',
                       }}>
-                      Daily goal
-                    </Text>
-                    <Switch
-                      onValueChange={() => this.toggleDailyGoal()}
-                      value={this.state.dailyGoal}
-                      trackColor={{true: PRIMARY_COLOUR, false: 'grey'}}
+                      <Text
+                        style={{
+                          fontSize: 18,
+                          marginLeft: 2,
+                          marginRight: 10,
+                          fontWeight: '500',
+                        }}>
+                        Daily goal
+                      </Text>
+                      <Switch
+                        onValueChange={() => this.toggleDailyGoal()}
+                        value={this.state.dailyGoal}
+                        trackColor={{true: PRIMARY_COLOUR, false: 'grey'}}
+                      />
+                    </View>
+                    {this.renderButtons()}
+                  </View>
+                </View>
+              </View>
+
+              {this.props.customGoals[0] ? (
+                <View style={styles.userGoals}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      marginBottom: 10,
+                    }}>
+                    <Text style={styles.subHeading}>Your goals</Text>
+                    <TouchableOpacity onPress={() => this.toggleEditGoals()}>
+                      <Text style={{fontSize: 17}}>
+                        {this.state.editingGoals ? 'Done' : 'Edit'}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View>
+                    <FlatList
+                      data={this.props.customGoals}
+                      renderItem={({item}) => this.renderGoals(item)}
+                      keyExtractor={(item) => item.title}
+                      scrollEnabled={false}
+                      style={{height: 300, marginTop: 5}}
                     />
                   </View>
-                  {this.renderButtons()}
                 </View>
-              </View>
+              ) : (
+                <View style={styles.userGoals}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      marginBottom: 10,
+                    }}>
+                    <Text style={styles.subHeading}>Your goals</Text>
+                  </View>
+                  <Text style={{fontSize: 18}}>
+                    You haven't added any of your own goals yet, got any in
+                    mind?
+                  </Text>
+                </View>
+              )}
             </View>
-
-            {this.props.customGoals[0] ? (
-              <View style={styles.userGoals}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginBottom: 10,
-                  }}>
-                  <Text style={styles.subHeading}>Your goals</Text>
-                  <TouchableOpacity onPress={() => this.toggleEditGoals()}>
-                    <Text style={{fontSize: 17}}>
-                      {this.state.editingGoals ? 'Done' : 'Edit'}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-                <View>
-                  <FlatList
-                    data={this.props.customGoals}
-                    renderItem={({item}) => this.renderGoals(item)}
-                    keyExtractor={(item) => item.title}
-                    scrollEnabled={false}
-                    style={{height: 300, marginTop: 5}}
-                  />
-                </View>
-              </View>
-            ) : (
-              <View style={styles.userGoals}>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginBottom: 10,
-                  }}>
-                  <Text style={styles.subHeading}>Your goals</Text>
-                </View>
-                <Text style={{fontSize: 18}}>
-                  You haven't added any of your own goals yet, got any in mind?
-                </Text>
-              </View>
-            )}
           </View>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     );
   }
 }
