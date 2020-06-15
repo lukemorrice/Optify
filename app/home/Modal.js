@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {View, StyleSheet} from 'react-native';
 import Modal from 'react-native-modal';
-import Settings from '../settings/Settings';
 import SettingsContainer from '../settings/SettingsContainer';
 
 export default class ModalScreen extends Component {

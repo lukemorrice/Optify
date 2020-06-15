@@ -21,6 +21,7 @@ class AddGoal extends Component {
     description: '',
     dailyGoal: false,
     loading: false,
+    editingGoals: false,
   };
 
   onChangeTitle = (title) => {
@@ -70,19 +71,21 @@ class AddGoal extends Component {
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-              height: 36,
+              height: 40,
             }}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <TouchableOpacity onPress={() => this.removeGoal(goal)}>
-                <Icon
-                  name="ios-remove-circle"
-                  size={32}
-                  color="red"
-                  style={{marginRight: 10}}
-                />
-              </TouchableOpacity>
-              <Text style={styles.goalText}>{goal.title}</Text>
-            </View>
+            <TouchableOpacity
+              onPress={() => this.removeGoal(goal)}
+              style={{alignItems: 'center'}}>
+              <Icon
+                name="ios-remove-circle"
+                size={34}
+                color="red"
+                style={{marginRight: 10}}
+              />
+            </TouchableOpacity>
+            <Text style={[styles.goalText, {marginRight: 110}]}>
+              {goal.title}
+            </Text>
             <Text style={{color: 'gray', fontSize: 18}}>(Daily)</Text>
           </View>
         );
@@ -92,9 +95,11 @@ class AddGoal extends Component {
             style={{
               flexDirection: 'row',
               alignItems: 'center',
-              height: 36,
+              height: 40,
             }}>
-            <TouchableOpacity onPress={() => this.removeGoal(goal)}>
+            <TouchableOpacity
+              onPress={() => this.removeGoal(goal)}
+              style={{alignItems: 'center'}}>
               <Icon
                 name="ios-remove-circle"
                 size={32}
@@ -114,7 +119,7 @@ class AddGoal extends Component {
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-              height: 36,
+              height: 40,
             }}>
             <Text style={styles.goalText}>{goal.title}</Text>
             <Text style={{color: 'gray', fontSize: 18}}>(Daily)</Text>
@@ -184,7 +189,7 @@ class AddGoal extends Component {
                       placeholder="Description"
                       placeholderTextColor="gray"
                       multiline={true}
-                      maxLength={85}
+                      maxLength={90}
                       onChangeText={this.onChangeDescription.bind(this)}
                       value={this.state.description}
                     />
@@ -204,7 +209,7 @@ class AddGoal extends Component {
                       }}>
                       <Text
                         style={{
-                          fontSize: 18,
+                          fontSize: 20,
                           marginLeft: 2,
                           marginRight: 10,
                           fontWeight: '500',
@@ -324,7 +329,6 @@ const styles = StyleSheet.create({
   },
   goalText: {
     fontSize: 20,
-    marginVertical: 3,
   },
   textInput: {
     padding: 10,
@@ -347,8 +351,9 @@ const styles = StyleSheet.create({
   buttonContainer: {
     backgroundColor: '#48C9B0',
     alignItems: 'center',
-    padding: 12,
+    justifyContent: 'center',
     width: 175,
+    height: 40,
     borderRadius: 15,
   },
 });
