@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import {Text, ActivityIndicator} from 'react-native';
+import {ActivityIndicator} from 'react-native';
 import AddGoal from './AddGoal';
 import {connect} from 'react-redux';
 import {withNavigation} from 'react-navigation';
-import {updateUserGoals} from '../actions/goals';
+import {addDailyGoal, addCustomGoal, removeCustomGoal} from '../actions/goals';
 import {PRIMARY_COLOUR} from '../Style';
 
 class AddGoalContainer extends Component {
@@ -12,26 +12,57 @@ class AddGoalContainer extends Component {
   };
 
   componentDidMount() {
+    var goals = [];
     var dailyGoals = this.props.profile.dailyGoalsList;
+    if (dailyGoals) {
+      goals = goals.concat(dailyGoals);
+    }
     var customGoals = this.props.profile.customGoalsList;
-    var goals = dailyGoals.concat(customGoals);
+    if (customGoals) {
+      goals = goals.concat(customGoals);
+    }
     this.setState({goals});
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps !== this.props) {
       if (this.props.profile) {
+        var goals = [];
         var dailyGoals = this.props.profile.dailyGoalsList;
+        if (dailyGoals) {
+          goals = goals.concat(dailyGoals);
+        }
         var customGoals = this.props.profile.customGoalsList;
-        var goals = dailyGoals.concat(customGoals);
+        if (customGoals) {
+          goals = goals.concat(customGoals);
+        }
         this.setState({goals});
       }
     }
   }
 
+  addCustomGoal = (title, description, dailyGoal) => {
+    this.props.addCustomGoal(title, description, dailyGoal);
+  };
+
+  addDailyGoal = (title, description, dailyGoal) => {
+    this.props.addDailyGoal(title, description, dailyGoal);
+  };
+
+  removeCustomGoal = (goal) => {
+    this.props.removeCustomGoal(goal);
+  };
+
   render() {
-    if (this.props.goals) {
-      return <AddGoal customGoals={this.state.goals} />;
+    if (this.props.profile) {
+      return (
+        <AddGoal
+          customGoals={this.state.goals}
+          addDailyGoal={this.addDailyGoal}
+          addCustomGoal={this.addCustomGoal}
+          removeCustomGoal={this.removeCustomGoal}
+        />
+      );
     } else {
       return (
         <ActivityIndicator
@@ -49,7 +80,7 @@ const mapStateToProps = (state) => ({
   goals: state.goals,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {addDailyGoal, addCustomGoal, removeCustomGoal};
 
 export default withNavigation(
   connect(mapStateToProps, mapDispatchToProps)(AddGoalContainer),

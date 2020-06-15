@@ -11,13 +11,12 @@ import {
 import {withNavigation} from 'react-navigation';
 import {FlatList, TextInput} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {PRIMARY_COLOUR, SECONDARY_COLOUR} from '../Style';
+import {PRIMARY_COLOUR} from '../Style';
 
 class AddGoal extends Component {
   state = {
     title: '',
     description: '',
-    category: '',
     dailyGoal: false,
     loading: false,
   };
@@ -34,16 +33,24 @@ class AddGoal extends Component {
     const title = this.state.title.trim();
     const description = this.state.description.trim();
     const dailyGoal = this.state.dailyGoal;
-    const customGoalsTitles = this.state.customGoalsList.map(
-      (goal) => goal.title,
-    );
+    var goalTitleExists = false;
+    if (this.props.customGoals) {
+      const customGoalsTitles = this.props.customGoals.map(
+        (goal) => goal.title,
+      );
+      goalTitleExists = customGoalsTitles.includes(title);
+    }
     if (!(title && description)) {
       Alert.alert('Please complete both fields to add your custom goal');
-    } else if (customGoalsTitles.includes(title)) {
-      Alert.alert('Custom goal titles must be unique');
+    } else if (goalTitleExists) {
+      Alert.alert('Goal titles must be unique');
     } else {
       this.setState({loading: true});
-      this.props.addCustomGoal(title, description, dailyGoal);
+      if (dailyGoal) {
+        this.props.addDailyGoal(title, description, dailyGoal);
+      } else {
+        this.props.addCustomGoal(title, description, dailyGoal);
+      }
       this.setState({loading: false, title: '', description: ''});
     }
   };
@@ -208,7 +215,7 @@ class AddGoal extends Component {
               </View>
             </View>
 
-            {this.props.customGoals ? (
+            {this.props.customGoals[0] ? (
               <View style={styles.userGoals}>
                 <View
                   style={{

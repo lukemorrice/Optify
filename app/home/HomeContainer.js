@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, ActivityIndicator} from 'react-native';
+import {ActivityIndicator} from 'react-native';
 import Home from './Home';
 import {connect} from 'react-redux';
 import {withNavigation} from 'react-navigation';

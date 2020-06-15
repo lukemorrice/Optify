@@ -41,62 +41,71 @@ export const changeGoalsAfterCategoryUpdate = (currentGoals, newCategories) => {
   };
 };
 
+export const addDailyGoal = (title, description, dailyGoal) => {
+  const {currentUser} = firebase.auth();
+  const dbRef = firebase.database().ref(`/users/${currentUser.uid}/profile`);
+  var newGoal = {title, description, dailyGoal};
+  var newGoals = [];
+  var dailyGoalsList = [];
+
+  return (dispatch) => {
+    dbRef
+      .once('value', (snap) => {
+        dailyGoalsList = snap.val().dailyGoalsList;
+      })
+      .then(() => {
+        if (dailyGoalsList) {
+          newGoals = newGoals.concat(dailyGoalsList);
+        }
+        newGoals = newGoals.concat([newGoal]);
+        dbRef.update({
+          dailyGoalsList: newGoals,
+        });
+
+        dispatch({
+          type: CUSTOM_GOALS_FETCH,
+          payload: newGoals,
+        });
+      });
+  };
+};
+
 export const addCustomGoal = (title, description, dailyGoal) => {
   const {currentUser} = firebase.auth();
   const dbRef = firebase.database().ref(`/users/${currentUser.uid}/profile`);
   var newGoal = {title, description, dailyGoal};
   var newGoals = [];
   var customGoalsList = [];
-  var dailyGoalsList = [];
+  var profile;
 
-  if (dailyGoal) {
-    return (dispatch) => {
-      dbRef
-        .once('value', (snap) => {
-          dailyGoalsList = snap.val().dailyGoalsList;
-        })
-        .then(() => {
-          if (dailyGoalsList) {
-            newGoals = newGoals.concat(dailyGoalsList);
-          }
-          newGoals = newGoals.concat([newGoal]);
-          dbRef.update({
-            dailyGoalsList: newGoals,
-          });
-
-          dispatch({
-            type: CUSTOM_GOALS_FETCH,
-            payload: newGoals,
-          });
+  return (dispatch) => {
+    dbRef
+      .once('value', (snap) => {
+        customGoalsList = snap.val().customGoalsList;
+        profile = snap.val();
+      })
+      .then(() => {
+        if (customGoalsList) {
+          newGoals = newGoals.concat(customGoalsList);
+        }
+        newGoals = newGoals.concat([newGoal]);
+        dbRef.update({
+          customGoalsList: newGoals,
         });
-    };
-  } else {
-    return (dispatch) => {
-      dbRef
-        .once('value', (snap) => {
-          customGoalsList = snap.val().customGoalsList;
-        })
-        .then(() => {
-          if (customGoalsList) {
-            newGoals = newGoals.concat(customGoalsList);
-          }
-          newGoals = newGoals.concat([newGoal]);
-          dbRef.update({
-            customGoalsList: newGoals,
-          });
 
-          dispatch({
-            type: CUSTOM_GOALS_FETCH,
-            payload: newGoals,
-          });
+        profile.customGoalsList = newGoals;
 
-          dispatch({
-            type: PROFILE_FETCH,
-            payload: snap.val(),
-          });
+        dispatch({
+          type: CUSTOM_GOALS_FETCH,
+          payload: newGoals,
         });
-    };
-  }
+
+        dispatch({
+          type: PROFILE_FETCH,
+          payload: profile,
+        });
+      });
+  };
 };
 
 export const removeCustomGoal = (goal) => {
@@ -117,10 +126,17 @@ export const removeCustomGoal = (goal) => {
           dailyGoalsList,
         });
 
+        var goalsList = snap.val().goalsList;
+        goalsList = goalsList.filter((item) => item.title !== goal.title);
+
         profile.dailyGoalsList = dailyGoalsList;
         dispatch({
           type: PROFILE_FETCH,
           payload: profile,
+        });
+        dispatch({
+          type: GOALS_FETCH,
+          payload: goalsList,
         });
       });
     };
@@ -137,10 +153,17 @@ export const removeCustomGoal = (goal) => {
           customGoalsList,
         });
 
+        var goalsList = snap.val().goalsList;
+        goalsList = goalsList.filter((item) => item.title !== goal.title);
+
         profile.customGoalsList = customGoalsList;
         dispatch({
           type: PROFILE_FETCH,
           payload: profile,
+        });
+        dispatch({
+          type: GOALS_FETCH,
+          payload: goalsList,
         });
       });
     };
@@ -193,7 +216,6 @@ export const fetchGoals = () => {
 };
 
 const returnCurrentGoals = (dispatch, goals) => {
-  console.log('Returning current goals:', goals);
   dispatch({
     type: GOALS_FETCH,
     payload: goals,
@@ -201,7 +223,6 @@ const returnCurrentGoals = (dispatch, goals) => {
 };
 
 const fetchNewGoals = (dispatch, dbRef, goals, categories, customGoalsList) => {
-  console.log('Fetching new goals:', goals);
   categories = categories.map((item) => item.toLowerCase());
   goals = parseInt(goals);
 

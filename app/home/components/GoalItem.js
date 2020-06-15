@@ -89,8 +89,7 @@ export default Goal = ({
                     marginBottom: 7,
                   }}>
                   <Text style={styles.goalText}>{goal.title}</Text>
-                  <TouchableOpacity
-                    onPress={() => this.toggleGoalCompleted(index)}>
+                  <TouchableOpacity onPress={() => this.toggleCompleted(index)}>
                     <Icon
                       name={
                         goal.completed

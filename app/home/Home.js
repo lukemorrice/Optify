@@ -47,7 +47,7 @@ class Home extends Component {
     var goals = goalsList.length;
     var allGoalsCompleted =
       this.props.goalsList.filter((goal) => goal.completed).length ==
-      this.props.goalsList.length;
+        this.props.goalsList.length && this.props.goalsList.length >= 1;
 
     return (
       <View style={styles.container}>
@@ -83,7 +83,7 @@ class Home extends Component {
               data={goalsList}
               renderItem={({item, index}) => this.renderGoals(item, index)}
               keyExtractor={(item) => item.title}
-              style={{height: 450}}
+              style={{height: 475}}
             />
 
             <ModalScreen
