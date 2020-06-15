@@ -4,7 +4,7 @@ import {
   PROFILE_UPDATE_CATEGORIES,
   GOALS_FETCH,
 } from './types';
-import {generateRandomNumber, exerciseGoalExists} from './Utils';
+import {generateRandomNumber, exerciseGoalExists} from './utils';
 import firebase from 'firebase';
 
 export const fetchProfile = () => {
@@ -44,12 +44,14 @@ export const updateGoals = (goals) => {
     const {currentUser} = firebase.auth();
     const dbRef = firebase.database().ref(`/users/${currentUser.uid}/profile`);
     var currentGoals;
+    var dailyGoals;
     var currentNumGoals;
     var categories;
     var fullGoalsList;
 
     dbRef.once('value', (snap) => {
       currentGoals = snap.val().goalsList;
+      dailyGoals = currentGoals.filter((goal) => goal.dailyGoal);
       currentGoals = currentGoals.filter((goal) => !goal.dailyGoal);
       currentNumGoals = snap.val().goals;
       categories = snap.val().categories;
@@ -89,16 +91,18 @@ export const updateGoals = (goals) => {
           }
         }
 
+        var goalsList = dailyGoals.concat(newGoalsSet);
+
         dbRef
           .update({
-            goals: goals,
-            goalsList: newGoalsSet,
+            goals,
+            goalsList,
           })
           .then(() => {
             dispatch({
               type: PROFILE_UPDATE_GOALS,
             });
-            dispatch({type: GOALS_FETCH, payload: newGoalsSet});
+            dispatch({type: GOALS_FETCH, payload: goalsList});
           });
       });
   };

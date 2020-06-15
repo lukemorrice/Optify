@@ -6,7 +6,6 @@ import Goal from './components/GoalItem';
 import Greeting from './components/Greeting';
 import Date from './components/Date';
 import Header from './components/Header';
-import HeaderNoIcon from './components/HeaderNoIcon';
 import ModalScreen from './Modal';
 import CongratsMsg from './components/Congrats';
 
@@ -54,14 +53,10 @@ class Home extends Component {
       <View style={styles.container}>
         <View style={{marginLeft: 20, marginRight: 20}}>
           <View style={styles.headerContainer}>
-            {firstName ? (
-              <Header
-                navigation={this.props.navigation}
-                toggleVisible={this.toggleVisible}
-              />
-            ) : (
-              <HeaderNoIcon />
-            )}
+            <Header
+              navigation={this.props.navigation}
+              toggleVisible={this.toggleVisible}
+            />
           </View>
           <View style={styles.dateContainer}>
             <Date />
@@ -71,7 +66,7 @@ class Home extends Component {
         <View style={styles.content}>
           <View style={{marginLeft: 20, marginRight: 20}}>
             <View style={styles.greetingContainer}>
-              <Greeting name={this.props.profile.firstName} />
+              <Greeting name={firstName} />
             </View>
 
             <View style={styles.goalHeading}>

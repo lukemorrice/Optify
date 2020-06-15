@@ -9,8 +9,7 @@ export const updateGoalsForNewCategories = (
 
   // return just one goal if exercise is the user's only goal type
   if (categoryList.includes('exercise') && categoryList.length == 1) {
-    newGoalsList = onlyExerciseGoals(currentGoalsList, fullGoalsList);
-    return newGoalsList;
+    return onlyExerciseGoals(currentGoalsList, fullGoalsList);
   }
 
   if (newGoalsList.length !== 3) {

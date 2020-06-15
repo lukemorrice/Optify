@@ -6,12 +6,14 @@ import {
   updateGoalsForNewCategories,
   generateRandomNumber,
   exerciseGoalExists,
-} from './Utils';
+} from './utils';
 
 export const changeGoalsAfterCategoryUpdate = (currentGoals, newCategories) => {
   newCategories = newCategories.map((item) => item.toLowerCase());
   const {currentUser} = firebase.auth();
   const dbRef = firebase.database().ref(`/users/${currentUser.uid}/profile`);
+  var dailyGoals = currentGoals.filter((goal) => goal.dailyGoal);
+  currentGoals = currentGoals.filter((goal) => !goal.dailyGoal);
 
   return (dispatch) => {
     firebase
@@ -26,13 +28,14 @@ export const changeGoalsAfterCategoryUpdate = (currentGoals, newCategories) => {
           list,
         );
 
+        var goalsList = dailyGoals.concat(newGoals);
         dbRef.update({
-          goalsList: newGoals,
+          goalsList,
         });
 
         dispatch({
           type: GOALS_FETCH,
-          payload: newGoals,
+          payload: goalsList,
         });
       });
   };
@@ -190,6 +193,7 @@ export const fetchGoals = () => {
 };
 
 const returnCurrentGoals = (dispatch, goals) => {
+  console.log('Returning current goals:', goals);
   dispatch({
     type: GOALS_FETCH,
     payload: goals,
@@ -197,6 +201,7 @@ const returnCurrentGoals = (dispatch, goals) => {
 };
 
 const fetchNewGoals = (dispatch, dbRef, goals, categories, customGoalsList) => {
+  console.log('Fetching new goals:', goals);
   categories = categories.map((item) => item.toLowerCase());
   goals = parseInt(goals);
 

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import Utils from './Utils';
+import Utils from './utils';
 
 export default class Date extends Component {
   render() {
