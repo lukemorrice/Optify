@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {View, StyleSheet} from 'react-native';
 import Modal from 'react-native-modal';
 import Settings from '../settings/Settings';
+import SettingsContainer from '../settings/SettingsContainer';
 
 export default class ModalScreen extends Component {
   render() {
@@ -17,7 +18,7 @@ export default class ModalScreen extends Component {
         animationInTiming={400}
         animationOutTiming={400}>
         <View style={styles.modalContent}>
-          <Settings closeModal={toggleVisible} />
+          <SettingsContainer closeModal={toggleVisible} />
         </View>
       </Modal>
     );

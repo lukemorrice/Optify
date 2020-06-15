@@ -4,65 +4,22 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  ActivityIndicator,
   LayoutAnimation,
   StatusBar,
 } from 'react-native';
 import {withNavigation} from 'react-navigation';
-import {connect} from 'react-redux';
-import {updateGoals, updateCategories} from '../actions/profile';
-import {logoutUser} from '../actions/authorisation';
-import {changeGoalsAfterCategoryUpdate} from '../actions/goals';
 import AccountDetails from './components/AccountDetails';
 import GoalsSelector from './components//GoalsSelector';
 import CategorySelector from './components/CategorySelector';
 
 class Settings extends Component {
-  state = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    goals: '',
-    categories: [],
-  };
-
   componentDidMount() {
     StatusBar.setBarStyle('light-content', true);
-    this.setState({
-      firstName: this.props.profile.firstName,
-      lastName: this.props.profile.lastName,
-      email: this.props.profile.email,
-      goals: this.props.profile.goals,
-      categories: this.props.profile.categories,
-    });
   }
 
-  componentWillUnmount() {
+  onPressDone = () => {
     StatusBar.setBarStyle('dark-content', true);
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps !== this.props) {
-      this.setState({
-        firstName: this.props.profile.firstName,
-        lastName: this.props.profile.lastName,
-        email: this.props.profile.email,
-        goals: this.props.profile.goals,
-        categories: this.props.profile.categories,
-      });
-    }
-  }
-
-  onChangeGoals = (goal) => {
-    this.props.updateGoals(goal);
-  };
-
-  onPressLogout = () => {
-    this.props.logoutUser();
-  };
-
-  updateCategories = (categories) => {
-    this.props.updateCategories(categories);
+    this.props.closeModal();
   };
 
   updateGoalsForNewCategory = (newCategories) => {
@@ -70,16 +27,14 @@ class Settings extends Component {
     this.props.changeGoalsAfterCategoryUpdate(goals, newCategories);
   };
 
-  onPressDone = () => {
-    this.props.closeModal();
-  };
-
   render() {
     LayoutAnimation.easeInEaseOut();
+    var firstName = this.props.profile.firstName;
+    var lastName = this.props.profile.lastName;
+    var email = this.props.profile.email;
+    var goals = this.props.profile.goals;
+    var categories = this.props.profile.categories;
 
-    if (this.state.firstName === '') {
-      return <ActivityIndicator />;
-    }
     return (
       <View style={styles.screen}>
         <View style={styles.container}>
@@ -92,19 +47,16 @@ class Settings extends Component {
 
           <View style={styles.settings}>
             <AccountDetails
-              firstName={this.props.profile.firstName}
-              lastName={this.props.profile.lastName}
-              email={this.props.profile.email}
+              firstName={firstName}
+              lastName={lastName}
+              email={email}
             />
 
-            <GoalsSelector
-              goals={this.props.profile.goals}
-              updateGoals={this.onChangeGoals}
-            />
+            <GoalsSelector goals={goals} updateGoals={this.props.updateGoals} />
 
             <CategorySelector
-              updateCategories={this.updateCategories}
-              categories={this.props.profile.categories}
+              updateCategories={this.props.updateCategories}
+              categories={categories}
               updateGoals={this.updateGoalsForNewCategory}
             />
           </View>
@@ -112,7 +64,7 @@ class Settings extends Component {
           <View style={styles.logoutContainer}>
             <TouchableOpacity
               style={styles.buttonContainer}
-              onPress={this.onPressLogout.bind(this)}>
+              onPress={() => this.props.logoutUser()}>
               <Text style={styles.buttonText}>Logout</Text>
             </TouchableOpacity>
           </View>
@@ -122,17 +74,7 @@ class Settings extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  profile: state.profile.profile,
-});
-
-const SettingsComp = connect(mapStateToProps, {
-  updateGoals,
-  logoutUser,
-  updateCategories,
-  changeGoalsAfterCategoryUpdate,
-})(Settings);
-export default withNavigation(SettingsComp);
+export default withNavigation(Settings);
 
 const styles = StyleSheet.create({
   screen: {
