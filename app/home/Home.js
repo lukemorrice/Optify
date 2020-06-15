@@ -1,5 +1,11 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, Text, LayoutAnimation} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  LayoutAnimation,
+  RefreshControl,
+} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {FlatList} from 'react-native-gesture-handler';
 import Goal from './components/GoalItem';
@@ -13,6 +19,7 @@ class Home extends Component {
   state = {
     showDescription: [],
     isModalVisible: false,
+    refreshing: false,
   };
 
   toggleDescription = (index) => {
@@ -38,6 +45,19 @@ class Home extends Component {
         toggleGoalCompleted={this.toggleGoalCompleted}
       />
     );
+  };
+
+  wait(timeout) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, timeout);
+    });
+  }
+
+  refreshGoals = () => {
+    this.setState({refreshing: true});
+    this.wait(600)
+      .then(() => this.props.refreshGoals())
+      .then(() => this.setState({refreshing: false}));
   };
 
   render() {
@@ -84,6 +104,13 @@ class Home extends Component {
               renderItem={({item, index}) => this.renderGoals(item, index)}
               keyExtractor={(item) => item.title}
               style={{height: allGoalsCompleted ? 485 : 540}}
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.refreshing}
+                  onRefresh={() => this.refreshGoals()}
+                  tintColor="#808B96"
+                />
+              }
             />
 
             <ModalScreen

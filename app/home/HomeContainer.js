@@ -60,6 +60,7 @@ class HomeContainer extends Component {
           profile={this.props.profile}
           goalsList={this.state.goalsList}
           toggleGoalCompleted={this.toggleGoalCompleted}
+          refreshGoals={this.props.fetchGoals}
         />
       );
     } else {
