@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {ActivityIndicator} from 'react-native';
 import Home from './Home';
 import {connect} from 'react-redux';
 import {withNavigation} from 'react-navigation';
@@ -10,6 +9,7 @@ import {
   toggleGoalCompleted,
 } from '../actions/goals';
 import {PRIMARY_COLOUR} from '../Style';
+import LoadingScreen from '../auth/LoadingScreen';
 
 class HomeContainer extends Component {
   state = {
@@ -64,13 +64,7 @@ class HomeContainer extends Component {
         />
       );
     } else {
-      return (
-        <ActivityIndicator
-          style={{height: '100%'}}
-          color={PRIMARY_COLOUR}
-          size="large"
-        />
-      );
+      return <LoadingScreen />;
     }
   }
 }
