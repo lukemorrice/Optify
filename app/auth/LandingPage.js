@@ -61,13 +61,13 @@ export default class LandingPage extends Component {
                 </View>
                 <View style={styles.page}>
                   <Text style={styles.text}>
-                    These beneficial challenges help you to develop and grow
+                    These challenges are designed to help you develop and grow
                   </Text>
                 </View>
                 <View style={styles.page}>
                   <Text style={styles.text}>
-                    Improve just 1% a day, and after a year, you will be{' '}
-                    <Text style={{fontWeight: '800'}}>37</Text> times better
+                    "Improve just 1% a day, and after a year, you will be{' '}
+                    <Text style={{fontWeight: '800'}}>37</Text> times better"
                   </Text>
                 </View>
               </SwiperFlatList>
