@@ -14,7 +14,7 @@ import {
 import {withNavigation} from 'react-navigation';
 import {FlatList, TextInput} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {PRIMARY_COLOUR, WIDTH} from '../Style';
+import {PRIMARY_COLOUR} from '../Style';
 
 class AddGoal extends Component {
   state = {
@@ -164,10 +164,10 @@ class AddGoal extends Component {
         <SafeAreaView style={{flex: 0, backgroundColor: PRIMARY_COLOUR}} />
         <View style={{flex: 1, backgroundColor: PRIMARY_COLOUR}}>
           <SafeAreaView style={{flex: 1, backgroundColor: '#F9F9F9'}}>
-            <TouchableWithoutFeedback
-              onPress={Keyboard.dismiss}
-              accessible={false}>
-              <View style={styles.container}>
+            <View style={styles.container}>
+              <TouchableWithoutFeedback
+                onPress={Keyboard.dismiss}
+                accessible={false}>
                 <View style={styles.headerContainer}>
                   <TouchableOpacity
                     style={styles.backButton}
@@ -180,8 +180,12 @@ class AddGoal extends Component {
                   </TouchableOpacity>
                   <Text style={styles.header}>Custom Goals</Text>
                 </View>
-                <View style={styles.contentContainer}>
-                  <View style={styles.content}>
+              </TouchableWithoutFeedback>
+              <View style={styles.contentContainer}>
+                <View style={styles.content}>
+                  <TouchableWithoutFeedback
+                    onPress={Keyboard.dismiss}
+                    accessible={false}>
                     <View style={styles.addGoal}>
                       <Text style={styles.subHeading}>Add a new goal</Text>
                       <View style={{marginTop: 5}}>
@@ -237,50 +241,50 @@ class AddGoal extends Component {
                         </View>
                       </View>
                     </View>
-
-                    <View style={styles.userGoals}>
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                          marginBottom: 10,
-                        }}>
-                        <Text style={styles.subHeading}>Your goals</Text>
-                        {this.props.customGoals[0] ? (
-                          <TouchableOpacity
-                            onPress={() => this.toggleEditGoals()}>
-                            <Text style={{fontSize: 17}}>
-                              {this.state.editingGoals ? 'Done' : 'Edit'}
-                            </Text>
-                          </TouchableOpacity>
-                        ) : (
-                          <View />
-                        )}
-                      </View>
+                  </TouchableWithoutFeedback>
+                  <View style={styles.userGoals}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        marginBottom: 10,
+                      }}>
+                      <Text style={styles.subHeading}>Your goals</Text>
                       {this.props.customGoals[0] ? (
-                        <View style={{flex: 1}}>
-                          <FlatList
-                            data={this.props.customGoals}
-                            renderItem={({item, idx}) =>
-                              this.renderGoals(item, idx)
-                            }
-                            keyExtractor={(item) => item.title}
-                            scrollEnabled={true}
-                            style={{marginBottom: 5}}
-                          />
-                        </View>
+                        <TouchableOpacity
+                          onPress={() => this.toggleEditGoals()}>
+                          <Text style={{fontSize: 17}}>
+                            {this.state.editingGoals ? 'Done' : 'Edit'}
+                          </Text>
+                        </TouchableOpacity>
                       ) : (
-                        <Text style={{fontSize: 18}}>
-                          You haven't added any of your own goals yet, got any
-                          in mind?
-                        </Text>
+                        <View />
                       )}
                     </View>
+                    {this.props.customGoals[0] ? (
+                      <View style={{flex: 1}}>
+                        <FlatList
+                          data={this.props.customGoals}
+                          renderItem={({item, idx}) =>
+                            this.renderGoals(item, idx)
+                          }
+                          keyExtractor={(item) => item.title}
+                          scrollEnabled={true}
+                          style={{marginBottom: 5}}
+                        />
+                      </View>
+                    ) : (
+                      <Text style={{fontSize: 18}}>
+                        You haven't added any of your own goals yet, got any in
+                        mind?
+                      </Text>
+                    )}
                   </View>
                 </View>
               </View>
-            </TouchableWithoutFeedback>
+            </View>
+            {/* </TouchableWithoutFeedback> */}
           </SafeAreaView>
         </View>
       </View>
@@ -299,7 +303,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginHorizontal: 20,
-    marginTop: 5,
+    marginTop: 10,
   },
   header: {
     fontSize: 28,

@@ -25,10 +25,6 @@ class Home extends Component {
     refreshing: false,
   };
 
-  componentDidMount() {
-    StatusBar.setBarStyle('dark-content', true);
-  }
-
   toggleDescription = (index) => {
     this.state.showDescription[index] = !this.state.showDescription[index];
     this.setState({showDescription: this.state.showDescription});
@@ -168,7 +164,7 @@ const styles = StyleSheet.create({
   },
   goalHeading: {
     marginTop: 35,
-    marginBottom: 15,
+    marginBottom: 20,
   },
   goalHeadingText: {
     fontSize: 24,
