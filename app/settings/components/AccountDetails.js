@@ -11,9 +11,9 @@ export default class AccountDetails extends Component {
           style={{
             backgroundColor: 'white',
             marginTop: 5,
-            marginBottom: 50,
+            marginBottom: 25,
           }}>
-          <Divider></Divider>
+          <Divider />
           <View style={styles.accountDetails}>
             <Image
               source={require('../../images/profile.png')}
@@ -26,7 +26,7 @@ export default class AccountDetails extends Component {
               <Text style={styles.email}>{email}</Text>
             </View>
           </View>
-          <Divider></Divider>
+          <Divider />
         </View>
       </View>
     );

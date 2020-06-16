@@ -79,7 +79,7 @@ export default class CategorySelector extends Component {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    marginTop: 40,
+    marginTop: 25,
   },
   header: {
     fontSize: 20,

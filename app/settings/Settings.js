@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   LayoutAnimation,
   StatusBar,
+  SafeAreaView,
 } from 'react-native';
 import {withNavigation} from 'react-navigation';
 import AccountDetails from './components/AccountDetails';
@@ -37,38 +38,43 @@ class Settings extends Component {
 
     return (
       <View style={styles.screen}>
-        <View style={styles.container}>
-          <View style={styles.headerContainer}>
-            <Text style={styles.header}>Settings</Text>
-            <TouchableOpacity onPress={() => this.onPressDone()}>
-              <Text style={{fontSize: 17}}>Done</Text>
-            </TouchableOpacity>
+        <SafeAreaView>
+          <View style={styles.container}>
+            <View style={styles.headerContainer}>
+              <Text style={styles.header}>Settings</Text>
+              <TouchableOpacity onPress={() => this.onPressDone()}>
+                <Text style={{fontSize: 17}}>Done</Text>
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.settings}>
+              <AccountDetails
+                firstName={firstName}
+                lastName={lastName}
+                email={email}
+              />
+
+              <GoalsSelector
+                goals={goals}
+                updateGoals={this.props.updateGoals}
+              />
+
+              <CategorySelector
+                updateCategories={this.props.updateCategories}
+                categories={categories}
+                updateGoals={this.updateGoalsForNewCategory}
+              />
+            </View>
+
+            <View style={styles.logoutContainer}>
+              <TouchableOpacity
+                style={styles.buttonContainer}
+                onPress={() => this.props.logoutUser()}>
+                <Text style={styles.buttonText}>Logout</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-
-          <View style={styles.settings}>
-            <AccountDetails
-              firstName={firstName}
-              lastName={lastName}
-              email={email}
-            />
-
-            <GoalsSelector goals={goals} updateGoals={this.props.updateGoals} />
-
-            <CategorySelector
-              updateCategories={this.props.updateCategories}
-              categories={categories}
-              updateGoals={this.updateGoalsForNewCategory}
-            />
-          </View>
-
-          <View style={styles.logoutContainer}>
-            <TouchableOpacity
-              style={styles.buttonContainer}
-              onPress={() => this.props.logoutUser()}>
-              <Text style={styles.buttonText}>Logout</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+        </SafeAreaView>
       </View>
     );
   }
@@ -107,13 +113,14 @@ const styles = StyleSheet.create({
   },
   logoutContainer: {
     alignItems: 'center',
-    marginTop: 100,
+    marginTop: 25,
+    marginHorizontal: 20,
   },
   buttonContainer: {
     backgroundColor: '#48C9B0',
     alignItems: 'center',
     padding: 12,
-    width: 350,
+    width: '100%',
     borderRadius: 15,
   },
   buttonText: {

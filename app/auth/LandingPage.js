@@ -5,10 +5,10 @@ import {
   View,
   TouchableOpacity,
   LayoutAnimation,
-  Dimensions,
 } from 'react-native';
 import SwiperFlatList from 'react-native-swiper-flatlist';
 import OptifyHeader from './OptifyHeader';
+import {WIDTH} from '../Style';
 
 export default class LandingPage extends Component {
   onPressSignUp = () => {
@@ -94,7 +94,7 @@ export default class LandingPage extends Component {
   }
 }
 
-const {width, height} = Dimensions.get('window');
+const width = WIDTH;
 
 const styles = StyleSheet.create({
   page: {

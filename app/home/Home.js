@@ -82,13 +82,11 @@ class Home extends Component {
         <View style={{flex: 1, backgroundColor: PRIMARY_COLOUR}}>
           <SafeAreaView style={{flex: 1, backgroundColor: '#F9F9F9'}}>
             <View style={styles.container}>
-              <View style={{marginLeft: 20, marginRight: 20}}>
-                <View style={styles.headerContainer}>
-                  <Header
-                    navigation={this.props.navigation}
-                    toggleVisible={this.toggleVisible}
-                  />
-                </View>
+              <View style={styles.headerContainer}>
+                <Header
+                  navigation={this.props.navigation}
+                  toggleVisible={this.toggleVisible}
+                />
                 <View style={styles.dateContainer}>
                   <Date />
                 </View>
@@ -151,6 +149,7 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     marginTop: 5,
+    marginHorizontal: 20,
   },
   content: {
     flex: 1,
