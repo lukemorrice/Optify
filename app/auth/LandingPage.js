@@ -5,7 +5,7 @@ import {
   View,
   TouchableOpacity,
   LayoutAnimation,
-  StatusBar,
+  Dimensions,
 } from 'react-native';
 import SwiperFlatList from 'react-native-swiper-flatlist';
 import OptifyHeader from './OptifyHeader';
@@ -24,43 +24,56 @@ export default class LandingPage extends Component {
 
     return (
       <View style={styles.container}>
-        <StatusBar barStyle="dark-content" />
-        <View style={{marginTop: 125}}>
-          <OptifyHeader />
-        </View>
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '80%',
+          }}>
+          <View
+            style={{
+              height: '80%',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <OptifyHeader />
 
-        <SwiperFlatList
-          style={{width: 355}}
-          showPagination
-          paginationStyle={{marginBottom: 330}}
-          paginationStyleItem={{width: 8, height: 8}}
-          paginationActiveColor="#48C9B0"
-          paginationDefaultColor="#808080">
-          <View style={styles.page}>
-            <Text style={styles.text}>
-              Optify helps you build habits to become the best version of
-              yourself
-            </Text>
+            <View style={{height: '40%'}}>
+              <SwiperFlatList
+                autoplay
+                autoplayDelay={3}
+                autoplayLoop
+                showPagination
+                paginationStyle={{height: '10%'}}
+                paginationStyleItem={{width: 8, height: 8}}
+                paginationActiveColor="#48C9B0"
+                paginationDefaultColor="#808080">
+                <View style={styles.page}>
+                  <Text style={styles.text}>
+                    Optify helps you build habits to become the best version of
+                    yourself
+                  </Text>
+                </View>
+                <View style={styles.page}>
+                  <Text style={styles.text}>
+                    Goals are sent every day for you to complete
+                  </Text>
+                </View>
+                <View style={styles.page}>
+                  <Text style={styles.text}>
+                    These beneficial challenges help you to develop and grow
+                  </Text>
+                </View>
+                <View style={styles.page}>
+                  <Text style={styles.text}>
+                    Improve just 1% a day, and after a year, you will be{' '}
+                    <Text style={{fontWeight: '800'}}>37</Text> times better
+                  </Text>
+                </View>
+              </SwiperFlatList>
+            </View>
           </View>
-          <View style={styles.page}>
-            <Text style={styles.text}>
-              Goals are sent to you every day for you to complete
-            </Text>
-          </View>
-          <View style={styles.page}>
-            <Text style={styles.text}>
-              These beneficial challenges help you to develop and grow
-            </Text>
-          </View>
-          <View style={styles.page}>
-            <Text style={styles.text}>
-              Improve just 1% a day, and after a year, you will be{' '}
-              <Text style={{fontWeight: '800'}}>37</Text> times better
-            </Text>
-          </View>
-        </SwiperFlatList>
 
-        <View style={styles.textContainer}>
           <TouchableOpacity
             style={styles.buttonContainer}
             onPress={this.onPressSignUp.bind(this)}>
@@ -81,28 +94,26 @@ export default class LandingPage extends Component {
   }
 }
 
+const {width, height} = Dimensions.get('window');
+
 const styles = StyleSheet.create({
   page: {
-    width: 355,
+    width,
     justifyContent: 'center',
     alignItems: 'center',
   },
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: 'white',
-  },
-  textContainer: {
-    flex: 1,
     justifyContent: 'center',
-    marginBottom: 50,
   },
   text: {
     textAlign: 'center',
     color: '#333333',
-    fontSize: 21,
+    fontSize: 19,
     fontWeight: '500',
-    marginVertical: 5,
+    width: '90%',
+    backgroundColor: 'white',
   },
   buttonContainer: {
     backgroundColor: '#48C9B0',

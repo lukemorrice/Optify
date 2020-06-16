@@ -113,17 +113,22 @@ class Signup extends Component {
   render() {
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        <KeyboardAwareScrollView
+        {/* <KeyboardAwareScrollView
           style={{flex: 1}}
           scrollEnabled={false}
-          keyboardOpeningTime={100}>
-          <View style={styles.container}>
-            <TouchableOpacity
-              style={styles.back}
-              onPress={() => this.props.navigation.goBack()}>
-              <Icon name={'ios-arrow-round-back'} size={36} color="white" />
-            </TouchableOpacity>
+          keyboardOpeningTime={100}> */}
+        <View style={styles.container}>
+          <TouchableOpacity
+            style={styles.back}
+            onPress={() => this.props.navigation.goBack()}>
+            <Icon name={'ios-arrow-round-back'} size={36} color="white" />
+          </TouchableOpacity>
 
+          <View
+            style={{
+              marginHorizontal: 20,
+              marginTop: 35,
+            }}>
             <View style={styles.headerContainer}>
               <Text
                 style={styles.header}>{`Hello!\nSign up to get started.`}</Text>
@@ -211,7 +216,9 @@ class Signup extends Component {
               </View>
             </View>
           </View>
-        </KeyboardAwareScrollView>
+        </View>
+
+        {/* </KeyboardAwareScrollView> */}
       </TouchableWithoutFeedback>
     );
   }
@@ -227,7 +234,7 @@ export default withNavigation(SignupComp);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    justifyContent: 'center',
   },
   back: {
     position: 'absolute',
@@ -242,21 +249,19 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     alignItems: 'center',
-    marginTop: 170,
     justifyContent: 'center',
-    marginBottom: 20,
+    marginBottom: 25,
   },
   header: {
     fontSize: 28,
     fontWeight: '500',
     textAlign: 'center',
-    padding: 10,
   },
   errorContainer: {
     justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal: 40,
-    marginTop: 25,
+    marginTop: 10,
   },
   error: {
     fontSize: 16,
@@ -266,12 +271,12 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     alignItems: 'center',
-    marginBottom: 70,
+    width: '100%',
   },
   input: {
     padding: 10,
     height: 45,
-    width: 350,
+    width: '100%',
     borderWidth: 2,
     borderColor: 'black',
     fontSize: 16,
@@ -280,6 +285,7 @@ const styles = StyleSheet.create({
   },
   element: {
     padding: 15,
+    width: '100%',
   },
   buttonText: {
     color: 'white',
@@ -290,11 +296,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#48C9B0',
     alignItems: 'center',
     padding: 12,
-    width: 350,
+    width: '100%',
     borderRadius: 15,
   },
   button: {
-    paddingTop: 40,
+    paddingTop: 25,
+    width: '100%',
   },
   login: {
     textAlign: 'center',

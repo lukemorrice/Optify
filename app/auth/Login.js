@@ -69,53 +69,57 @@ class Login extends Component {
             onPress={() => this.props.navigation.goBack()}>
             <Icon name={'ios-arrow-round-back'} size={36} color="white" />
           </TouchableOpacity>
-
-          <View style={styles.headerContainer}>
-            <Text style={styles.header}>{`Hello again.\nWelcome back.`}</Text>
-          </View>
-
-          <View style={styles.formContainer}>
-            <View style={styles.element}>
-              <TextInput
-                placeholder="Email"
-                placeholderTextColor="gray"
-                textContentType="emailAddress"
-                keyboardType="email-address"
-                autoCapitalize="none"
-                style={styles.input}
-                onChangeText={this.onChangeEmail.bind(this)}
-                value={this.state.email}></TextInput>
+          <View style={{marginHorizontal: 20}}>
+            <View style={styles.headerContainer}>
+              <Text style={styles.header}>{`Hello again.\nWelcome back.`}</Text>
             </View>
 
-            <View style={styles.element}>
-              <TextInput
-                placeholder="Password"
-                placeholderTextColor="gray"
-                textContentType="password"
-                secureTextEntry={true}
-                autoCapitalize="none"
-                style={styles.input}
-                onChangeText={this.onChangePassword.bind(this)}
-                value={this.state.password}></TextInput>
-            </View>
+            <View style={styles.formContainer}>
+              <View style={styles.element}>
+                <TextInput
+                  placeholder="Email"
+                  placeholderTextColor="gray"
+                  textContentType="emailAddress"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  style={styles.input}
+                  onChangeText={this.onChangeEmail.bind(this)}
+                  value={this.state.email}></TextInput>
+              </View>
 
-            <View style={styles.errorContainer}>
-              {this.props.auth.errorLogging ? (
-                <Text style={styles.error}>{this.props.auth.errorLogging}</Text>
-              ) : (
-                <Text style={styles.error}>{this.state.error}</Text>
-              )}
-            </View>
-            {this.renderButtons()}
+              <View style={styles.element}>
+                <TextInput
+                  placeholder="Password"
+                  placeholderTextColor="gray"
+                  textContentType="password"
+                  secureTextEntry={true}
+                  autoCapitalize="none"
+                  style={styles.input}
+                  onChangeText={this.onChangePassword.bind(this)}
+                  value={this.state.password}></TextInput>
+              </View>
 
-            <View style={[{flexDirection: 'row'}, {justifyContent: 'center'}]}>
-              <Text style={styles.signup}>New to Optify? </Text>
-              <TouchableOpacity
-                onPress={() => this.props.navigation.navigate('Signup')}>
-                <Text style={[styles.signup, {color: '#ff4d4d'}]}>
-                  Sign up here
-                </Text>
-              </TouchableOpacity>
+              <View style={styles.errorContainer}>
+                {this.props.auth.errorLogging ? (
+                  <Text style={styles.error}>
+                    {this.props.auth.errorLogging}
+                  </Text>
+                ) : (
+                  <Text style={styles.error}>{this.state.error}</Text>
+                )}
+              </View>
+              {this.renderButtons()}
+
+              <View
+                style={[{flexDirection: 'row'}, {justifyContent: 'center'}]}>
+                <Text style={styles.signup}>New to Optify? </Text>
+                <TouchableOpacity
+                  onPress={() => this.props.navigation.navigate('Signup')}>
+                  <Text style={[styles.signup, {color: '#ff4d4d'}]}>
+                    Sign up here
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </View>
@@ -135,6 +139,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
+    justifyContent: 'center',
   },
   back: {
     position: 'absolute',
@@ -149,7 +154,6 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     alignItems: 'center',
-    marginTop: 200,
     justifyContent: 'center',
     marginBottom: 20,
   },
@@ -173,12 +177,12 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     alignItems: 'center',
-    marginBottom: 70,
+    width: '100%',
   },
   input: {
     padding: 10,
     height: 45,
-    width: 350,
+    width: '100%',
     borderWidth: 2,
     borderColor: '#34495E',
     fontSize: 16,
@@ -187,6 +191,7 @@ const styles = StyleSheet.create({
   },
   element: {
     padding: 15,
+    width: '100%',
   },
   buttonText: {
     color: 'white',
@@ -197,11 +202,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#48C9B0',
     alignItems: 'center',
     padding: 12,
-    width: 350,
+    width: '100%',
     borderRadius: 15,
   },
   button: {
     paddingTop: 40,
+    width: '90%',
   },
   signup: {
     textAlign: 'center',
