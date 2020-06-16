@@ -41,7 +41,7 @@ export default class LandingPage extends Component {
             <View style={{height: '40%'}}>
               <SwiperFlatList
                 autoplay
-                autoplayDelay={3}
+                autoplayDelay={4}
                 autoplayLoop
                 showPagination
                 paginationStyle={{height: '10%'}}
