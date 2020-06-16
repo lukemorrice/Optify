@@ -26,7 +26,7 @@ export default Goal = ({
 
   if (!showDescription[index]) {
     return (
-      <View style={{marginTop: 30}}>
+      <View style={{marginTop: index !== 0 ? 28 : 0}}>
         <View style={styles.listContainer}>
           <View style={{width: '100%'}}>
             <TouchableOpacity
@@ -73,7 +73,7 @@ export default Goal = ({
     );
   } else {
     return (
-      <View style={{marginTop: 30}}>
+      <View style={{marginTop: index !== 0 ? 28 : 0}}>
         <View style={styles.listContainer}>
           <View style={{width: '100%'}}>
             <TouchableOpacity onPress={() => toggleDescription(index)}>
