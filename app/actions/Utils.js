@@ -7,7 +7,7 @@ export const updateGoalsForNewCategories = (
     categoryList.includes(goal.category),
   );
 
-  // return just one goal if exercise is the user's only goal type
+  // return just one goal if exercise is the user's only goal type is exercise
   if (categoryList.includes('exercise') && categoryList.length == 1) {
     return onlyExerciseGoals(currentGoalsList, fullGoalsList);
   }
@@ -17,20 +17,24 @@ export const updateGoalsForNewCategories = (
       categoryList.includes(goal.category),
     );
 
-    var numOfNeededGoals = 3 - newGoalsList.length;
+    var numOfNeededGoals = currentGoalsList.length - newGoalsList.length;
     var newGoal;
 
-    for (let i = 0; i < numOfNeededGoals; i++) {
-      do {
-        newGoal = availableGoals[generateRandomNumber(availableGoals.length)];
-      } while (
-        newGoalsList.includes(newGoal) ||
-        exerciseGoalExists(newGoal, newGoalsList)
-      );
-      newGoalsList.push(newGoal);
+    if (numberOfNeededGoals > 1) {
+      for (let i = 0; i < numOfNeededGoals; i++) {
+        do {
+          newGoal = availableGoals[generateRandomNumber(availableGoals.length)];
+        } while (
+          newGoalsList.includes(newGoal) ||
+          exerciseGoalExists(newGoal, newGoalsList)
+        );
+        newGoalsList.push(newGoal);
+      }
     }
+    return newGoalsList;
+  } else {
+    return newGoalsList;
   }
-  return newGoalsList;
 };
 
 const onlyExerciseGoals = (userGoals, allGoals) => {
