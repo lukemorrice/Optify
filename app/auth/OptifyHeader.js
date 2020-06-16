@@ -1,12 +1,24 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+import {PRIMARY_COLOUR} from '../Style';
 
 export default class OptifyHeader extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.circle}>
-          <Text style={styles.header}>Optify</Text>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View
+            style={{
+              width: 62,
+              height: 62,
+              backgroundColor: PRIMARY_COLOUR,
+              borderRadius: 31,
+              marginRight: 10,
+            }}
+          />
+          <Text style={{fontSize: 62, color: PRIMARY_COLOUR, letterSpacing: 7}}>
+            ptify
+          </Text>
         </View>
       </View>
     );

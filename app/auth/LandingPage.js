@@ -38,7 +38,7 @@ export default class LandingPage extends Component {
             }}>
             <OptifyHeader />
 
-            <View style={{height: '40%'}}>
+            <View style={{height: '40%', marginTop: 20}}>
               <SwiperFlatList
                 autoplay
                 autoplayDelay={4}
