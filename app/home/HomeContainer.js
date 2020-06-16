@@ -8,8 +8,7 @@ import {
   updateUserGoals,
   toggleGoalCompleted,
 } from '../actions/goals';
-import {PRIMARY_COLOUR} from '../Style';
-import LoadingScreen from '../auth/LoadingScreen';
+import Loading from '../auth/Loading';
 
 class HomeContainer extends Component {
   state = {
@@ -61,10 +60,11 @@ class HomeContainer extends Component {
           goalsList={this.state.goalsList}
           toggleGoalCompleted={this.toggleGoalCompleted}
           refreshGoals={this.props.fetchGoals}
+          navigation={this.props.navigation}
         />
       );
     } else {
-      return <LoadingScreen />;
+      return <Loading />;
     }
   }
 }

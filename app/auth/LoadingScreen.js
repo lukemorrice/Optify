@@ -1,46 +1,30 @@
-import React from 'react';
-import {View, Text, StyleSheet, ActivityIndicator} from 'react-native';
+import React, {Component} from 'react';
+import {Alert} from 'react-native';
+import NetInfo from '@react-native-community/netinfo';
 import firebase from 'firebase';
-import {PRIMARY_COLOUR} from '../Style';
+import Loading from './Loading';
 
-export default class LoadingScreen extends React.Component {
-  componentDidMount() {
-    firebase.auth().onAuthStateChanged((user) => {
-      this.props.navigation.navigate(user ? 'App' : 'Auth');
-    });
+export default class LoadingScreen extends Component {
+  async componentDidMount() {
+    const isConnected = await this.isNetworkAvailable();
+
+    if (!isConnected) {
+      Alert.alert(
+        'Optify requires an internet connnection, please check your network',
+      );
+    } else {
+      firebase.auth().onAuthStateChanged((user) => {
+        this.props.navigation.navigate(user ? 'App' : 'Auth');
+      });
+    }
   }
+
+  isNetworkAvailable = async () => {
+    const response = await NetInfo.fetch();
+    return response.isConnected;
+  };
 
   render() {
-    return (
-      <View style={styles.container}>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <View
-            style={{
-              width: 60,
-              height: 60,
-              backgroundColor: PRIMARY_COLOUR,
-              borderRadius: 30,
-              marginRight: 10,
-            }}
-          />
-          <Text style={{fontSize: 60, color: PRIMARY_COLOUR, letterSpacing: 7}}>
-            ptify
-          </Text>
-        </View>
-        <ActivityIndicator
-          size="large"
-          color={PRIMARY_COLOUR}
-          style={{marginTop: 60}}
-        />
-      </View>
-    );
+    return <Loading />;
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});

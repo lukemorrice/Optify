@@ -21,6 +21,7 @@ class SettingsContainer extends Component {
             this.props.changeGoalsAfterCategoryUpdate
           }
           closeModal={this.props.closeModal}
+          navigation={this.props.navigation}
         />
       );
     } else {

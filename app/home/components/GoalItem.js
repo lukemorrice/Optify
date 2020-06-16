@@ -29,7 +29,12 @@ export default Goal = ({
       <View style={{marginTop: 30}}>
         <View style={styles.listContainer}>
           <View style={{width: '100%'}}>
-            <TouchableOpacity onPress={() => toggleDescription(index)}>
+            <TouchableOpacity
+              onPress={() => {
+                if (goal.description !== '') {
+                  toggleDescription(index);
+                }
+              }}>
               <View
                 style={{
                   backgroundColor: goal.completed

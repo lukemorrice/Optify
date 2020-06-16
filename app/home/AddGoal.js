@@ -43,8 +43,8 @@ class AddGoal extends Component {
       );
       goalTitleExists = customGoalsTitles.includes(title);
     }
-    if (!(title && description)) {
-      Alert.alert('Please complete both fields to add your custom goal');
+    if (!title) {
+      Alert.alert('Please enter a title for your goal');
     } else if (goalTitleExists) {
       Alert.alert('Goal titles must be unique');
     } else {
