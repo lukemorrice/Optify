@@ -40,7 +40,9 @@ class ForgotPassword extends Component {
 
   onChangeEmail = (email) => {
     this.setState({email});
-    this.props.resetErrors();
+    if (email == '') {
+      this.props.resetErrors();
+    }
   };
 
   onPressSend = () => {
