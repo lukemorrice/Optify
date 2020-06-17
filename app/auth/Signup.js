@@ -24,6 +24,15 @@ class Signup extends Component {
     password: '',
     confirmPassword: '',
     error: '',
+    inputs: {},
+  };
+
+  focusOnField = (id) => {
+    if (id == 'password2' && this.state.password == '') {
+      Keyboard.dismiss();
+    } else {
+      this.state.inputs[id].focus();
+    }
   };
 
   onChangeFirstName = (firstName) => {
@@ -115,7 +124,8 @@ class Signup extends Component {
     return (
       <KeyboardAvoidingView
         style={{flex: 1}}
-        behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
+        behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={10}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
           <View style={styles.container}>
             <TouchableOpacity
@@ -143,6 +153,9 @@ class Signup extends Component {
                     placeholder="First Name"
                     placeholderTextColor="gray"
                     autoCorrect={false}
+                    blurOnSubmit={false}
+                    returnKeyType={'next'}
+                    onSubmitEditing={() => this.focusOnField('lastName')}
                     onChangeText={this.onChangeFirstName.bind(this)}
                     value={this.state.firstName}></TextInput>
                 </View>
@@ -153,6 +166,12 @@ class Signup extends Component {
                     placeholder="Last Name"
                     placeholderTextColor="gray"
                     autoCorrect={false}
+                    blurOnSubmit={false}
+                    returnKeyType={'next'}
+                    onSubmitEditing={() => this.focusOnField('email')}
+                    ref={(input) => {
+                      this.state.inputs['lastName'] = input;
+                    }}
                     onChangeText={this.onChangeLastName.bind(this)}
                     value={this.state.lastName}></TextInput>
                 </View>
@@ -165,6 +184,12 @@ class Signup extends Component {
                     autoCapitalize="none"
                     textContentType="emailAddress"
                     keyboardType="email-address"
+                    blurOnSubmit={false}
+                    returnKeyType={'next'}
+                    onSubmitEditing={() => this.focusOnField('password')}
+                    ref={(input) => {
+                      this.state.inputs['email'] = input;
+                    }}
                     onChangeText={this.onChangeEmail.bind(this)}
                     value={this.state.email}></TextInput>
                 </View>
@@ -176,6 +201,12 @@ class Signup extends Component {
                     placeholderTextColor="gray"
                     secureTextEntry
                     autoCapitalize="none"
+                    blurOnSubmit={false}
+                    returnKeyType={'next'}
+                    onSubmitEditing={() => this.focusOnField('password2')}
+                    ref={(input) => {
+                      this.state.inputs['password'] = input;
+                    }}
                     onChangeText={this.onChangePassword.bind(this)}
                     value={this.state.password}></TextInput>
                 </View>
@@ -188,6 +219,9 @@ class Signup extends Component {
                       placeholderTextColor="gray"
                       secureTextEntry
                       autoCapitalize="none"
+                      ref={(input) => {
+                        this.state.inputs['password2'] = input;
+                      }}
                       onChangeText={this.onChangeConfirmPassword.bind(this)}
                       value={this.state.confirmPassword}></TextInput>
                   </View>

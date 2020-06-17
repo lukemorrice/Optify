@@ -8,6 +8,51 @@ import {
   exerciseGoalExists,
 } from './utils';
 
+export const fetchGoals = () => {
+  const {currentUser} = firebase.auth();
+  const dbRef = firebase.database().ref(`/users/${currentUser.uid}/profile`);
+  const currentDate = getDate();
+  var lastActive;
+  var goalsList;
+  var categories;
+  var goals;
+  var goalsCompleted;
+  var goalsSet;
+  var customGoalsList;
+
+  return (dispatch) => {
+    dbRef
+      .once('value', (snap) => {
+        lastActive = snap.val().lastActive;
+        goalsList = snap.val().goalsList;
+        categories = snap.val().categories;
+        goals = snap.val().goals;
+        goalsCompleted = snap.val().goalsCompleted;
+        goalsSet = snap.val().goalsSet;
+        customGoalsList = snap.val().customGoalsList;
+      })
+      .then(() => {
+        lastActive == currentDate && goalsList
+          ? returnCurrentGoals(dispatch, goalsList)
+          : fetchNewGoals(dispatch, dbRef, goals, categories, customGoalsList);
+      })
+      .then(() => {
+        if (goalsList && lastActive !== currentDate) {
+          let completed = goalsList.filter((goal) => goal.completed == true)
+            .length;
+          let newCompleted = parseInt(goalsCompleted) + parseInt(completed);
+          let newGoalsSet = parseInt(goalsSet) + parseInt(goalsList.length);
+
+          dbRef.update({
+            goalsCompleted: newCompleted,
+            goalsSet: newGoalsSet,
+            lastActive: currentDate,
+          });
+        }
+      });
+  };
+};
+
 export const changeGoalsAfterCategoryUpdate = (currentGoals, newCategories) => {
   newCategories = newCategories.map((item) => item.toLowerCase());
   const {currentUser} = firebase.auth();
@@ -168,51 +213,6 @@ export const removeCustomGoal = (goal) => {
       });
     };
   }
-};
-
-export const fetchGoals = () => {
-  const {currentUser} = firebase.auth();
-  const dbRef = firebase.database().ref(`/users/${currentUser.uid}/profile`);
-  const currentDate = getDate();
-  var lastActive;
-  var goalsList;
-  var categories;
-  var goals;
-  var goalsCompleted;
-  var goalsSet;
-  var customGoalsList;
-
-  return (dispatch) => {
-    dbRef
-      .once('value', (snap) => {
-        lastActive = snap.val().lastActive;
-        goalsList = snap.val().goalsList;
-        categories = snap.val().categories;
-        goals = snap.val().goals;
-        goalsCompleted = snap.val().goalsCompleted;
-        goalsSet = snap.val().goalsSet;
-        customGoalsList = snap.val().customGoalsList;
-      })
-      .then(() => {
-        lastActive == currentDate && goalsList
-          ? returnCurrentGoals(dispatch, goalsList)
-          : fetchNewGoals(dispatch, dbRef, goals, categories, customGoalsList);
-      })
-      .then(() => {
-        if (goalsList && lastActive !== currentDate) {
-          let completed = goalsList.filter((goal) => goal.completed == true)
-            .length;
-          let newCompleted = parseInt(goalsCompleted) + parseInt(completed);
-          let newGoalsSet = parseInt(goalsSet) + parseInt(goals);
-
-          dbRef.update({
-            goalsCompleted: newCompleted,
-            goalsSet: newGoalsSet,
-            lastActive: currentDate,
-          });
-        }
-      });
-  };
 };
 
 const returnCurrentGoals = (dispatch, goals) => {

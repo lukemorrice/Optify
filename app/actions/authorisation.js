@@ -8,6 +8,8 @@ import {
   AUTH_CREATE_USER_SUCCESS,
   AUTH_LOGOUT_USER,
   RESET_ERRORS,
+  PASSWORD_RESET_SUCCESS,
+  PASSWORD_RESET_FAIL,
 } from './types';
 
 export const createUser = (firstName, lastName, email, password) => {
@@ -30,7 +32,6 @@ export const createUser = (firstName, lastName, email, password) => {
                 firstName,
                 lastName,
                 email,
-                password,
                 goals: 1,
                 lastActive: date,
                 goalsList: {},
@@ -106,7 +107,30 @@ export const logoutUser = () => {
 };
 
 export const resetErrors = () => {
+  console.log('Resetting errors...');
   return (dispatch) => {
     dispatch({type: RESET_ERRORS});
+  };
+};
+
+export const handlePasswordReset = (email) => {
+  return (dispatch) => {
+    firebase
+      .auth()
+      .sendPasswordResetEmail(email)
+      .then(() => {
+        console.log('Password reset email sent successfully');
+        dispatch({
+          type: PASSWORD_RESET_SUCCESS,
+          payload: 'Password reset email sent successfully',
+        });
+      })
+      .catch((error) => {
+        console.log(error.message);
+        dispatch({
+          type: PASSWORD_RESET_FAIL,
+          payload: error.message,
+        });
+      });
   };
 };

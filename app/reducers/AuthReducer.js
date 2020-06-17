@@ -7,6 +7,9 @@ import {
   AUTH_CREATE_USER_SUCCESS,
   AUTH_LOGOUT_USER,
   RESET_ERRORS,
+  PASSWORD_RESET_SUCCESS,
+  PASSWORD_FAIL,
+  PASSWORD_RESET_FAIL,
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -43,7 +46,11 @@ const auth = (state = INITIAL_STATE, action) => {
     case AUTH_LOGOUT_USER:
       return {...state, loading: false, errorLogging: '', errorCreating: ''};
     case RESET_ERRORS:
-      return {...state, errorLogging: '', errorCreating: ''};
+      return {...state, errorLogging: '', errorCreating: '', errorReset: ''};
+    case PASSWORD_RESET_SUCCESS:
+      return {...state, errorReset: action.payload};
+    case PASSWORD_RESET_FAIL:
+      return {...state, errorReset: action.payload};
     default:
       return state;
   }

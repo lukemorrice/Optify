@@ -19,6 +19,11 @@ class Login extends Component {
     email: '',
     password: '',
     error: '',
+    inputs: {},
+  };
+
+  focusOnField = (id) => {
+    this.state.inputs[id].focus();
   };
 
   onChangeEmail = (email) => {
@@ -83,6 +88,9 @@ class Login extends Component {
                   keyboardType="email-address"
                   autoCapitalize="none"
                   style={styles.input}
+                  blurOnSubmit={false}
+                  returnKeyType={'next'}
+                  onSubmitEditing={() => this.focusOnField('password')}
                   onChangeText={this.onChangeEmail.bind(this)}
                   value={this.state.email}></TextInput>
               </View>
@@ -95,6 +103,9 @@ class Login extends Component {
                   secureTextEntry={true}
                   autoCapitalize="none"
                   style={styles.input}
+                  ref={(input) => {
+                    this.state.inputs['password'] = input;
+                  }}
                   onChangeText={this.onChangePassword.bind(this)}
                   value={this.state.password}></TextInput>
               </View>
@@ -111,12 +122,29 @@ class Login extends Component {
               {this.renderButtons()}
 
               <View
-                style={[{flexDirection: 'row'}, {justifyContent: 'center'}]}>
+                style={[
+                  {
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    marginTop: 20,
+                  },
+                ]}>
                 <Text style={styles.signup}>New to Optify? </Text>
                 <TouchableOpacity
                   onPress={() => this.props.navigation.navigate('Signup')}>
                   <Text style={[styles.signup, {color: '#ff4d4d'}]}>
                     Sign up here
+                  </Text>
+                </TouchableOpacity>
+              </View>
+
+              <View style={{marginTop: 10}}>
+                <TouchableOpacity
+                  onPress={() =>
+                    this.props.navigation.navigate('ForgotPassword')
+                  }>
+                  <Text style={[styles.signup, {color: '#3498DB'}]}>
+                    Reset password
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -212,7 +240,6 @@ const styles = StyleSheet.create({
   signup: {
     textAlign: 'center',
     color: '#333333',
-    marginTop: 20,
     fontSize: 16,
     fontWeight: '500',
   },
