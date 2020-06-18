@@ -4,19 +4,16 @@ import {
   View,
   Text,
   LayoutAnimation,
-  RefreshControl,
   SafeAreaView,
-  StatusBar,
 } from 'react-native';
 import {withNavigation} from 'react-navigation';
-import {FlatList} from 'react-native-gesture-handler';
-import Goal from './components/GoalItem';
 import Greeting from './components/Greeting';
 import Date from './components/Date';
 import Header from './components/Header';
 import ModalScreen from './Modal';
 import CongratsMsg from './components/Congrats';
 import {PRIMARY_COLOUR} from '../Style';
+import GoalsList from './components/GoalsList';
 
 class Home extends Component {
   state = {
@@ -36,31 +33,6 @@ class Home extends Component {
 
   toggleGoalCompleted = (idx) => {
     this.props.toggleGoalCompleted(idx);
-  };
-
-  renderGoals = (goal, index) => {
-    return (
-      <Goal
-        goal={goal}
-        index={index}
-        toggleDescription={this.toggleDescription}
-        showDescription={this.state.showDescription}
-        toggleGoalCompleted={this.toggleGoalCompleted}
-      />
-    );
-  };
-
-  wait(timeout) {
-    return new Promise((resolve) => {
-      setTimeout(resolve, timeout);
-    });
-  }
-
-  refreshGoals = () => {
-    this.setState({refreshing: true});
-    this.wait(600)
-      .then(() => this.props.refreshGoals())
-      .then(() => this.setState({refreshing: false}));
   };
 
   render() {
@@ -103,29 +75,18 @@ class Home extends Component {
                   {allGoalsCompleted ? <CongratsMsg /> : <View />}
                 </View>
 
-                <View style={{flex: 1, marginLeft: 15, marginRight: 15}}>
-                  <FlatList
-                    data={goalsList}
-                    renderItem={({item, index}) =>
-                      this.renderGoals(item, index)
-                    }
-                    keyExtractor={(item) => item.title}
-                    scrollEnabled={true}
-                    style={{marginBottom: 5}}
-                    refreshControl={
-                      <RefreshControl
-                        refreshing={this.state.refreshing}
-                        onRefresh={() => this.refreshGoals()}
-                        tintColor="#808B96"
-                      />
-                    }
-                  />
+                <GoalsList
+                  goalsList={goalsList}
+                  toggleGoalCompleted={this.toggleGoalCompleted}
+                  toggleDescription={this.toggleDescription}
+                  showDescription={this.state.showDescription}
+                  refreshGoals={() => this.props.refreshGoals()}
+                />
 
-                  <ModalScreen
-                    isVisible={this.state.isModalVisible}
-                    toggleVisible={this.toggleVisible}
-                  />
-                </View>
+                <ModalScreen
+                  isVisible={this.state.isModalVisible}
+                  toggleVisible={this.toggleVisible}
+                />
               </View>
             </View>
           </SafeAreaView>
