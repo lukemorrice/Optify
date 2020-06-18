@@ -12,7 +12,7 @@ import Date from './components/Date';
 import Header from './components/Header';
 import ModalScreen from './Modal';
 import CongratsMsg from './components/Congrats';
-import {PRIMARY_COLOUR} from '../Style';
+import {PRIMARY_COLOUR, WHITE} from '../Style';
 import GoalsList from './components/GoalsList';
 
 class Home extends Component {
@@ -24,6 +24,11 @@ class Home extends Component {
 
   toggleDescription = (index) => {
     this.state.showDescription[index] = !this.state.showDescription[index];
+    this.setState({showDescription: this.state.showDescription});
+  };
+
+  closeDescription = (index) => {
+    this.state.showDescription[index] = false;
     this.setState({showDescription: this.state.showDescription});
   };
 
@@ -48,7 +53,7 @@ class Home extends Component {
       <View style={{flex: 1}}>
         <SafeAreaView style={{flex: 0, backgroundColor: PRIMARY_COLOUR}} />
         <View style={{flex: 1, backgroundColor: PRIMARY_COLOUR}}>
-          <SafeAreaView style={{flex: 1, backgroundColor: '#F9F9F9'}}>
+          <SafeAreaView style={{flex: 1, backgroundColor: WHITE}}>
             <View style={styles.container}>
               <View style={styles.headerContainer}>
                 <Header
@@ -79,6 +84,7 @@ class Home extends Component {
                   goalsList={goalsList}
                   toggleGoalCompleted={this.toggleGoalCompleted}
                   toggleDescription={this.toggleDescription}
+                  closeDescription={this.closeDescription}
                   showDescription={this.state.showDescription}
                   refreshGoals={() => this.props.refreshGoals()}
                 />
@@ -90,7 +96,7 @@ class Home extends Component {
               </View>
             </View>
           </SafeAreaView>
-          <View style={{backgroundColor: '#F9F9F9'}} />
+          <View style={{backgroundColor: WHITE}} />
         </View>
       </View>
     );
@@ -114,7 +120,7 @@ const styles = StyleSheet.create({
     height: '100%',
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
-    backgroundColor: '#F9F9F9',
+    backgroundColor: WHITE,
     marginTop: 15,
   },
   dateContainer: {

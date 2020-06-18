@@ -14,7 +14,7 @@ import {
 import {withNavigation} from 'react-navigation';
 import {FlatList, TextInput} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {PRIMARY_COLOUR} from '../Style';
+import {PRIMARY_COLOUR, WHITE} from '../Style';
 
 class AddGoal extends Component {
   state = {
@@ -163,7 +163,7 @@ class AddGoal extends Component {
       <View style={{flex: 1}}>
         <SafeAreaView style={{flex: 0, backgroundColor: PRIMARY_COLOUR}} />
         <View style={{flex: 1, backgroundColor: PRIMARY_COLOUR}}>
-          <SafeAreaView style={{flex: 1, backgroundColor: '#F9F9F9'}}>
+          <SafeAreaView style={{flex: 1, backgroundColor: WHITE}}>
             <View style={styles.container}>
               <TouchableWithoutFeedback
                 onPress={Keyboard.dismiss}
@@ -323,7 +323,7 @@ const styles = StyleSheet.create({
     height: '100%',
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
-    backgroundColor: '#F9F9F9',
+    backgroundColor: WHITE,
     marginTop: 15,
     flex: 1,
   },

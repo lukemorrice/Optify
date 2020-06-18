@@ -12,6 +12,7 @@ import {withNavigation} from 'react-navigation';
 import AccountDetails from './components/AccountDetails';
 import GoalsSelector from './components//GoalsSelector';
 import CategorySelector from './components/CategorySelector';
+import {WHITE} from '../Style';
 
 class Settings extends Component {
   componentDidMount() {
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   container: {
-    backgroundColor: '#F9F9F9',
+    backgroundColor: WHITE,
     borderRadius: 40,
     height: 850,
   },
