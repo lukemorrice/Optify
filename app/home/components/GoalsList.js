@@ -103,30 +103,32 @@ export default class GoalsList extends Component {
           flex: 1,
           marginTop: data.index !== 0 ? 20 : 0,
         }}>
-        <View
-          style={{
-            width: 65,
-            borderRadius: 15,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: 'pink',
-            height: 55,
-          }}>
-          <Text style={{color: 'white', fontSize: 16, fontWeight: '600'}}>
-            Left
-          </Text>
-        </View>
-        <View
-          style={{
-            backgroundColor: '#FF1744',
-            width: 65,
-            borderRadius: 15,
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: 55,
-          }}>
-          <Icon name="ios-trash" size={36} color="white" />
-        </View>
+        <TouchableOpacity>
+          <View
+            style={{
+              width: 70,
+              borderRadius: 15,
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: '#FFD740',
+              height: 55,
+            }}>
+            <Icon name="ios-star" size={32} color="white" />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <View
+            style={{
+              backgroundColor: '#FF1744',
+              width: 70,
+              borderRadius: 15,
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: 55,
+            }}>
+            <Icon name="ios-trash" size={36} color="white" />
+          </View>
+        </TouchableOpacity>
       </View>
     );
   };
@@ -145,8 +147,8 @@ export default class GoalsList extends Component {
           swipeGestureBegan={(rowKey) =>
             this.props.closeDescription(parseInt(rowKey))
           }
-          leftOpenValue={70}
-          rightOpenValue={-70}
+          leftOpenValue={75}
+          rightOpenValue={-75}
           leftActionValue={100}
           rightActionValue={-100}
           previewRowKey={
