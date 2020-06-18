@@ -10,7 +10,6 @@ import {SwipeListView} from 'react-native-swipe-list-view';
 import {PRIMARY_COLOUR, SECONDARY_COLOUR, WHITE} from '../../Style';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
-import {ThemeConsumer} from 'react-native-elements';
 
 const options = {
   enableVibrateFallback: true,
@@ -42,7 +41,8 @@ export default class GoalsList extends Component {
       .then(() => this.setState({refreshing: false}));
   };
 
-  renderListItem = (goal, index) => {
+  renderListItem = (goal, index, rowMap) => {
+    console.log(rowMap);
     const showDescription = this.props.showDescription[index];
     return (
       <View
@@ -51,7 +51,11 @@ export default class GoalsList extends Component {
           borderRadius: 15,
           marginTop: index == 0 ? 0 : 20,
         }}>
-        <TouchableOpacity onPress={() => this.props.toggleDescription(index)}>
+        <TouchableOpacity
+          onPress={() => {
+            rowMap[index.toString()].closeRow();
+            this.props.toggleDescription(index);
+          }}>
           <View
             style={{
               height: showDescription ? 100 : 55,
@@ -96,13 +100,12 @@ export default class GoalsList extends Component {
         style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
-          // alignItems: 'center',
           flex: 1,
           marginTop: data.index !== 0 ? 20 : 0,
         }}>
         <View
           style={{
-            width: 75,
+            width: 65,
             borderRadius: 15,
             justifyContent: 'center',
             alignItems: 'center',
@@ -115,16 +118,14 @@ export default class GoalsList extends Component {
         </View>
         <View
           style={{
-            backgroundColor: 'red',
-            width: 75,
+            backgroundColor: '#FF1744',
+            width: 65,
             borderRadius: 15,
             justifyContent: 'center',
             alignItems: 'center',
             height: 55,
           }}>
-          <Text style={{color: 'white', fontSize: 16, fontWeight: '600'}}>
-            Right
-          </Text>
+          <Icon name="ios-trash" size={36} color="white" />
         </View>
       </View>
     );
@@ -136,20 +137,22 @@ export default class GoalsList extends Component {
       <View style={{flex: 1, marginLeft: 15, marginRight: 15}}>
         <SwipeListView
           data={goalsList}
-          renderItem={({item, index}) => this.renderListItem(item, index)}
+          renderItem={(rowData, rowMap) =>
+            this.renderListItem(rowData.item, rowData.index, rowMap)
+          }
           renderHiddenItem={(data) => this.renderHiddenItem(data)}
           recalculateHiddenLayout={true}
           swipeGestureBegan={(rowKey) =>
             this.props.closeDescription(parseInt(rowKey))
           }
-          leftOpenValue={80}
-          rightOpenValue={-80}
+          leftOpenValue={70}
+          rightOpenValue={-70}
           leftActionValue={100}
           rightActionValue={-100}
           previewRowKey={
             this.props.goalsList.length > 0 ? this.props.goalsList[0].title : ''
           }
-          previewOpenValue={80}
+          previewOpenValue={70}
           keyExtractor={(item) => this.props.goalsList.indexOf(item).toString()}
           style={{marginBottom: 5}}
           refreshControl={
