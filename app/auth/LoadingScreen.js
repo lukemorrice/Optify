@@ -17,7 +17,6 @@ export default class LoadingScreen extends Component {
   }
 
   handleConnectivityChange = (state, unsubscribe) => {
-    console.log('Connection changed:', state);
     if (state.isConnected) {
       unsubscribe();
       firebase.auth().onAuthStateChanged((user) => {

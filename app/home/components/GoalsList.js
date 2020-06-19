@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   RefreshControl,
+  Alert,
 } from 'react-native';
 import {SwipeListView} from 'react-native-swipe-list-view';
 import {PRIMARY_COLOUR, SECONDARY_COLOUR} from '../../Style';
@@ -41,12 +42,44 @@ export default class GoalsList extends Component {
       .then(() => this.setState({refreshing: false}));
   };
 
+  onSwipeStar = (state) => {
+    if (state.isActivated) {
+      // const index = parseInt(state.key);
+      // const goal = this.props.goalsList[index];
+      // this.props.addDailyGoal(goal);
+    }
+  };
+
+  onSwipeDelete = (state) => {
+    if (state.isActivated) {
+      const index = parseInt(state.key);
+      this.onPressDelete(index);
+    }
+  };
+
   onPressStar = (rowIndex) => {
-    console.log(rowIndex);
+    const goal = this.props.goalsList[rowIndex];
+    // this.props.addDailyGoal(goal);
   };
 
   onPressDelete = (rowIndex) => {
-    console.log(rowIndex);
+    const goal = this.props.goalsList[rowIndex];
+    Alert.alert(
+      'Remove Goal',
+      "Do you want to remove this goal from today's list, or delete it entirely?",
+      [
+        {
+          text: 'Delete for today',
+          onPress: () => this.props.removeGoalFromList(goal),
+        },
+        {
+          text: 'Delete forever',
+          onPress: () => this.props.removeGoalForever(goal),
+        },
+        {text: 'Cancel', onPress: () => console.log('Cancelled action')},
+      ],
+      {cancelable: true},
+    );
   };
 
   renderListItem = (goal, index, rowMap) => {
@@ -142,6 +175,7 @@ export default class GoalsList extends Component {
 
   render() {
     var goalsList = this.props.goalsList;
+    var numberOfGoals = goalsList.length - 1;
     return (
       <View style={{flex: 1, marginLeft: 15, marginRight: 15}}>
         <SwipeListView
@@ -150,18 +184,20 @@ export default class GoalsList extends Component {
             this.renderListItem(rowData.item, rowData.index, rowMap)
           }
           renderHiddenItem={(data) => this.renderHiddenItem(data)}
-          recalculateHiddenLayout={true}
           swipeGestureBegan={(rowKey) =>
             this.props.closeDescription(parseInt(rowKey))
           }
           leftOpenValue={75}
           rightOpenValue={-75}
-          leftActionValue={100}
-          rightActionValue={-100}
-          previewRowKey={
-            this.props.goalsList.length > 0 ? this.props.goalsList[0].title : ''
-          }
-          previewOpenValue={70}
+          leftActionValue={75}
+          rightActionValue={-75}
+          leftActivationValue={250}
+          rightActivationValue={-200}
+          onLeftActionStatusChange={(state) => this.onSwipeStar(state)}
+          onRightActionStatusChange={(state) => this.onSwipeDelete(state)}
+          stopLeftSwipe={300}
+          previewRowKey={numberOfGoals > 0 ? numberOfGoals.toString() : ''}
+          previewOpenValue={75}
           keyExtractor={(item) => this.props.goalsList.indexOf(item).toString()}
           style={{marginBottom: 5}}
           refreshControl={

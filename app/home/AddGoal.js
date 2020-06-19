@@ -51,7 +51,7 @@ class AddGoal extends Component {
     } else {
       this.setState({loading: true});
       if (dailyGoal) {
-        this.props.addDailyGoal(title, description, dailyGoal);
+        this.props.addDailyGoal(title, description, dailyGoal, false);
       } else {
         this.props.addCustomGoal(title, description, dailyGoal);
       }
@@ -127,7 +127,15 @@ class AddGoal extends Component {
           </View>
         );
       } else {
-        return <Text style={styles.goalText}>{goal.title}</Text>;
+        return (
+          <View
+            style={{
+              justifyContent: 'center',
+              height: 40,
+            }}>
+            <Text style={styles.goalText}>{goal.title}</Text>
+          </View>
+        );
       }
     }
   };

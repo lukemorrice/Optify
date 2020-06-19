@@ -19,6 +19,7 @@ export const fetchGoals = () => {
   var goalsCompleted;
   var goalsSet;
   var customGoalsList;
+  var dailyGoalsList;
 
   return (dispatch) => {
     dbRef
@@ -30,6 +31,7 @@ export const fetchGoals = () => {
         goalsCompleted = snap.val().goalsCompleted;
         goalsSet = snap.val().goalsSet;
         customGoalsList = snap.val().customGoalsList;
+        dailyGoalsList = snap.val().dailyGoalsList;
       })
       .then(() => {
         lastActive == currentDate && goalsList
@@ -42,11 +44,18 @@ export const fetchGoals = () => {
             .length;
           let newCompleted = parseInt(goalsCompleted) + parseInt(completed);
           let newGoalsSet = parseInt(goalsSet) + parseInt(goalsList.length);
+          if (dailyGoalsList) {
+            dailyGoalsList.map((goal) => {
+              goal.completed = false;
+              return goal;
+            });
+          }
 
           dbRef.update({
             goalsCompleted: newCompleted,
             goalsSet: newGoalsSet,
             lastActive: currentDate,
+            dailyGoalsList,
           });
         }
       });
@@ -86,10 +95,10 @@ export const changeGoalsAfterCategoryUpdate = (currentGoals, newCategories) => {
   };
 };
 
-export const addDailyGoal = (title, description, dailyGoal) => {
+export const addDailyGoal = (title, description, dailyGoal, completed) => {
   const {currentUser} = firebase.auth();
   const dbRef = firebase.database().ref(`/users/${currentUser.uid}/profile`);
-  var newGoal = {title, description, dailyGoal};
+  var newGoal = {title, description, dailyGoal, completed};
   var newGoals = [];
   var dailyGoalsList = [];
 
@@ -264,18 +273,26 @@ const fetchNewGoals = (dispatch, dbRef, goals, categories, customGoalsList) => {
 export const updateUserGoals = (goalsList) => {
   const {currentUser} = firebase.auth();
   const dbRef = firebase.database().ref(`/users/${currentUser.uid}/profile`);
+  const dailyGoalsList = goalsList.filter((goal) => goal.dailyGoal);
   return (dispatch) => {
     dbRef.update({goalsList});
+    if (dailyGoalsList.length > 0) {
+      dbRef.update({dailyGoalsList});
+    }
   };
 };
 
 export const toggleGoalCompleted = (idx, goals) => {
   goals[idx].completed = !goals[idx].completed;
-  var goalsList = goals;
+  const goalsList = goals;
+  const dailyGoalsList = goals.filter((goal) => goal.dailyGoal);
   const {currentUser} = firebase.auth();
   const dbRef = firebase.database().ref(`/users/${currentUser.uid}/profile`);
   return (dispatch) => {
     dbRef.update({goalsList});
+    if (dailyGoalsList) {
+      dbRef.update({dailyGoalsList});
+    }
 
     dispatch({
       type: GOALS_FETCH,

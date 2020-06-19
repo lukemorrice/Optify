@@ -7,6 +7,7 @@ import {
   fetchGoals,
   updateUserGoals,
   toggleGoalCompleted,
+  addDailyGoal,
 } from '../actions/goals';
 import Loading from '../auth/Loading';
 
@@ -26,6 +27,8 @@ class HomeContainer extends Component {
         var goalsList = [];
         var dailyGoals = this.props.profile.dailyGoalsList;
         var goals = this.props.goals.goals;
+        var dailyGoalsTitles = dailyGoals.map((goal) => goal.title);
+        goals = goals.filter((goal) => !dailyGoalsTitles.includes(goal.title));
 
         if (dailyGoals) {
           var newDailyGoals = [];
@@ -33,15 +36,13 @@ class HomeContainer extends Component {
             var goalTitles = goals.map((goal) => goal.title);
             if (goalTitles.includes(dailyGoals[i].title) == false) {
               var newGoal = dailyGoals[i];
-              newGoal.completed = false;
-              newDailyGoals = newDailyGoals.concat([dailyGoals[i]]);
+              newDailyGoals = newDailyGoals.concat([newGoal]);
             }
           }
           var goalsList = newDailyGoals.concat(goals);
         } else {
           var goalsList = goals;
         }
-
         this.props.updateUserGoals(goalsList);
         this.setState({goalsList});
       }
@@ -50,6 +51,27 @@ class HomeContainer extends Component {
 
   toggleGoalCompleted = (idx) => {
     this.props.toggleGoalCompleted(idx, this.state.goalsList);
+  };
+
+  addDailyGoal = (goal) => {
+    var dailyGoals = this.props.profile.dailyGoalsList;
+    const dailyGoalsTitles = dailyGoals.map((goal) => goal.title);
+    if (!dailyGoalsTitles.includes(goal.title)) {
+      this.props.addDailyGoal(
+        goal.title,
+        goal.description,
+        true,
+        goal.completed,
+      );
+    }
+  };
+
+  removeGoalFromList = (goal) => {
+    console.log("Removing goal from today's list:", goal.title);
+  };
+
+  removeGoalForever = (goal) => {
+    console.log("This goal won't be suggested to the user again:", goal.title);
   };
 
   render() {
@@ -61,6 +83,9 @@ class HomeContainer extends Component {
           toggleGoalCompleted={this.toggleGoalCompleted}
           refreshGoals={this.props.fetchGoals}
           navigation={this.props.navigation}
+          addDailyGoal={this.addDailyGoal}
+          removeGoalFromList={this.removeGoalFromList}
+          removeGoalForever={this.removeGoalForever}
         />
       );
     } else {
@@ -79,6 +104,7 @@ const mapDispatchToProps = {
   fetchGoals,
   updateUserGoals,
   toggleGoalCompleted,
+  addDailyGoal,
 };
 
 export default withNavigation(

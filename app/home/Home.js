@@ -87,6 +87,9 @@ class Home extends Component {
                   closeDescription={this.closeDescription}
                   showDescription={this.state.showDescription}
                   refreshGoals={() => this.props.refreshGoals()}
+                  addDailyGoal={this.props.addDailyGoal}
+                  removeGoalFromList={this.props.removeGoalFromList}
+                  removeGoalForever={this.props.removeGoalForever}
                 />
 
                 <ModalScreen
