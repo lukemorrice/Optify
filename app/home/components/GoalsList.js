@@ -7,7 +7,7 @@ import {
   RefreshControl,
 } from 'react-native';
 import {SwipeListView} from 'react-native-swipe-list-view';
-import {PRIMARY_COLOUR, SECONDARY_COLOUR, WHITE} from '../../Style';
+import {PRIMARY_COLOUR, SECONDARY_COLOUR} from '../../Style';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
@@ -41,8 +41,15 @@ export default class GoalsList extends Component {
       .then(() => this.setState({refreshing: false}));
   };
 
+  onPressStar = (rowIndex) => {
+    console.log(rowIndex);
+  };
+
+  onPressDelete = (rowIndex) => {
+    console.log(rowIndex);
+  };
+
   renderListItem = (goal, index, rowMap) => {
-    console.log(rowMap);
     const showDescription = this.props.showDescription[index];
     return (
       <View
@@ -103,7 +110,7 @@ export default class GoalsList extends Component {
           flex: 1,
           marginTop: data.index !== 0 ? 20 : 0,
         }}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => this.onPressStar(data.index)}>
           <View
             style={{
               width: 70,
@@ -116,7 +123,7 @@ export default class GoalsList extends Component {
             <Icon name="ios-star" size={32} color="white" />
           </View>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => this.onPressDelete(data.index)}>
           <View
             style={{
               backgroundColor: '#FF1744',

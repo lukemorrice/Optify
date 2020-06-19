@@ -5,24 +5,32 @@ import firebase from 'firebase';
 import Loading from './Loading';
 
 export default class LoadingScreen extends Component {
-  async componentDidMount() {
-    StatusBar.setBarStyle('dark-content', true);
-    const isConnected = await this.isNetworkAvailable();
+  state = {
+    alertedNoConnection: false,
+  };
 
-    if (!isConnected) {
-      Alert.alert(
-        'Optify requires an internet connnection, please check your network',
-      );
-    } else {
+  componentDidMount() {
+    StatusBar.setBarStyle('dark-content', true);
+    const unsubscribe = NetInfo.addEventListener((state) =>
+      this.handleConnectivityChange(state, unsubscribe),
+    );
+  }
+
+  handleConnectivityChange = (state, unsubscribe) => {
+    console.log('Connection changed:', state);
+    if (state.isConnected) {
+      unsubscribe();
       firebase.auth().onAuthStateChanged((user) => {
         this.props.navigation.navigate(user ? 'App' : 'Auth');
       });
+    } else {
+      if (!this.state.alertedNoConnection) {
+        this.setState({alertedNoConnection: true});
+        Alert.alert(
+          'Optify requires an internet connection, please check your network',
+        );
+      }
     }
-  }
-
-  isNetworkAvailable = async () => {
-    const response = await NetInfo.fetch();
-    return response.isConnected;
   };
 
   render() {
