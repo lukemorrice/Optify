@@ -41,26 +41,14 @@ class AddGoalContainer extends Component {
     }
   }
 
-  addCustomGoal = (title, description, dailyGoal) => {
-    this.props.addCustomGoal(title, description, dailyGoal);
-  };
-
-  addDailyGoal = (title, description, dailyGoal) => {
-    this.props.addDailyGoal(title, description, dailyGoal);
-  };
-
-  removeCustomGoal = (goal) => {
-    this.props.removeCustomGoal(goal);
-  };
-
   render() {
     if (this.props.profile) {
       return (
         <AddGoal
           customGoals={this.state.goals}
-          addDailyGoal={this.addDailyGoal}
-          addCustomGoal={this.addCustomGoal}
-          removeCustomGoal={this.removeCustomGoal}
+          addDailyGoal={this.props.addDailyGoal}
+          addCustomGoal={this.props.addCustomGoal}
+          removeCustomGoal={this.props.removeCustomGoal}
         />
       );
     } else {

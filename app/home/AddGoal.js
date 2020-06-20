@@ -5,6 +5,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   ActivityIndicator,
+  FlatList,
+  TextInput,
   Alert,
   Switch,
   Keyboard,
@@ -12,7 +14,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 import {withNavigation} from 'react-navigation';
-import {FlatList, TextInput} from 'react-native-gesture-handler';
+import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {PRIMARY_COLOUR, WHITE} from '../Style';
 
@@ -21,6 +23,7 @@ class AddGoal extends Component {
     title: '',
     description: '',
     dailyGoal: false,
+    category: '',
     loading: false,
     editingGoals: false,
   };
@@ -37,6 +40,7 @@ class AddGoal extends Component {
     const title = this.state.title.trim();
     const description = this.state.description.trim();
     const dailyGoal = this.state.dailyGoal;
+    const category = this.state.category;
     var goalTitleExists = false;
     if (this.props.customGoals) {
       const customGoalsTitles = this.props.customGoals.map(
@@ -44,18 +48,18 @@ class AddGoal extends Component {
       );
       goalTitleExists = customGoalsTitles.includes(title);
     }
-    if (!title) {
-      Alert.alert('Please enter a title for your goal');
+    if (!title || !category) {
+      Alert.alert('Please complete a title and category for your goal');
     } else if (goalTitleExists) {
       Alert.alert('Goal titles must be unique');
     } else {
       this.setState({loading: true});
       if (dailyGoal) {
-        this.props.addDailyGoal(title, description, dailyGoal, false);
+        this.props.addDailyGoal(title, description, category, dailyGoal, false);
       } else {
-        this.props.addCustomGoal(title, description, dailyGoal);
+        this.props.addCustomGoal(title, description, category, dailyGoal);
       }
-      this.setState({loading: false, title: '', description: ''});
+      this.setState({loading: false, title: '', description: '', category: ''});
     }
   };
 
@@ -63,7 +67,7 @@ class AddGoal extends Component {
     this.props.removeCustomGoal(goal);
   };
 
-  renderGoals = (goal, idx) => {
+  renderGoals = (goal) => {
     if (this.state.editingGoals) {
       if (goal.dailyGoal) {
         return (
@@ -143,7 +147,7 @@ class AddGoal extends Component {
   renderButtons() {
     if (this.state.loading) {
       return (
-        <View style={styles.button}>
+        <View style={{marginTop: 10}}>
           <ActivityIndicator />
         </View>
       );
@@ -222,8 +226,8 @@ class AddGoal extends Component {
                             flexDirection: 'row',
                             alignItems: 'center',
                             justifyContent: 'space-between',
-                            height: 80,
-                            marginTop: 10,
+                            height: 45,
+                            marginVertical: 15,
                           }}>
                           <View
                             style={{
@@ -245,8 +249,24 @@ class AddGoal extends Component {
                               trackColor={{true: PRIMARY_COLOUR, false: 'grey'}}
                             />
                           </View>
-                          {this.renderButtons()}
+                          <RNPickerSelect
+                            placeholder={{label: 'Category', value: ''}}
+                            placeholderTextColor="red"
+                            onValueChange={(value) =>
+                              this.setState({category: value})
+                            }
+                            items={[
+                              {label: 'Exercise', value: 'exercise'},
+                              {label: 'Learning', value: 'learning'},
+                              {label: 'Wellbeing', value: 'wellbeing'},
+                              {label: 'Habits', value: 'habits'},
+                              {label: 'Relationships', value: 'relationships'},
+                              {label: 'Creative', value: 'creative'},
+                            ]}
+                            style={pickerStyle}
+                          />
                         </View>
+                        {this.renderButtons()}
                       </View>
                     </View>
                   </TouchableWithoutFeedback>
@@ -274,9 +294,7 @@ class AddGoal extends Component {
                       <View style={{flex: 1}}>
                         <FlatList
                           data={this.props.customGoals}
-                          renderItem={({item, idx}) =>
-                            this.renderGoals(item, idx)
-                          }
+                          renderItem={({item}) => this.renderGoals(item)}
                           keyExtractor={(item) => item.title}
                           scrollEnabled={true}
                           style={{marginBottom: 5}}
@@ -292,7 +310,6 @@ class AddGoal extends Component {
                 </View>
               </View>
             </View>
-            {/* </TouchableWithoutFeedback> */}
           </SafeAreaView>
         </View>
       </View>
@@ -378,5 +395,21 @@ const styles = StyleSheet.create({
     width: 125,
     height: 40,
     borderRadius: 15,
+    marginTop: 10,
   },
 });
+
+const pickerStyle = {
+  inputIOS: {
+    width: 125,
+    height: 45,
+    borderWidth: 2,
+    borderColor: '#34495E',
+    fontSize: 16,
+    borderRadius: 10,
+    padding: 10,
+  },
+  placeholder: {
+    color: 'gray',
+  },
+};

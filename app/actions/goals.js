@@ -95,10 +95,16 @@ export const changeGoalsAfterCategoryUpdate = (currentGoals, newCategories) => {
   };
 };
 
-export const addDailyGoal = (title, description, dailyGoal, completed) => {
+export const addDailyGoal = (
+  title,
+  description,
+  category,
+  dailyGoal,
+  completed,
+) => {
   const {currentUser} = firebase.auth();
   const dbRef = firebase.database().ref(`/users/${currentUser.uid}/profile`);
-  var newGoal = {title, description, dailyGoal, completed};
+  var newGoal = {title, description, category, dailyGoal, completed};
   var newGoals = [];
   var dailyGoalsList = [];
 
@@ -124,13 +130,15 @@ export const addDailyGoal = (title, description, dailyGoal, completed) => {
   };
 };
 
-export const addCustomGoal = (title, description, dailyGoal) => {
+export const addCustomGoal = (title, description, category, dailyGoal) => {
   const {currentUser} = firebase.auth();
   const dbRef = firebase.database().ref(`/users/${currentUser.uid}/profile`);
-  var newGoal = {title, description, dailyGoal};
+  var newGoal = {title, description, category, dailyGoal};
   var newGoals = [];
   var customGoalsList = [];
   var profile;
+
+  console.log(newGoal);
 
   return (dispatch) => {
     dbRef
@@ -242,19 +250,21 @@ const fetchNewGoals = (dispatch, dbRef, goals, categories, customGoalsList) => {
     .onSnapshot((snapshot) => {
       var list = snapshot.data().goals;
       if (customGoalsList) {
-        list = list.concat(customGoalsList);
+        list = customGoalsList.concat(list);
       }
       var length = list.length;
       var randomGoals = [];
       var randomGoal;
 
       for (var i = 0; i < goals; i++) {
-        do randomGoal = list[generateRandomNumber(length)];
-        while (
+        do {
+          randomGoal = list[generateRandomNumber(length)];
+        } while (
           randomGoals.includes(randomGoal) ||
           exerciseGoalExists(randomGoal, randomGoals) ||
           !categories.includes(randomGoal.category)
         );
+        console.log('Adding', randomGoal.title, 'to goals list');
         randomGoals.push(randomGoal);
       }
 

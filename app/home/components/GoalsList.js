@@ -44,6 +44,7 @@ export default class GoalsList extends Component {
 
   onSwipeStar = (state) => {
     if (state.isActivated) {
+      ReactNativeHapticFeedback.trigger('impactMedium', options);
       // const index = parseInt(state.key);
       // const goal = this.props.goalsList[index];
       // this.props.addDailyGoal(goal);
@@ -52,17 +53,20 @@ export default class GoalsList extends Component {
 
   onSwipeDelete = (state) => {
     if (state.isActivated) {
+      ReactNativeHapticFeedback.trigger('impactMedium', options);
       const index = parseInt(state.key);
       this.onPressDelete(index);
     }
   };
 
   onPressStar = (rowIndex) => {
+    ReactNativeHapticFeedback.trigger('impactMedium', options);
     const goal = this.props.goalsList[rowIndex];
     // this.props.addDailyGoal(goal);
   };
 
   onPressDelete = (rowIndex) => {
+    ReactNativeHapticFeedback.trigger('impactMedium', options);
     const goal = this.props.goalsList[rowIndex];
     Alert.alert(
       'Remove Goal',
