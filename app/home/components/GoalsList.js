@@ -66,6 +66,7 @@ export default class GoalsList extends Component {
   };
 
   onPressDelete = (rowIndex) => {
+    console.log(this.state.rowRefs);
     ReactNativeHapticFeedback.trigger('impactMedium', options);
     const goal = this.props.goalsList[rowIndex];
     Alert.alert(
@@ -80,7 +81,10 @@ export default class GoalsList extends Component {
           text: 'Delete forever',
           onPress: () => this.props.removeGoalForever(goal),
         },
-        {text: 'Cancel', onPress: () => console.log('Cancelled action')},
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancelled delete'),
+        },
       ],
       {cancelable: true},
     );
@@ -142,16 +146,21 @@ export default class GoalsList extends Component {
     );
   };
 
-  renderHiddenItem = (data) => {
+  renderHiddenItem = (rowData, rowMap) => {
+    var row = rowMap[rowData.index.toString()];
     return (
       <View
         style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
           flex: 1,
-          marginTop: data.index !== 0 ? 20 : 0,
+          marginTop: rowData.index !== 0 ? 20 : 0,
         }}>
-        <TouchableOpacity onPress={() => this.onPressStar(data.index)}>
+        <TouchableOpacity
+          onPress={() => {
+            row.closeRow();
+            this.onPressStar(rowData.index);
+          }}>
           <View
             style={{
               width: 70,
@@ -164,7 +173,11 @@ export default class GoalsList extends Component {
             <Icon name="ios-star" size={32} color="white" />
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => this.onPressDelete(data.index)}>
+        <TouchableOpacity
+          onPress={() => {
+            row.closeRow();
+            this.onPressDelete(rowData.index);
+          }}>
           <View
             style={{
               width: 70,
@@ -185,7 +198,6 @@ export default class GoalsList extends Component {
   render() {
     var goalsList = this.props.goalsList;
     var numOfDailyGoals = goalsList.filter((goal) => goal.dailyGoal).length;
-    var numberOfGoals = goalsList.length - 1;
     return (
       <View style={{flex: 1, marginLeft: 15, marginRight: 15, marginTop: 15}}>
         {numOfDailyGoals > 0 ? (
@@ -200,7 +212,9 @@ export default class GoalsList extends Component {
           renderItem={(rowData, rowMap) =>
             this.renderListItem(rowData.item, rowData.index, rowMap)
           }
-          renderHiddenItem={(data) => this.renderHiddenItem(data)}
+          renderHiddenItem={(rowData, rowMap) =>
+            this.renderHiddenItem(rowData, rowMap)
+          }
           swipeGestureBegan={(rowKey) =>
             this.props.closeDescription(parseInt(rowKey))
           }
@@ -213,8 +227,6 @@ export default class GoalsList extends Component {
           onLeftActionStatusChange={(state) => this.onSwipeStar(state)}
           onRightActionStatusChange={(state) => this.onSwipeDelete(state)}
           stopLeftSwipe={300}
-          previewRowKey={numberOfGoals > 0 ? numberOfGoals.toString() : ''}
-          previewOpenValue={75}
           keyExtractor={(item) => this.props.goalsList.indexOf(item).toString()}
           style={{marginBottom: 5}}
           refreshControl={

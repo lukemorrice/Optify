@@ -14,6 +14,7 @@ import Loading from '../auth/Loading';
 class HomeContainer extends Component {
   state = {
     goalsList: [],
+    deletedGoals: [],
   };
 
   componentDidMount() {
@@ -34,16 +35,18 @@ class HomeContainer extends Component {
           var newDailyGoals = [];
           for (var i = 0; i < dailyGoals.length; i++) {
             var goalTitles = goals.map((goal) => goal.title);
-            if (goalTitles.includes(dailyGoals[i].title) == false) {
+            var deletedGoals = this.state.deletedGoals;
+            if (
+              goalTitles.includes(dailyGoals[i].title) == false &&
+              !deletedGoals.includes(dailyGoals[i])
+            ) {
               var newGoal = dailyGoals[i];
               newDailyGoals = newDailyGoals.concat([newGoal]);
             }
           }
           var goalsList = newDailyGoals.concat(goals);
-        } else {
-          var goalsList = goals;
         }
-        this.props.updateUserGoals(goalsList);
+
         this.setState({goalsList});
       }
     }
@@ -67,7 +70,9 @@ class HomeContainer extends Component {
   };
 
   removeGoalFromList = (goal) => {
-    console.log("Removing goal from today's list:", goal.title);
+    var goalsList = this.state.goalsList;
+    goalsList = goalsList.filter((item) => item.title !== goal.title);
+    this.props.updateUserGoals(goalsList);
   };
 
   removeGoalForever = (goal) => {

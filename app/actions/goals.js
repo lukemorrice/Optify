@@ -20,6 +20,7 @@ export const fetchGoals = () => {
   var goalsSet;
   var customGoalsList;
   var dailyGoalsList;
+  var deletedGoalsList;
 
   return (dispatch) => {
     dbRef
@@ -32,11 +33,19 @@ export const fetchGoals = () => {
         goalsSet = snap.val().goalsSet;
         customGoalsList = snap.val().customGoalsList;
         dailyGoalsList = snap.val().dailyGoalsList;
+        deletedGoalsList = snap.val().deletedGoalsList;
       })
       .then(() => {
         lastActive == currentDate && goalsList
           ? returnCurrentGoals(dispatch, goalsList)
-          : fetchNewGoals(dispatch, dbRef, goals, categories, customGoalsList);
+          : fetchNewGoals(
+              dispatch,
+              dbRef,
+              goals,
+              categories,
+              customGoalsList,
+              deletedGoalsList,
+            );
       })
       .then(() => {
         if (goalsList && lastActive !== currentDate) {
@@ -237,11 +246,19 @@ const returnCurrentGoals = (dispatch, goals) => {
   });
 };
 
-const fetchNewGoals = (dispatch, dbRef, goals, categories, customGoalsList) => {
+const fetchNewGoals = (
+  dispatch,
+  dbRef,
+  goals,
+  categories,
+  customGoalsList,
+  deletedGoalsList,
+) => {
   categories = categories.map((item) => item.toLowerCase());
+  if (!deletedGoalsList) {
+    deletedGoalsList = [];
+  }
   goals = parseInt(goals);
-
-  console.log('Fetching new goals...');
 
   firebase
     .firestore()
@@ -266,11 +283,11 @@ const fetchNewGoals = (dispatch, dbRef, goals, categories, customGoalsList) => {
         for (var i = 0; i < goals; i++) {
           do {
             randomGoal = list[generateRandomNumber(length)];
-            console.log('Generated goal:   ', randomGoal.title);
           } while (
             randomGoals.includes(randomGoal) ||
             exerciseGoalExists(randomGoal, randomGoals) ||
-            !categories.includes(randomGoal.category)
+            !categories.includes(randomGoal.category) ||
+            deletedGoalsList.includes(randomGoal.title)
           );
           randomGoals.push(randomGoal);
         }
@@ -297,6 +314,11 @@ export const updateUserGoals = (goalsList) => {
     if (dailyGoalsList.length > 0) {
       dbRef.update({dailyGoalsList});
     }
+
+    dispatch({
+      type: GOALS_FETCH,
+      payload: goalsList,
+    });
   };
 };
 
@@ -317,4 +339,38 @@ export const toggleGoalCompleted = (idx, goals) => {
       payload: goalsList,
     });
   };
+};
+
+export const deleteGoalForever = (goal) => {
+  const {currentUser} = firebase.auth();
+  const dbRef = firebase.database().ref(`/users/${currentUser.uid}/profile`);
+
+  dbRef.once('value', (snap) => {
+    var customGoalsList = snap.val().customGoalsList;
+    if (goal.dailyGoal || customGoalsList.includes(goal)) {
+      removeCustomGoal(goal);
+    } else {
+      return (dispatch) => {
+        var goalsList = snap.val().goalsList;
+        var deletedGoalsList = snap.val().deletedGoalsList;
+
+        if (deletedGoalsList) {
+          deletedGoalsList = deletedGoalsList.concat([goal.title]);
+        } else {
+          deletedGoalsList = [goal.title];
+        }
+
+        dbRef.update({
+          deletedGoalsList,
+        });
+
+        goalsList = goalsList.filter((item) => item.title !== goal.title);
+
+        dispatch({
+          type: GOALS_FETCH,
+          payload: goalsList,
+        });
+      };
+    }
+  });
 };
