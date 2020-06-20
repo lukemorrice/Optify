@@ -1,3 +1,6 @@
+// Disable React Native Picker warning
+console.disableYellowBox = true;
+
 import React, {Component} from 'react';
 import {
   View,
@@ -55,7 +58,14 @@ class AddGoal extends Component {
     } else {
       this.setState({loading: true});
       if (dailyGoal) {
-        this.props.addDailyGoal(title, description, category, dailyGoal, false);
+        const completed = false;
+        this.props.addDailyGoal(
+          title,
+          description,
+          category,
+          dailyGoal,
+          completed,
+        );
       } else {
         this.props.addCustomGoal(title, description, category, dailyGoal);
       }

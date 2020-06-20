@@ -20,7 +20,7 @@ export const updateGoalsForNewCategories = (
     var numOfNeededGoals = currentGoalsList.length - newGoalsList.length;
     var newGoal;
 
-    if (numberOfNeededGoals > 1) {
+    if (numOfNeededGoals > 1) {
       for (let i = 0; i < numOfNeededGoals; i++) {
         do {
           newGoal = availableGoals[generateRandomNumber(availableGoals.length)];

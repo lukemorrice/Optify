@@ -138,8 +138,6 @@ export const addCustomGoal = (title, description, category, dailyGoal) => {
   var customGoalsList = [];
   var profile;
 
-  console.log(newGoal);
-
   return (dispatch) => {
     dbRef
       .once('value', (snap) => {
@@ -243,6 +241,8 @@ const fetchNewGoals = (dispatch, dbRef, goals, categories, customGoalsList) => {
   categories = categories.map((item) => item.toLowerCase());
   goals = parseInt(goals);
 
+  console.log('Fetching new goals...');
+
   firebase
     .firestore()
     .collection('goalsDB')
@@ -256,16 +256,24 @@ const fetchNewGoals = (dispatch, dbRef, goals, categories, customGoalsList) => {
       var randomGoals = [];
       var randomGoal;
 
-      for (var i = 0; i < goals; i++) {
-        do {
-          randomGoal = list[generateRandomNumber(length)];
-        } while (
-          randomGoals.includes(randomGoal) ||
-          exerciseGoalExists(randomGoal, randomGoals) ||
-          !categories.includes(randomGoal.category)
+      if (categories.length == 1 && categories.includes('exercise')) {
+        const exerciseGoals = list.filter(
+          (goal) => goal.category == 'exercise',
         );
-        console.log('Adding', randomGoal.title, 'to goals list');
+        randomGoal = exerciseGoals[generateRandomNumber(exerciseGoals.length)];
         randomGoals.push(randomGoal);
+      } else {
+        for (var i = 0; i < goals; i++) {
+          do {
+            randomGoal = list[generateRandomNumber(length)];
+            console.log('Generated goal:   ', randomGoal.title);
+          } while (
+            randomGoals.includes(randomGoal) ||
+            exerciseGoalExists(randomGoal, randomGoals) ||
+            !categories.includes(randomGoal.category)
+          );
+          randomGoals.push(randomGoal);
+        }
       }
 
       randomGoals = randomGoals.map((goal) => ({...goal, completed: false}));
