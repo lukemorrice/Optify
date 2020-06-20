@@ -134,7 +134,6 @@ const styles = StyleSheet.create({
   },
   goalHeading: {
     marginTop: 35,
-    marginBottom: 20,
   },
   goalHeadingText: {
     fontSize: 24,

@@ -91,7 +91,11 @@ export default class GoalsList extends Component {
     return (
       <View
         style={{
-          backgroundColor: goal.completed ? PRIMARY_COLOUR : SECONDARY_COLOUR,
+          backgroundColor: goal.completed
+            ? PRIMARY_COLOUR
+            : goal.dailyGoal
+            ? '#536DFE'
+            : SECONDARY_COLOUR,
           borderRadius: 15,
           marginTop: index == 0 ? 0 : 20,
         }}>
@@ -163,12 +167,13 @@ export default class GoalsList extends Component {
         <TouchableOpacity onPress={() => this.onPressDelete(data.index)}>
           <View
             style={{
-              backgroundColor: '#FF1744',
               width: 70,
               borderRadius: 15,
               justifyContent: 'center',
               alignItems: 'center',
+              backgroundColor: 'red',
               height: 55,
+              marginRight: 1,
             }}>
             <Icon name="ios-trash" size={36} color="white" />
           </View>
@@ -179,9 +184,17 @@ export default class GoalsList extends Component {
 
   render() {
     var goalsList = this.props.goalsList;
+    var numOfDailyGoals = goalsList.filter((goal) => goal.dailyGoal).length;
     var numberOfGoals = goalsList.length - 1;
     return (
-      <View style={{flex: 1, marginLeft: 15, marginRight: 15}}>
+      <View style={{flex: 1, marginLeft: 15, marginRight: 15, marginTop: 15}}>
+        {numOfDailyGoals > 0 ? (
+          <Text style={styles.dailyGoalHeader}>
+            Daily {numOfDailyGoals == 1 ? 'goal' : 'goals'}
+          </Text>
+        ) : (
+          <View />
+        )}
         <SwipeListView
           data={goalsList}
           renderItem={(rowData, rowMap) =>
@@ -228,6 +241,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  dailyGoalHeader: {
+    fontSize: 20,
+    fontWeight: '600',
+    marginLeft: 5,
+    marginBottom: 12,
   },
   goalText: {
     color: 'white',
