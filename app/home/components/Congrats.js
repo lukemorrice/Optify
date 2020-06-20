@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
   congrats: {
     flexDirection: 'row',
     marginBottom: 20,
+    marginTop: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },

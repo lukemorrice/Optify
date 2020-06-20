@@ -5,6 +5,7 @@ import {
   Text,
   LayoutAnimation,
   SafeAreaView,
+  TouchableOpacity,
 } from 'react-native';
 import {withNavigation} from 'react-navigation';
 import Greeting from './components/Greeting';
@@ -14,6 +15,7 @@ import ModalScreen from './Modal';
 import CongratsMsg from './components/Congrats';
 import {PRIMARY_COLOUR, WHITE} from '../Style';
 import GoalsList from './components/GoalsList';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 class Home extends Component {
   state = {
@@ -75,6 +77,14 @@ class Home extends Component {
                     <Text style={styles.goalHeadingText}>
                       Today's {goals > 1 ? 'goals' : 'goal'}
                     </Text>
+                    <TouchableOpacity>
+                      <Icon
+                        name="md-refresh"
+                        size={35}
+                        color="black"
+                        style={{marginRight: 10}}
+                      />
+                    </TouchableOpacity>
                   </View>
 
                   {allGoalsCompleted ? <CongratsMsg /> : <View />}
@@ -133,7 +143,10 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   goalHeading: {
-    marginTop: 35,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 30,
   },
   goalHeadingText: {
     fontSize: 24,

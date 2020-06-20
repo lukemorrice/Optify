@@ -197,16 +197,8 @@ export default class GoalsList extends Component {
 
   render() {
     var goalsList = this.props.goalsList;
-    var numOfDailyGoals = goalsList.filter((goal) => goal.dailyGoal).length;
     return (
       <View style={{flex: 1, marginLeft: 15, marginRight: 15, marginTop: 15}}>
-        {numOfDailyGoals > 0 ? (
-          <Text style={styles.dailyGoalHeader}>
-            Daily {numOfDailyGoals == 1 ? 'goal' : 'goals'}
-          </Text>
-        ) : (
-          <View />
-        )}
         <SwipeListView
           data={goalsList}
           renderItem={(rowData, rowMap) =>
@@ -253,12 +245,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-  },
-  dailyGoalHeader: {
-    fontSize: 20,
-    fontWeight: '600',
-    marginLeft: 5,
-    marginBottom: 12,
   },
   goalText: {
     color: 'white',
