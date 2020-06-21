@@ -8,6 +8,7 @@ import {
   updateUserGoals,
   toggleGoalCompleted,
   addDailyGoal,
+  resetGoals,
 } from '../actions/goals';
 import Loading from '../auth/Loading';
 
@@ -86,11 +87,12 @@ class HomeContainer extends Component {
           profile={this.props.profile}
           goalsList={this.state.goalsList}
           toggleGoalCompleted={this.toggleGoalCompleted}
-          refreshGoals={this.props.fetchGoals}
+          refreshGoals={() => this.props.fetchGoals}
           navigation={this.props.navigation}
           addDailyGoal={this.addDailyGoal}
           removeGoalFromList={this.removeGoalFromList}
           removeGoalForever={this.removeGoalForever}
+          resetGoals={() => this.props.resetGoals()}
         />
       );
     } else {
@@ -110,6 +112,7 @@ const mapDispatchToProps = {
   updateUserGoals,
   toggleGoalCompleted,
   addDailyGoal,
+  resetGoals,
 };
 
 export default withNavigation(

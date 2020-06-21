@@ -71,6 +71,93 @@ export const fetchGoals = () => {
   };
 };
 
+const returnCurrentGoals = (dispatch, goals) => {
+  dispatch({
+    type: GOALS_FETCH,
+    payload: goals,
+  });
+};
+
+export const resetGoals = () => {
+  const {currentUser} = firebase.auth();
+  const dbRef = firebase.database().ref(`/users/${currentUser.uid}/profile`);
+  return (dispatch) => {
+    dbRef.once('value', (snap) => {
+      var goals = snap.val().goals;
+      var categories = snap.val().categories;
+      var customGoalsList = snap.val().customGoalsList;
+      var deletedGoalsList = snap.val().deletedGoalsList;
+      fetchNewGoals(
+        dispatch,
+        dbRef,
+        goals,
+        categories,
+        customGoalsList,
+        deletedGoalsList,
+      );
+    });
+  };
+};
+
+const fetchNewGoals = (
+  dispatch,
+  dbRef,
+  goals,
+  categories,
+  customGoalsList,
+  deletedGoalsList,
+) => {
+  categories = categories.map((item) => item.toLowerCase());
+  if (!deletedGoalsList) {
+    deletedGoalsList = [];
+  }
+  goals = parseInt(goals);
+
+  firebase
+    .firestore()
+    .collection('goalsDB')
+    .doc('goals')
+    .onSnapshot((snapshot) => {
+      var list = snapshot.data().goals;
+      if (customGoalsList) {
+        list = customGoalsList.concat(list);
+      }
+      var length = list.length;
+      var randomGoals = [];
+      var randomGoal;
+
+      if (categories.length == 1 && categories.includes('exercise')) {
+        const exerciseGoals = list.filter(
+          (goal) => goal.category == 'exercise',
+        );
+        randomGoal = exerciseGoals[generateRandomNumber(exerciseGoals.length)];
+        randomGoals.push(randomGoal);
+      } else {
+        for (var i = 0; i < goals; i++) {
+          do {
+            randomGoal = list[generateRandomNumber(length)];
+          } while (
+            randomGoals.includes(randomGoal) ||
+            exerciseGoalExists(randomGoal, randomGoals) ||
+            !categories.includes(randomGoal.category) ||
+            deletedGoalsList.includes(randomGoal.title)
+          );
+          randomGoals.push(randomGoal);
+        }
+      }
+
+      randomGoals = randomGoals.map((goal) => ({...goal, completed: false}));
+      dbRef.update({
+        goalsList: randomGoals,
+      });
+
+      dispatch({
+        type: GOALS_FETCH,
+        payload: randomGoals,
+      });
+    });
+};
+
 export const changeGoalsAfterCategoryUpdate = (currentGoals, newCategories) => {
   newCategories = newCategories.map((item) => item.toLowerCase());
   const {currentUser} = firebase.auth();
@@ -237,72 +324,6 @@ export const removeCustomGoal = (goal) => {
       });
     };
   }
-};
-
-const returnCurrentGoals = (dispatch, goals) => {
-  dispatch({
-    type: GOALS_FETCH,
-    payload: goals,
-  });
-};
-
-const fetchNewGoals = (
-  dispatch,
-  dbRef,
-  goals,
-  categories,
-  customGoalsList,
-  deletedGoalsList,
-) => {
-  categories = categories.map((item) => item.toLowerCase());
-  if (!deletedGoalsList) {
-    deletedGoalsList = [];
-  }
-  goals = parseInt(goals);
-
-  firebase
-    .firestore()
-    .collection('goalsDB')
-    .doc('goals')
-    .onSnapshot((snapshot) => {
-      var list = snapshot.data().goals;
-      if (customGoalsList) {
-        list = customGoalsList.concat(list);
-      }
-      var length = list.length;
-      var randomGoals = [];
-      var randomGoal;
-
-      if (categories.length == 1 && categories.includes('exercise')) {
-        const exerciseGoals = list.filter(
-          (goal) => goal.category == 'exercise',
-        );
-        randomGoal = exerciseGoals[generateRandomNumber(exerciseGoals.length)];
-        randomGoals.push(randomGoal);
-      } else {
-        for (var i = 0; i < goals; i++) {
-          do {
-            randomGoal = list[generateRandomNumber(length)];
-          } while (
-            randomGoals.includes(randomGoal) ||
-            exerciseGoalExists(randomGoal, randomGoals) ||
-            !categories.includes(randomGoal.category) ||
-            deletedGoalsList.includes(randomGoal.title)
-          );
-          randomGoals.push(randomGoal);
-        }
-      }
-
-      randomGoals = randomGoals.map((goal) => ({...goal, completed: false}));
-      dbRef.update({
-        goalsList: randomGoals,
-      });
-
-      dispatch({
-        type: GOALS_FETCH,
-        payload: randomGoals,
-      });
-    });
 };
 
 export const updateUserGoals = (goalsList) => {

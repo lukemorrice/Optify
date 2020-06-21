@@ -6,6 +6,7 @@ import {
   LayoutAnimation,
   SafeAreaView,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import {withNavigation} from 'react-navigation';
 import Greeting from './components/Greeting';
@@ -22,6 +23,7 @@ class Home extends Component {
     showDescription: [],
     isModalVisible: false,
     refreshing: false,
+    refreshingUserGoals: false,
   };
 
   toggleDescription = (index) => {
@@ -77,30 +79,46 @@ class Home extends Component {
                     <Text style={styles.goalHeadingText}>
                       Today's {goals > 1 ? 'goals' : 'goal'}
                     </Text>
-                    <TouchableOpacity>
-                      <Icon
-                        name="md-refresh"
-                        size={35}
-                        color="black"
-                        style={{marginRight: 10}}
-                      />
-                    </TouchableOpacity>
+                    {this.state.refreshingUserGoals ? (
+                      <View />
+                    ) : (
+                      <TouchableOpacity
+                        onPress={() => {
+                          this.setState({refreshingUserGoals: true});
+                          this.props.resetGoals();
+                          this.setState({refreshingUserGoals: false});
+                        }}>
+                        <Icon
+                          name="md-refresh"
+                          size={35}
+                          color="black"
+                          style={{marginRight: 10}}
+                        />
+                      </TouchableOpacity>
+                    )}
                   </View>
 
                   {allGoalsCompleted ? <CongratsMsg /> : <View />}
                 </View>
 
-                <GoalsList
-                  goalsList={goalsList}
-                  toggleGoalCompleted={this.toggleGoalCompleted}
-                  toggleDescription={this.toggleDescription}
-                  closeDescription={this.closeDescription}
-                  showDescription={this.state.showDescription}
-                  refreshGoals={() => this.props.refreshGoals()}
-                  addDailyGoal={this.props.addDailyGoal}
-                  removeGoalFromList={this.props.removeGoalFromList}
-                  removeGoalForever={this.props.removeGoalForever}
-                />
+                {this.state.refreshingUserGoals ? (
+                  <View
+                    style={{justifyContent: 'center', alignItems: 'center'}}>
+                    <ActivityIndicator size="large" color={PRIMARY_COLOUR} />
+                  </View>
+                ) : (
+                  <GoalsList
+                    goalsList={goalsList}
+                    toggleGoalCompleted={this.toggleGoalCompleted}
+                    toggleDescription={this.toggleDescription}
+                    closeDescription={this.closeDescription}
+                    showDescription={this.state.showDescription}
+                    refreshGoals={() => this.props.refreshGoals()}
+                    addDailyGoal={this.props.addDailyGoal}
+                    removeGoalFromList={this.props.removeGoalFromList}
+                    removeGoalForever={this.props.removeGoalForever}
+                  />
+                )}
 
                 <ModalScreen
                   isVisible={this.state.isModalVisible}
