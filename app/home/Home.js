@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import {withNavigation} from 'react-navigation';
 import Greeting from './components/Greeting';
@@ -95,7 +96,24 @@ class Home extends Component {
                     {this.state.refreshingUserGoals ? (
                       <View />
                     ) : (
-                      <TouchableOpacity onPress={() => this.resetGoals()}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          Alert.alert(
+                            'Refresh Goals',
+                            'Are you sure you want to refresh your goals for today?',
+                            [
+                              {
+                                text: 'Yes',
+                                onPress: () => this.resetGoals(),
+                              },
+                              {
+                                text: 'Cancel',
+                                onPress: () =>
+                                  console.log('Cancelled refreshing goals'),
+                              },
+                            ],
+                          );
+                        }}>
                         <Icon
                           name="md-refresh"
                           size={35}

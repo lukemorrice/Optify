@@ -69,3 +69,19 @@ export const exerciseGoalExists = (goal, currentGoalsList) => {
     return false;
   }
 };
+
+export const walkingGoalExists = (goal, currentGoals) => {
+  let walk = 'Go for a walk';
+  let morningWalk = 'Go for a morning walk';
+  if (goal.title == walk || goal.title == morningWalk) {
+    const currentGoalsTitles = currentGoals.map((goal) => goal.title);
+    if (
+      currentGoalsTitles.includes(walk) ||
+      currentGoalsTitles.includes(morningWalk)
+    ) {
+      return true;
+    }
+  } else {
+    return false;
+  }
+};

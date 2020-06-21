@@ -180,6 +180,7 @@ export default class GoalsList extends Component {
           rightOpenValue={-75}
           rightActionValue={-75}
           rightActivationValue={-200}
+          stopLeftSwipe={200}
           onRightActionStatusChange={(state) => this.onSwipeDelete(state)}
           keyExtractor={(item) => this.props.goalsList.indexOf(item).toString()}
           style={{marginBottom: 5}}

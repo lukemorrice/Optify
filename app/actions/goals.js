@@ -6,6 +6,7 @@ import {
   updateGoalsForNewCategories,
   generateRandomNumber,
   exerciseGoalExists,
+  walkingGoalExists,
 } from './utils';
 
 export const fetchGoals = () => {
@@ -140,7 +141,8 @@ const fetchNewGoals = (
             randomGoals.includes(randomGoal) ||
             exerciseGoalExists(randomGoal, randomGoals) ||
             !categories.includes(randomGoal.category) ||
-            deletedGoalsList.includes(randomGoal.title)
+            deletedGoalsList.includes(randomGoal.title) ||
+            walkingGoalExists(randomGoal, randomGoals)
           );
           randomGoals.push(randomGoal);
         }
