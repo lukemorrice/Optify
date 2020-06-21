@@ -41,27 +41,12 @@ export default class GoalsList extends Component {
     this.wait(600).then(() => this.setState({refreshing: false}));
   };
 
-  onSwipeStar = (state) => {
-    if (state.isActivated) {
-      ReactNativeHapticFeedback.trigger('impactMedium', options);
-      // const index = parseInt(state.key);
-      // const goal = this.props.goalsList[index];
-      // this.props.addDailyGoal(goal);
-    }
-  };
-
   onSwipeDelete = (state) => {
     if (state.isActivated) {
       ReactNativeHapticFeedback.trigger('impactMedium', options);
       const index = parseInt(state.key);
       this.onPressDelete(index);
     }
-  };
-
-  onPressStar = (rowIndex) => {
-    ReactNativeHapticFeedback.trigger('impactMedium', options);
-    const goal = this.props.goalsList[rowIndex];
-    // this.props.addDailyGoal(goal);
   };
 
   onPressDelete = (rowIndex) => {
@@ -150,27 +135,10 @@ export default class GoalsList extends Component {
       <View
         style={{
           flexDirection: 'row',
-          justifyContent: 'space-between',
+          justifyContent: 'flex-end',
           flex: 1,
           marginTop: rowData.index !== 0 ? 20 : 0,
         }}>
-        <TouchableOpacity
-          onPress={() => {
-            row.closeRow();
-            this.onPressStar(rowData.index);
-          }}>
-          <View
-            style={{
-              width: 70,
-              borderRadius: 15,
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: '#FFD740',
-              height: 55,
-            }}>
-            <Icon name="ios-star" size={32} color="white" />
-          </View>
-        </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
             row.closeRow();
@@ -208,15 +176,11 @@ export default class GoalsList extends Component {
           swipeGestureBegan={(rowKey) =>
             this.props.closeDescription(parseInt(rowKey))
           }
-          leftOpenValue={75}
+          disableRightSwipe={true}
           rightOpenValue={-75}
-          leftActionValue={75}
           rightActionValue={-75}
-          leftActivationValue={250}
           rightActivationValue={-200}
-          onLeftActionStatusChange={(state) => this.onSwipeStar(state)}
           onRightActionStatusChange={(state) => this.onSwipeDelete(state)}
-          stopLeftSwipe={300}
           keyExtractor={(item) => this.props.goalsList.indexOf(item).toString()}
           style={{marginBottom: 5}}
           refreshControl={
