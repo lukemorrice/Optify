@@ -366,12 +366,17 @@ export const deleteGoalForever = (goal) => {
   const {currentUser} = firebase.auth();
   const dbRef = firebase.database().ref(`/users/${currentUser.uid}/profile`);
 
-  dbRef.once('value', (snap) => {
-    var customGoalsList = snap.val().customGoalsList;
-    if (goal.dailyGoal || customGoalsList.includes(goal)) {
-      removeCustomGoal(goal);
-    } else {
-      return (dispatch) => {
+  return (dispatch) => {
+    dbRef.once('value', (snap) => {
+      var customGoalsList = snap.val().customGoalsList;
+      var customGoal = false;
+      if (customGoalsList) {
+        customGoal = customGoalsList.includes(goal);
+      }
+
+      if (goal.dailyGoal || customGoal) {
+        removeCustomGoal(goal);
+      } else {
         var goalsList = snap.val().goalsList;
         var deletedGoalsList = snap.val().deletedGoalsList;
 
@@ -391,7 +396,7 @@ export const deleteGoalForever = (goal) => {
           type: GOALS_FETCH,
           payload: goalsList,
         });
-      };
-    }
-  });
+      }
+    });
+  };
 };

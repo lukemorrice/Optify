@@ -37,9 +37,8 @@ export default class GoalsList extends Component {
 
   refreshGoals = () => {
     this.setState({refreshing: true});
-    this.wait(600)
-      .then(() => this.props.refreshGoals())
-      .then(() => this.setState({refreshing: false}));
+    this.props.refreshGoals();
+    this.wait(600).then(() => this.setState({refreshing: false}));
   };
 
   onSwipeStar = (state) => {
@@ -66,7 +65,6 @@ export default class GoalsList extends Component {
   };
 
   onPressDelete = (rowIndex) => {
-    console.log(this.state.rowRefs);
     ReactNativeHapticFeedback.trigger('impactMedium', options);
     const goal = this.props.goalsList[rowIndex];
     Alert.alert(

@@ -9,6 +9,7 @@ import {
   toggleGoalCompleted,
   addDailyGoal,
   resetGoals,
+  deleteGoalForever,
 } from '../actions/goals';
 import Loading from '../auth/Loading';
 
@@ -29,8 +30,6 @@ class HomeContainer extends Component {
         var goalsList = [];
         var dailyGoals = this.props.profile.dailyGoalsList;
         var goals = this.props.goals.goals;
-        var dailyGoalsTitles = dailyGoals.map((goal) => goal.title);
-        goals = goals.filter((goal) => !dailyGoalsTitles.includes(goal.title));
 
         if (dailyGoals) {
           var newDailyGoals = [];
@@ -45,7 +44,9 @@ class HomeContainer extends Component {
               newDailyGoals = newDailyGoals.concat([newGoal]);
             }
           }
-          var goalsList = newDailyGoals.concat(goals);
+          goalsList = newDailyGoals.concat(goals);
+        } else {
+          goalsList = goals;
         }
 
         this.setState({goalsList});
@@ -78,6 +79,7 @@ class HomeContainer extends Component {
 
   removeGoalForever = (goal) => {
     console.log("This goal won't be suggested to the user again:", goal.title);
+    this.props.deleteGoalForever(goal);
   };
 
   render() {
@@ -113,6 +115,7 @@ const mapDispatchToProps = {
   toggleGoalCompleted,
   addDailyGoal,
   resetGoals,
+  deleteGoalForever,
 };
 
 export default withNavigation(

@@ -26,6 +26,19 @@ class Home extends Component {
     refreshingUserGoals: false,
   };
 
+  wait(timeout) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, timeout);
+    });
+  }
+
+  resetGoals = () => {
+    this.setState({refreshingUserGoals: true});
+    this.wait(600)
+      .then(() => this.props.resetGoals())
+      .then(() => this.setState({refreshingUserGoals: false}));
+  };
+
   toggleDescription = (index) => {
     this.state.showDescription[index] = !this.state.showDescription[index];
     this.setState({showDescription: this.state.showDescription});
@@ -82,12 +95,7 @@ class Home extends Component {
                     {this.state.refreshingUserGoals ? (
                       <View />
                     ) : (
-                      <TouchableOpacity
-                        onPress={() => {
-                          this.setState({refreshingUserGoals: true});
-                          this.props.resetGoals();
-                          this.setState({refreshingUserGoals: false});
-                        }}>
+                      <TouchableOpacity onPress={() => this.resetGoals()}>
                         <Icon
                           name="md-refresh"
                           size={35}
@@ -103,7 +111,11 @@ class Home extends Component {
 
                 {this.state.refreshingUserGoals ? (
                   <View
-                    style={{justifyContent: 'center', alignItems: 'center'}}>
+                    style={{
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      marginTop: 50,
+                    }}>
                     <ActivityIndicator size="large" color={PRIMARY_COLOUR} />
                   </View>
                 ) : (
@@ -165,6 +177,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: 30,
+    height: 35,
   },
   goalHeadingText: {
     fontSize: 24,
