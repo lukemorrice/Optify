@@ -107,7 +107,6 @@ export const logoutUser = () => {
 };
 
 export const resetErrors = () => {
-  console.log('Resetting errors...');
   return (dispatch) => {
     dispatch({type: RESET_ERRORS});
   };

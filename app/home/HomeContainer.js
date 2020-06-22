@@ -11,6 +11,7 @@ import {
   addDailyGoal,
   resetGoals,
   deleteGoalForever,
+  deleteGoalFromList,
 } from '../actions/goals';
 import Loading from '../auth/Loading';
 import {PRIMARY_COLOUR} from '../Style';
@@ -74,9 +75,8 @@ class HomeContainer extends Component {
   };
 
   removeGoalFromList = (goal) => {
-    var goalsList = this.state.goalsList;
-    goalsList = goalsList.filter((item) => item.title !== goal.title);
-    this.props.updateUserGoals(goalsList);
+    console.log('Deleting', goal.title, 'from list');
+    this.props.deleteGoalFromList(goal);
   };
 
   removeGoalForever = (goal) => {
@@ -120,6 +120,7 @@ const mapDispatchToProps = {
   addDailyGoal,
   resetGoals,
   deleteGoalForever,
+  deleteGoalFromList,
 };
 
 export default withNavigation(

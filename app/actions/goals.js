@@ -7,6 +7,7 @@ import {
   generateRandomNumber,
   exerciseGoalExists,
   walkingGoalExists,
+  replaceGoal,
 } from './utils';
 
 export const fetchGoals = () => {
@@ -61,10 +62,10 @@ export const fetchGoals = () => {
             });
           }
 
+          dbRef.update({lastActive: currentDate});
           dbRef.update({
             goalsCompleted: newCompleted,
             goalsSet: newGoalsSet,
-            lastActive: currentDate,
             dailyGoalsList,
           });
         }
@@ -400,5 +401,21 @@ export const deleteGoalForever = (goal) => {
         });
       }
     });
+  };
+};
+
+export const deleteGoalFromList = (goal) => {
+  const {currentUser} = firebase.auth();
+  const dbRef = firebase.database().ref(`/users/${currentUser.uid}/profile`);
+
+  return (dispatch) => {
+    firebase
+      .firestore()
+      .collection('goalsDB')
+      .doc('goals')
+      .onSnapshot((snapshot) => {
+        var goals = snapshot.data().goals;
+        replaceGoal(goal, goals, dispatch, dbRef);
+      });
   };
 };

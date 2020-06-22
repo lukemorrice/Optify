@@ -1,3 +1,6 @@
+import * as firebase from 'firebase';
+import {GOALS_FETCH} from './types';
+
 export const updateGoalsForNewCategories = (
   categoryList,
   currentGoalsList,
@@ -84,4 +87,36 @@ export const walkingGoalExists = (goal, currentGoals) => {
   } else {
     return false;
   }
+};
+
+export const replaceGoal = (goalToReplace, fullGoalsList, dispatch, dbRef) => {
+  dbRef.once('value', (snap) => {
+    var currentGoalsList = snap.val().goalsList;
+    var categories = snap.val().categories.map((item) => item.toLowerCase());
+    var deletedGoals = snap.val().deletedGoalsList;
+    fullGoalsList = fullGoalsList.filter((goal) =>
+      categories.includes(goal.category),
+    );
+
+    var newGoal;
+    var count = 0;
+    do {
+      if (count > fullGoalsList.length * 3) {
+        break;
+      }
+      newGoal = fullGoalsList[generateRandomNumber(fullGoalsList.length)];
+      console.log(newGoal);
+    } while (
+      currentGoalsList.includes(newGoal) ||
+      deletedGoals.includes(newGoal)
+    );
+
+    var newGoalsList = currentGoalsList.filter(
+      (goal) => goal.title !== goalToReplace.title,
+    );
+    newGoalsList = newGoalsList.concat([newGoal]);
+
+    dispatch({type: GOALS_FETCH, payload: newGoalsList});
+    dbRef.update({goalsList: newGoalsList});
+  });
 };

@@ -28,12 +28,16 @@ class Login extends Component {
 
   onChangeEmail = (email) => {
     email = email.trim();
-    this.props.resetErrors();
+    if (!this.state.error == '') {
+      this.props.resetErrors();
+    }
     this.setState({email, error: ''});
   };
 
   onChangePassword = (password) => {
-    this.props.resetErrors();
+    if (!this.state.error == '') {
+      this.props.resetErrors();
+    }
     this.setState({password, error: ''});
   };
 
