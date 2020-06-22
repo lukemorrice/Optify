@@ -5,12 +5,18 @@ import {
   View,
   TouchableOpacity,
   LayoutAnimation,
+  StatusBar,
 } from 'react-native';
 import SwiperFlatList from 'react-native-swiper-flatlist';
 import OptifyHeader from './OptifyHeader';
 import {WIDTH} from '../Style';
 
 export default class LandingPage extends Component {
+  componentDidMount() {
+    StatusBar.setBarStyle('dark-content', true);
+    StatusBar.setBackgroundColor('white');
+  }
+
   onPressSignUp = () => {
     this.props.navigation.navigate('Signup');
   };

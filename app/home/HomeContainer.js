@@ -24,7 +24,6 @@ class HomeContainer extends Component {
   componentDidMount() {
     this.props.fetchProfile();
     this.props.fetchGoals();
-    StatusBar.setBackgroundColor(PRIMARY_COLOUR);
   }
 
   componentDidUpdate(prevProps) {
@@ -87,6 +86,8 @@ class HomeContainer extends Component {
 
   render() {
     if (this.props.profile) {
+      StatusBar.setBackgroundColor(PRIMARY_COLOUR);
+      StatusBar.setBarStyle('dark-content', true);
       return (
         <Home
           profile={this.props.profile}

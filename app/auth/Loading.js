@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, ActivityIndicator, StyleSheet} from 'react-native';
-import {PRIMARY_COLOUR} from '../Style';
+import {PRIMARY_COLOUR, WHITE} from '../Style';
 
 export default class Loading extends Component {
   render() {
@@ -35,5 +35,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: WHITE,
   },
 });

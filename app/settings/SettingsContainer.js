@@ -10,11 +10,15 @@ import {ActivityIndicator} from 'react-native';
 import {PRIMARY_COLOUR, WHITE} from '../Style';
 
 class SettingsContainer extends Component {
-  componentDidMount() {
-    StatusBar.setBackgroundColor('black');
+  componentWillUnmount() {
+    StatusBar.setBarStyle('dark-content', true);
+    StatusBar.setBackgroundColor(PRIMARY_COLOUR);
   }
 
   render() {
+    StatusBar.setBarStyle('default', true);
+    StatusBar.setBackgroundColor('black');
+
     if (this.props.profile) {
       return (
         <Settings
