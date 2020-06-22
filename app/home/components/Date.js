@@ -4,12 +4,14 @@ import Utils from './utils';
 
 export default class Date extends Component {
   render() {
-    var day = new Utils().getDay();
-    var date = new Utils().getDate();
+    const utils = new Utils();
+    var day = utils.getDayOfWeek();
+    var month = utils.getMonthAsString();
+    var dateOfMonth = utils.getDateOfMonth();
     return (
       <View>
         <Text style={styles.day}>
-          {day} {date}
+          {day} {dateOfMonth} {month}
         </Text>
       </View>
     );

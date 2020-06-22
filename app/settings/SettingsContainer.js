@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {StatusBar} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {connect} from 'react-redux';
 import {updateGoals, updateCategories} from '../actions/profile';
@@ -6,9 +7,13 @@ import {logoutUser} from '../actions/authorisation';
 import {changeGoalsAfterCategoryUpdate} from '../actions/goals';
 import Settings from './Settings';
 import {ActivityIndicator} from 'react-native';
-import {PRIMARY_COLOUR} from '../Style';
+import {PRIMARY_COLOUR, WHITE} from '../Style';
 
 class SettingsContainer extends Component {
+  componentDidMount() {
+    StatusBar.setBackgroundColor('black');
+  }
+
   render() {
     if (this.props.profile) {
       return (

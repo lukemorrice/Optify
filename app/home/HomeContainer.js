@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {StatusBar} from 'react-native';
 import Home from './Home';
 import {connect} from 'react-redux';
 import {withNavigation} from 'react-navigation';
@@ -12,6 +13,7 @@ import {
   deleteGoalForever,
 } from '../actions/goals';
 import Loading from '../auth/Loading';
+import {PRIMARY_COLOUR} from '../Style';
 
 class HomeContainer extends Component {
   state = {
@@ -22,6 +24,7 @@ class HomeContainer extends Component {
   componentDidMount() {
     this.props.fetchProfile();
     this.props.fetchGoals();
+    StatusBar.setBackgroundColor(PRIMARY_COLOUR);
   }
 
   componentDidUpdate(prevProps) {
