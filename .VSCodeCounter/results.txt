@@ -1,0 +1,141 @@
+Date : 2020-06-22 15:19:43
+Directory : /Users/lukemorrice/Optify
+Total : 74 files,  15750 codes, 188 comments, 475 blanks, all 16413 lines
+
+Languages
++-------------+------------+------------+------------+------------+------------+
+| language    | files      | code       | comment    | blank      | total      |
++-------------+------------+------------+------------+------------+------------+
+| JSON        |          9 |     11,469 |          0 |          7 |     11,476 |
+| JavaScript  |         46 |      3,737 |         26 |        341 |      4,104 |
+| Groovy      |          3 |        144 |        116 |         29 |        289 |
+| Java        |          3 |        136 |         25 |         19 |        180 |
+| Objective-C |          3 |        106 |          0 |         29 |        135 |
+| Batch       |          1 |         76 |          0 |         25 |        101 |
+| XML         |          5 |         68 |          2 |         12 |         82 |
+| Properties  |          3 |          9 |         19 |          9 |         37 |
+| C++         |          1 |          5 |          0 |          4 |          9 |
++-------------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                         | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                            |         74 |     15,750 |        188 |        475 |     16,413 |
+| __tests__                                                                                    |          1 |          7 |          4 |          4 |         15 |
+| android                                                                                      |         13 |        402 |        162 |         92 |        656 |
+| android/app                                                                                  |          8 |        266 |        138 |         53 |        457 |
+| android/app/src                                                                              |          7 |        174 |         27 |         30 |        231 |
+| android/app/src/debug                                                                        |          2 |         65 |          8 |          9 |         82 |
+| android/app/src/debug/java                                                                   |          1 |         59 |          8 |          6 |         73 |
+| android/app/src/debug/java/com                                                               |          1 |         59 |          8 |          6 |         73 |
+| android/app/src/debug/java/com/optify                                                        |          1 |         59 |          8 |          6 |         73 |
+| android/app/src/main                                                                         |          5 |        109 |         19 |         21 |        149 |
+| android/app/src/main/java                                                                    |          2 |         77 |         17 |         13 |        107 |
+| android/app/src/main/java/com                                                                |          2 |         77 |         17 |         13 |        107 |
+| android/app/src/main/java/com/optify                                                         |          2 |         77 |         17 |         13 |        107 |
+| android/app/src/main/res                                                                     |          2 |          8 |          2 |          4 |         14 |
+| android/app/src/main/res/values                                                              |          2 |          8 |          2 |          4 |         14 |
+| android/gradle                                                                               |          1 |          5 |          0 |          1 |          6 |
+| android/gradle/wrapper                                                                       |          1 |          5 |          0 |          1 |          6 |
+| app                                                                                          |         38 |      3,672 |         13 |        322 |      4,007 |
+| app/actions                                                                                  |          5 |        741 |          8 |         90 |        839 |
+| app/auth                                                                                     |          7 |        980 |          2 |         68 |      1,050 |
+| app/home                                                                                     |         11 |      1,243 |          1 |         92 |      1,336 |
+| app/home/components                                                                          |          6 |        424 |          0 |         35 |        459 |
+| app/navigation                                                                               |          3 |         71 |          0 |          9 |         80 |
+| app/reducers                                                                                 |          4 |        101 |          0 |         14 |        115 |
+| app/settings                                                                                 |          6 |        514 |          0 |         43 |        557 |
+| app/settings/components                                                                      |          4 |        337 |          0 |         24 |        361 |
+| ios                                                                                          |          9 |        305 |          0 |         38 |        343 |
+| ios/Optify                                                                                   |          8 |        254 |          0 |         23 |        277 |
+| ios/Optify/Base.lproj                                                                        |          1 |         30 |          0 |          1 |         31 |
+| ios/Optify/Images.xcassets                                                                   |          4 |        164 |          0 |          4 |        168 |
+| ios/Optify/Images.xcassets/AppIcon.appiconset                                                |          1 |        116 |          0 |          1 |        117 |
+| ios/Optify/Images.xcassets/SplashScreenLogo.imageset                                         |          1 |         21 |          0 |          1 |         22 |
+| ios/Optify/Images.xcassets/logo2-1024.imageset                                               |          1 |         21 |          0 |          1 |         22 |
+| ios/OptifyTests                                                                              |          1 |         51 |          0 |         15 |         66 |
+| logos                                                                                        |          1 |        116 |          0 |          1 |        117 |
+| logos/AppIcon.appiconset                                                                     |          1 |        116 |          0 |          1 |        117 |
++----------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------------------------------------------+-------------+------------+------------+------------+------------+
+| filename                                                                                     | language    | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------+-------------+------------+------------+------------+------------+
+| /Users/lukemorrice/Optify/.eslintrc.js                                                       | JavaScript  |          4 |          0 |          1 |          5 |
+| /Users/lukemorrice/Optify/.gitattributes                                                     | Properties  |          1 |          0 |          1 |          2 |
+| /Users/lukemorrice/Optify/.prettierrc.js                                                     | JavaScript  |          6 |          0 |          1 |          7 |
+| /Users/lukemorrice/Optify/.watchmanconfig                                                    | JSON        |          1 |          0 |          0 |          1 |
+| /Users/lukemorrice/Optify/App.js                                                             | JavaScript  |         21 |          0 |          5 |         26 |
+| /Users/lukemorrice/Optify/__tests__/App-test.js                                              | JavaScript  |          7 |          4 |          4 |         15 |
+| /Users/lukemorrice/Optify/android/app/build.gradle                                           | Groovy      |         92 |        111 |         23 |        226 |
+| /Users/lukemorrice/Optify/android/app/src/debug/AndroidManifest.xml                          | XML         |          6 |          0 |          3 |          9 |
+| /Users/lukemorrice/Optify/android/app/src/debug/java/com/optify/ReactNativeFlipper.java      | Java        |         59 |          8 |          6 |         73 |
+| /Users/lukemorrice/Optify/android/app/src/main/AndroidManifest.xml                           | XML         |         24 |          0 |          4 |         28 |
+| /Users/lukemorrice/Optify/android/app/src/main/java/com/optify/MainActivity.java             | Java        |          8 |          4 |          4 |         16 |
+| /Users/lukemorrice/Optify/android/app/src/main/java/com/optify/MainApplication.java          | Java        |         69 |         13 |          9 |         91 |
+| /Users/lukemorrice/Optify/android/app/src/main/res/values/strings.xml                        | XML         |          3 |          0 |          1 |          4 |
+| /Users/lukemorrice/Optify/android/app/src/main/res/values/styles.xml                         | XML         |          5 |          2 |          3 |         10 |
+| /Users/lukemorrice/Optify/android/build.gradle                                               | Groovy      |         29 |          5 |          5 |         39 |
+| /Users/lukemorrice/Optify/android/gradle.properties                                          | Properties  |          3 |         19 |          7 |         29 |
+| /Users/lukemorrice/Optify/android/gradle/wrapper/gradle-wrapper.properties                   | Properties  |          5 |          0 |          1 |          6 |
+| /Users/lukemorrice/Optify/android/gradlew.bat                                                | Batch       |         76 |          0 |         25 |        101 |
+| /Users/lukemorrice/Optify/android/settings.gradle                                            | Groovy      |         23 |          0 |          1 |         24 |
+| /Users/lukemorrice/Optify/app.json                                                           | JSON        |          4 |          0 |          0 |          4 |
+| /Users/lukemorrice/Optify/app/Main.js                                                        | JavaScript  |         15 |          0 |          3 |         18 |
+| /Users/lukemorrice/Optify/app/Style.js                                                       | JavaScript  |          7 |          2 |          3 |         12 |
+| /Users/lukemorrice/Optify/app/actions/authorisation.js                                       | JavaScript  |        123 |          0 |         13 |        136 |
+| /Users/lukemorrice/Optify/app/actions/goals.js                                               | JavaScript  |        378 |          0 |         44 |        422 |
+| /Users/lukemorrice/Optify/app/actions/profile.js                                             | JavaScript  |        116 |          4 |         15 |        135 |
+| /Users/lukemorrice/Optify/app/actions/types.js                                               | JavaScript  |         17 |          3 |          3 |         23 |
+| /Users/lukemorrice/Optify/app/actions/utils.js                                               | JavaScript  |        107 |          1 |         15 |        123 |
+| /Users/lukemorrice/Optify/app/auth/ForgotPassword.js                                         | JavaScript  |        163 |          0 |         10 |        173 |
+| /Users/lukemorrice/Optify/app/auth/LandingPage.js                                            | JavaScript  |        133 |          0 |         11 |        144 |
+| /Users/lukemorrice/Optify/app/auth/Loading.js                                                | JavaScript  |         38 |          0 |          3 |         41 |
+| /Users/lukemorrice/Optify/app/auth/LoadingScreen.js                                          | JavaScript  |         38 |          2 |          3 |         43 |
+| /Users/lukemorrice/Optify/app/auth/Login.js                                                  | JavaScript  |        235 |          0 |         16 |        251 |
+| /Users/lukemorrice/Optify/app/auth/OptifyHeader.js                                           | JavaScript  |         46 |          0 |          3 |         49 |
+| /Users/lukemorrice/Optify/app/auth/Signup.js                                                 | JavaScript  |        327 |          0 |         22 |        349 |
+| /Users/lukemorrice/Optify/app/home/AddGoal.js                                                | JavaScript  |        410 |          1 |         15 |        426 |
+| /Users/lukemorrice/Optify/app/home/AddGoalContainer.js                                       | JavaScript  |         68 |          0 |          8 |         76 |
+| /Users/lukemorrice/Optify/app/home/Home.js                                                   | JavaScript  |        187 |          0 |         17 |        204 |
+| /Users/lukemorrice/Optify/app/home/HomeContainer.js                                          | JavaScript  |        115 |          0 |         14 |        129 |
+| /Users/lukemorrice/Optify/app/home/Modal.js                                                  | JavaScript  |         39 |          0 |          3 |         42 |
+| /Users/lukemorrice/Optify/app/home/components/Congrats.js                                    | JavaScript  |         47 |          0 |          6 |         53 |
+| /Users/lukemorrice/Optify/app/home/components/Date.js                                        | JavaScript  |         26 |          0 |          3 |         29 |
+| /Users/lukemorrice/Optify/app/home/components/GoalsList.js                                   | JavaScript  |        231 |          0 |         12 |        243 |
+| /Users/lukemorrice/Optify/app/home/components/Greeting.js                                    | JavaScript  |         28 |          0 |          5 |         33 |
+| /Users/lukemorrice/Optify/app/home/components/Header.js                                      | JavaScript  |         40 |          0 |          3 |         43 |
+| /Users/lukemorrice/Optify/app/home/components/utils.js                                       | JavaScript  |         52 |          0 |          6 |         58 |
+| /Users/lukemorrice/Optify/app/navigation/AppStack.js                                         | JavaScript  |         17 |          0 |          3 |         20 |
+| /Users/lukemorrice/Optify/app/navigation/AuthStack.js                                        | JavaScript  |         31 |          0 |          2 |         33 |
+| /Users/lukemorrice/Optify/app/navigation/Navigation.js                                       | JavaScript  |         23 |          0 |          4 |         27 |
+| /Users/lukemorrice/Optify/app/reducers/AuthReducer.js                                        | JavaScript  |         56 |          0 |          4 |         60 |
+| /Users/lukemorrice/Optify/app/reducers/GoalsReducer.js                                       | JavaScript  |         11 |          0 |          4 |         15 |
+| /Users/lukemorrice/Optify/app/reducers/ProfileReducer.js                                     | JavaScript  |         25 |          0 |          4 |         29 |
+| /Users/lukemorrice/Optify/app/reducers/index.js                                              | JavaScript  |          9 |          0 |          2 |         11 |
+| /Users/lukemorrice/Optify/app/settings/Settings.js                                           | JavaScript  |        121 |          0 |         12 |        133 |
+| /Users/lukemorrice/Optify/app/settings/SettingsContainer.js                                  | JavaScript  |         56 |          0 |          7 |         63 |
+| /Users/lukemorrice/Optify/app/settings/components/AccountDetails.js                          | JavaScript  |         66 |          0 |          3 |         69 |
+| /Users/lukemorrice/Optify/app/settings/components/CategoryItem.js                            | JavaScript  |         73 |          0 |          9 |         82 |
+| /Users/lukemorrice/Optify/app/settings/components/CategorySelector.js                        | JavaScript  |         94 |          0 |          7 |        101 |
+| /Users/lukemorrice/Optify/app/settings/components/GoalsSelector.js                           | JavaScript  |        104 |          0 |          5 |        109 |
+| /Users/lukemorrice/Optify/babel.config.js                                                    | JavaScript  |          3 |          0 |          1 |          4 |
+| /Users/lukemorrice/Optify/config.js                                                          | JavaScript  |         10 |          0 |          2 |         12 |
+| /Users/lukemorrice/Optify/index.js                                                           | JavaScript  |          4 |          3 |          3 |         10 |
+| /Users/lukemorrice/Optify/ios/Optify/AppDelegate.h                                           | C++         |          5 |          0 |          4 |          9 |
+| /Users/lukemorrice/Optify/ios/Optify/AppDelegate.m                                           | Objective-C |         48 |          0 |         11 |         59 |
+| /Users/lukemorrice/Optify/ios/Optify/Base.lproj/LaunchScreen.xib                             | XML         |         30 |          0 |          1 |         31 |
+| /Users/lukemorrice/Optify/ios/Optify/Images.xcassets/AppIcon.appiconset/Contents.json        | JSON        |        116 |          0 |          1 |        117 |
+| /Users/lukemorrice/Optify/ios/Optify/Images.xcassets/Contents.json                           | JSON        |          6 |          0 |          1 |          7 |
+| /Users/lukemorrice/Optify/ios/Optify/Images.xcassets/SplashScreenLogo.imageset/Contents.json | JSON        |         21 |          0 |          1 |         22 |
+| /Users/lukemorrice/Optify/ios/Optify/Images.xcassets/logo2-1024.imageset/Contents.json       | JSON        |         21 |          0 |          1 |         22 |
+| /Users/lukemorrice/Optify/ios/Optify/main.m                                                  | Objective-C |          7 |          0 |          3 |         10 |
+| /Users/lukemorrice/Optify/ios/OptifyTests/OptifyTests.m                                      | Objective-C |         51 |          0 |         15 |         66 |
+| /Users/lukemorrice/Optify/logos/AppIcon.appiconset/Contents.json                             | JSON        |        116 |          0 |          1 |        117 |
+| /Users/lukemorrice/Optify/metro.config.js                                                    | JavaScript  |         10 |          6 |          2 |         18 |
+| /Users/lukemorrice/Optify/package-lock.json                                                  | JSON        |     11,134 |          0 |          1 |     11,135 |
+| /Users/lukemorrice/Optify/package.json                                                       | JSON        |         50 |          0 |          1 |         51 |
+| Total                                                                                        |             |     15,750 |        188 |        475 |     16,413 |
++----------------------------------------------------------------------------------------------+-------------+------------+------------+------------+------------+

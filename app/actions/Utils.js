@@ -1,4 +1,3 @@
-import * as firebase from 'firebase';
 import {GOALS_FETCH} from './types';
 
 export const updateGoalsForNewCategories = (
@@ -6,6 +5,7 @@ export const updateGoalsForNewCategories = (
   currentGoalsList,
   fullGoalsList,
 ) => {
+  console.log('Changing goals after category update...');
   var newGoalsList = currentGoalsList.filter((goal) =>
     categoryList.includes(goal.category),
   );
@@ -20,18 +20,27 @@ export const updateGoalsForNewCategories = (
       categoryList.includes(goal.category),
     );
 
+    if (availableGoals.length < currentGoalsList.length) {
+      return availableGoals;
+    }
+
     var numOfNeededGoals = currentGoalsList.length - newGoalsList.length;
+    console.log('Need to generate', numOfNeededGoals, 'more goals');
     var newGoal;
 
-    if (numOfNeededGoals > 1) {
+    const goalTitles = newGoalsList.map((goal) => goal.title);
+
+    if (numOfNeededGoals > 0) {
       for (let i = 0; i < numOfNeededGoals; i++) {
         do {
           newGoal = availableGoals[generateRandomNumber(availableGoals.length)];
+          console.log(goalTitles.includes(newGoal.title));
         } while (
-          newGoalsList.includes(newGoal) ||
+          goalTitles.includes(newGoal.title) ||
           exerciseGoalExists(newGoal, newGoalsList)
         );
         newGoalsList.push(newGoal);
+        console.log('Adding', newGoal.title, 'to goals list');
       }
     }
     return newGoalsList;

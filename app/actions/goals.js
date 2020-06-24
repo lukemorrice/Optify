@@ -161,37 +161,39 @@ const fetchNewGoals = (
     });
 };
 
-export const changeGoalsAfterCategoryUpdate = (currentGoals, newCategories) => {
+export const changeGoalsAfterCategoryUpdate = (
+  dispatch,
+  currentGoals,
+  newCategories,
+) => {
   newCategories = newCategories.map((item) => item.toLowerCase());
   const {currentUser} = firebase.auth();
   const dbRef = firebase.database().ref(`/users/${currentUser.uid}/profile`);
   var dailyGoals = currentGoals.filter((goal) => goal.dailyGoal);
   currentGoals = currentGoals.filter((goal) => !goal.dailyGoal);
 
-  return (dispatch) => {
-    firebase
-      .firestore()
-      .collection('goalsDB')
-      .doc('goals')
-      .onSnapshot((snapshot) => {
-        var list = snapshot.data().goals;
-        var newGoals = updateGoalsForNewCategories(
-          newCategories,
-          currentGoals,
-          list,
-        );
-
-        var goalsList = dailyGoals.concat(newGoals);
-        dbRef.update({
-          goalsList,
-        });
-
-        dispatch({
-          type: GOALS_FETCH,
-          payload: goalsList,
-        });
+  firebase
+    .firestore()
+    .collection('goalsDB')
+    .doc('goals')
+    .onSnapshot((snapshot) => {
+      var list = snapshot.data().goals;
+      var newGoals = updateGoalsForNewCategories(
+        newCategories,
+        currentGoals,
+        list,
+      );
+      console.log(newGoals);
+      var goalsList = dailyGoals.concat(newGoals);
+      dbRef.update({
+        goalsList,
       });
-  };
+
+      dispatch({
+        type: GOALS_FETCH,
+        payload: goalsList,
+      });
+    });
 };
 
 export const addDailyGoal = (

@@ -13,20 +13,14 @@ export default class CategorySelector extends Component {
 
   updateCategory = (category, toBeAdded) => {
     var categories = this.state.categories;
-
     if (toBeAdded) {
       categories = categories.concat([category]);
-      this.setState({
-        categories: categories,
-      });
-      this.props.updateGoals(categories);
     } else {
       categories = categories.filter((item) => item !== category);
-      this.setState({
-        categories: categories,
-      });
-      this.props.updateGoals(categories);
     }
+    this.setState({
+      categories: categories,
+    });
     this.props.updateCategories(categories);
   };
 

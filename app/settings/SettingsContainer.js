@@ -2,7 +2,11 @@ import React, {Component} from 'react';
 import {StatusBar} from 'react-native';
 import {withNavigation} from 'react-navigation';
 import {connect} from 'react-redux';
-import {updateGoals, updateCategories} from '../actions/profile';
+import {
+  updateGoals,
+  updateCategories,
+  updateSettings,
+} from '../actions/profile';
 import {logoutUser} from '../actions/authorisation';
 import {changeGoalsAfterCategoryUpdate} from '../actions/goals';
 import Settings from './Settings';
@@ -31,6 +35,7 @@ class SettingsContainer extends Component {
           }
           closeModal={this.props.closeModal}
           navigation={this.props.navigation}
+          updateSettings={this.props.updateSettings}
         />
       );
     } else {
@@ -55,6 +60,7 @@ const mapDispatchToProps = {
   logoutUser,
   updateCategories,
   changeGoalsAfterCategoryUpdate,
+  updateSettings,
 };
 
 export default withNavigation(
