@@ -93,7 +93,7 @@ class HomeContainer extends Component {
           profile={this.props.profile}
           goalsList={this.state.goalsList}
           toggleGoalCompleted={this.toggleGoalCompleted}
-          refreshGoals={() => this.props.fetchGoals}
+          refreshGoals={() => this.props.fetchGoals()}
           navigation={this.props.navigation}
           addDailyGoal={this.addDailyGoal}
           removeGoalFromList={this.removeGoalFromList}
