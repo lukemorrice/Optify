@@ -274,6 +274,7 @@ class AddGoal extends Component {
                               {label: 'Creative', value: 'creative'},
                             ]}
                             style={pickerStyle}
+                            useNativeAndroidPickerStyle={false}
                           />
                         </View>
                         {this.renderButtons()}
@@ -411,6 +412,15 @@ const styles = StyleSheet.create({
 
 const pickerStyle = {
   inputIOS: {
+    width: 125,
+    height: 45,
+    borderWidth: 2,
+    borderColor: '#34495E',
+    fontSize: 16,
+    borderRadius: 10,
+    padding: 10,
+  },
+  inputAndroid: {
     width: 125,
     height: 45,
     borderWidth: 2,
