@@ -87,11 +87,12 @@ export const walkingGoalExists = (goal, currentGoals) => {
   let morningWalk = 'Go for a morning walk';
   if (goal.title == walk || goal.title == morningWalk) {
     const currentGoalsTitles = currentGoals.map((goal) => goal.title);
-    if (
-      currentGoalsTitles.includes(walk) ||
-      currentGoalsTitles.includes(morningWalk)
-    ) {
+    if (goal.title == walk && currentGoalsTitles.includes(morningWalk)) {
       return true;
+    } else if (goal.title == morningWalk && currentGoalsTitles.includes(walk)) {
+      return true;
+    } else {
+      return false;
     }
   } else {
     return false;
@@ -101,8 +102,12 @@ export const walkingGoalExists = (goal, currentGoals) => {
 export const replaceGoal = (goalToReplace, fullGoalsList, dispatch, dbRef) => {
   dbRef.once('value', (snap) => {
     var currentGoalsList = snap.val().goalsList;
+    var currentGoalsTitles = currentGoalsList.map((item) => item.title);
     var categories = snap.val().categories.map((item) => item.toLowerCase());
     var deletedGoals = snap.val().deletedGoalsList;
+    if (!deletedGoals) {
+      deletedGoals = [];
+    }
     fullGoalsList = fullGoalsList.filter((goal) =>
       categories.includes(goal.category),
     );
@@ -114,9 +119,8 @@ export const replaceGoal = (goalToReplace, fullGoalsList, dispatch, dbRef) => {
         break;
       }
       newGoal = fullGoalsList[generateRandomNumber(fullGoalsList.length)];
-      console.log(newGoal);
     } while (
-      currentGoalsList.includes(newGoal) ||
+      currentGoalsTitles.includes(newGoal.title) ||
       deletedGoals.includes(newGoal)
     );
 
