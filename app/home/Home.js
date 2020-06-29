@@ -19,7 +19,6 @@ import CongratsMsg from './components/Congrats';
 import {PRIMARY_COLOUR, WHITE} from '../Style';
 import GoalsList from './components/GoalsList';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {getDate} from '../actions/authorisation';
 
 class Home extends Component {
   state = {
@@ -27,29 +26,6 @@ class Home extends Component {
     isModalVisible: false,
     refreshing: false,
     refreshingUserGoals: false,
-    appState: AppState.currentState,
-  };
-
-  componentDidMount() {
-    AppState.addEventListener('change', this.handleAppStateChange);
-  }
-
-  componentWillUnmount() {
-    AppState.removeEventListener('change', this.handleAppStateChange);
-  }
-
-  handleAppStateChange = (nextAppState) => {
-    if (
-      this.state.appState.match(/inactive|background/) &&
-      nextAppState === 'active'
-    ) {
-      var lastActive = this.props.profile.lastActive;
-      var currentDate = getDate();
-      if (lastActive !== currentDate) {
-        this.props.refreshGoals();
-      }
-    }
-    this.setState({appState: nextAppState});
   };
 
   wait(timeout) {

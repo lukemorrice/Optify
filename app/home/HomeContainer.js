@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {StatusBar} from 'react-native';
+import {StatusBar, AppState} from 'react-native';
 import Home from './Home';
 import {connect} from 'react-redux';
 import {withNavigation} from 'react-navigation';
 import {fetchProfile} from '../actions/profile';
+import {getDate} from '../actions/authorisation';
 import {
   fetchGoals,
   updateUserGoals,
@@ -20,11 +21,17 @@ class HomeContainer extends Component {
   state = {
     goalsList: [],
     deletedGoals: [],
+    appState: AppState.currentState,
   };
 
   componentDidMount() {
+    AppState.addEventListener('change', this.handleAppStateChange);
     this.props.fetchProfile();
     this.props.fetchGoals();
+  }
+
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this.handleAppStateChange);
   }
 
   componentDidUpdate(prevProps) {
@@ -56,6 +63,20 @@ class HomeContainer extends Component {
       }
     }
   }
+
+  handleAppStateChange = (nextAppState) => {
+    if (
+      this.state.appState.match(/inactive|background/) &&
+      nextAppState === 'active'
+    ) {
+      var lastActive = this.props.profile.lastActive;
+      var currentDate = getDate();
+      if (lastActive !== currentDate) {
+        this.props.fetchGoals();
+      }
+    }
+    this.setState({appState: nextAppState});
+  };
 
   toggleGoalCompleted = (idx) => {
     this.props.toggleGoalCompleted(idx, this.state.goalsList);
